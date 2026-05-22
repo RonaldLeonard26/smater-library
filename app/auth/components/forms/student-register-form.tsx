@@ -5,16 +5,11 @@ import { Label } from '@/components/ui/label';
 export default function StudentRegisterForm() {
   return (
     <form className=" grid gap-4">
-      <div className="flex gap-2">
-        <div className="space-y-2">
-          <Label>Fullname</Label>
-          <Input />
-        </div>
-        <div className="space-y-2">
-          <Label>Username</Label>
-          <Input />
-        </div>
+      <div className="space-y-2">
+        <Label>Fullname</Label>
+        <Input />
       </div>
+
       <div className="space-y-2">
         <Label>NISN</Label>
         <Input />
@@ -32,9 +27,7 @@ export default function StudentRegisterForm() {
         <Input />
       </div>
 
-      <Button className="w-full" variant="outline">
-        Register
-      </Button>
+      <Button className="w-full bg-teal-600 hover:bg-teal-400">Register</Button>
     </form>
   );
 }

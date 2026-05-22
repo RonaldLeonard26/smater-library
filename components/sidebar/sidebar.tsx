@@ -6,9 +6,12 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { LogOut } from 'lucide-react';
+import useLogOut from '../hooks/useLogout';
+import { Spinner } from '../ui/spinner';
 
 export default function Sidebard() {
   const pathname = usePathname();
+  const { logOut, isPendingLogOut } = useLogOut();
   return (
     <div className="h-screen flex flex-col justify-between p-4">
       <div className="flex flex-col gap-6">
@@ -38,12 +41,12 @@ export default function Sidebard() {
       <Button
         className="flex gap-2 items-center text-destructive justify-center hover:bg-rose-300 hover:text-white"
         variant="outline"
-
-        // onClick={() => signOut()}
-        // disabled={isPending}
+        type="button"
+        onClick={() => logOut()}
+        disabled={isPendingLogOut}
       >
-        <LogOut /> Logout
-        {/* {isPending ? 'Signing Out...' : 'Sign Out'} */}
+        <LogOut />
+        {isPendingLogOut ? <Spinner className="size-6" /> : 'Logout'}
       </Button>
     </div>
   );

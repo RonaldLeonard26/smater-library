@@ -1,6 +1,4 @@
-import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import StudentLoginForm from '../forms/student-login-form';
 import AnimatedAdminAuth from '../animated-auth/admin-animated';
 import AnimatedStudentsAuth from '../animated-auth/student-animated';
 
