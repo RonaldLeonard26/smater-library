@@ -9,8 +9,20 @@ import { useMutation } from '@tanstack/react-query';
 import { authAdminServices } from '@/services/auth.admin.service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function useAdminLogin() {
+  const [visiblePassword, setVisiblePassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
+  const handleVisiblePassword = (key: 'password' | 'confirmPassword') => {
+    setVisiblePassword({
+      ...visiblePassword,
+      [key]: !visiblePassword[key],
+    });
+  };
   const router = useRouter();
   const {
     register,
@@ -38,5 +50,13 @@ export default function useAdminLogin() {
     const { confirmPassword, ...payload } = data;
     mutateAdminLogin(payload);
   };
-  return { handleLogin, isPendingAdminLogin, register, errors, handleSubmit };
+  return {
+    handleLogin,
+    isPendingAdminLogin,
+    register,
+    errors,
+    handleSubmit,
+    visiblePassword,
+    handleVisiblePassword,
+  };
 }
