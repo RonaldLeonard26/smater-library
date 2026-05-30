@@ -25,7 +25,10 @@ export default function AddCategoryModal() {
             Fill the form below to add a new category.
           </DialogDescription>
         </DialogHeader>
-        <AddCategoryForm />
+        <AddCategoryForm
+          onSuccess={() => setOpen(false)}
+          close={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
