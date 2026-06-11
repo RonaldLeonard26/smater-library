@@ -1,33 +1,62 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { CategoriesForm } from './validation';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreVertical } from 'lucide-react';
+import EditCategoryModal from './modal/edit-category-modal';
+import { Badge } from '@/components/ui/badge';
 
-export const columns: ColumnDef<CategoriesForm>[] = [
+import DeleteCategoryModal from './modal/delete-category-modal';
+
+export type CategoryColumn = {
+  id: number;
+  name: string;
+  duration_days: number;
+  fine_amount: number;
+};
+
+export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: 'name',
-    header: 'Kategori',
+    header: () => <span className="font-semibold">Category</span>,
+    cell: ({ row }) => <span>{row.getValue('name')}</span>,
   },
   {
     accessorKey: 'duration_days',
-    header: 'Durasi',
+    header: () => <span className="font-semibold">Loan Duration</span>,
+    cell: ({ row }) => <span>{row.getValue('duration_days')} Days</span>,
   },
   {
     accessorKey: 'fine_amount',
-    header: 'Denda',
+    header: () => <span className="font-semibold">Fine Amount</span>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue('fine_amount'));
+      const formatted = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        maximumFractionDigits: 0,
+      }).format(amount);
+      return amount > 0 ? (
+        <Badge variant="destructive" className="font-semibold">
+          {formatted}
+        </Badge>
+      ) : (
+        <Badge variant="secondary" className="text-muted-foreground">
+          Free
+        </Badge>
+      );
+    },
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      // const category = row.original;
+      const category = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -36,8 +65,8 @@ export const columns: ColumnDef<CategoriesForm>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <EditCategoryModal category={category} />
+            <DeleteCategoryModal category={category} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
