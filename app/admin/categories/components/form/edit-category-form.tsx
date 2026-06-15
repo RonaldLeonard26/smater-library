@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import useEditCategory from '../hooks/useEditCategory';
 import { CategoryColumn } from '../columns';
 import { Controller } from 'react-hook-form';
+import { Spinner } from '@/components/ui/spinner';
 
 interface PropsTypes {
   close: () => void;
@@ -91,11 +92,16 @@ export default function EditCategoryForm(props: PropsTypes) {
       </div>
 
       <div className="mt-4 flex gap-2 items-center justify-end">
-        <Button type="button" variant="destructive" onClick={close}>
+        <Button
+          type="button"
+          variant="destructive"
+          disabled={isPendingEditCategory}
+          onClick={close}
+        >
           Cancel
         </Button>
         <Button type="submit" className="bg-teal-500 hover:bg-teal-300">
-          Save
+          {isPendingEditCategory ? <Spinner className="size-6" /> : 'Save'}
         </Button>
       </div>
     </form>

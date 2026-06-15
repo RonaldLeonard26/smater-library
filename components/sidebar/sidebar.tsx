@@ -15,7 +15,7 @@ export default function Sidebard() {
   return (
     <div className="h-screen flex flex-col justify-between p-4">
       <div className="flex flex-col gap-6">
-        <h2>SMATERMOF</h2>
+        <h1>SMATER MOF</h1>
         <div className="space-y-2">
           {SIDEBAR_ADMIN.map((item) => {
             const Icon = item.icon;

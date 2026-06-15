@@ -30,10 +30,10 @@ export default function useAddCategories(onSuccess?: () => void) {
     useMutation({
       mutationFn: (data: CategoriesForm) => categoriesServices.create(data),
       onError: (error) => {
-        toast.error(error.message || 'Gagal menyimpan data kategori');
+        toast.error(error.message || 'Failed to create category');
       },
       onSuccess: () => {
-        toast.success('Semua kategori baru berhasil disimpan!');
+        toast.success('Success to create category');
         reset();
         queryQlient.invalidateQueries({ queryKey: ['categories'] });
 

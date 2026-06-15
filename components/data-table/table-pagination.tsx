@@ -10,6 +10,7 @@ import {
 } from '../ui/select';
 import { LISTS_LIMIT } from '../../constants/list.constants';
 import { Button } from '../ui/button';
+import { MoveLeft, MoveRight } from 'lucide-react';
 
 type Props<TData> = {
   table: Table<TData>;
@@ -17,7 +18,7 @@ type Props<TData> = {
 
 export default function TablePagination<TData>({ table }: Props<TData>) {
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center py-2 justify-between gap-4">
       {/* limit */}
       <Select
         value={String(table.getState().pagination.pageSize)}
@@ -36,19 +37,23 @@ export default function TablePagination<TData>({ table }: Props<TData>) {
       </Select>
 
       {/* pagination */}
-      <div className="flex items-center pt-4">
+      <div className="flex gap-2 items-center ">
         <Button
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
+          variant="outline"
         >
-          Prev
+          <MoveLeft strokeWidth={2} />
         </Button>
-        <span>{table.getState().pagination.pageIndex + 1}</span>
+        <span className="text-muted-foreground font-semibold">
+          {table.getState().pagination.pageIndex + 1}
+        </span>
         <Button
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
+          variant="outline"
         >
-          Next
+          <MoveRight strokeWidth={2} />
         </Button>
       </div>
     </div>

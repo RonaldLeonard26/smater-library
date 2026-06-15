@@ -111,7 +111,7 @@ export default function DataTable<TData, TValue>({
       </div>
 
       {/* pagination and limit */}
-      <TablePagination table={table} />
+      {data.length > 10 && <TablePagination table={table} />}
     </div>
   );
 }

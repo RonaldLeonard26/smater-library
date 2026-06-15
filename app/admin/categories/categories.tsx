@@ -6,6 +6,7 @@ import { columns } from '../categories/components/columns';
 import TableToolbar from '@/components/data-table/table-toolbar';
 import AddCategoryModal from './components/modal/add-categories-modal';
 import useCategories from './components/hooks/useCategories';
+import { SkeletonTable } from '@/components/skeleton/skeleton-table';
 
 export default function Categories() {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -31,12 +32,16 @@ export default function Categories() {
       >
         <AddCategoryModal />
       </TableToolbar>
-      <DataTable
-        data={dataCategories || []}
-        columns={columns}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
+      {isLoadingCategories ? (
+        <SkeletonTable />
+      ) : (
+        <DataTable
+          data={dataCategories || []}
+          columns={columns}
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+      )}
     </div>
   );
 }

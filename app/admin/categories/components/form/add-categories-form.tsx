@@ -4,6 +4,7 @@ import useAddCategories from '../hooks/useAddCategories';
 import { Plus, Trash } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Spinner } from '@/components/ui/spinner';
 
 interface PropsTypes {
   close: () => void;
@@ -120,6 +121,7 @@ export default function AddCategoryForm(props: PropsTypes) {
             className="w-full bg-gray-100 hover:bg-gray-50"
             type="button"
             variant="outline"
+            disabled={isPendingCategories}
             onClick={() =>
               append({ name: '', duration_days: 1, fine_amount: 0 })
             }
@@ -130,11 +132,16 @@ export default function AddCategoryForm(props: PropsTypes) {
       </div>
 
       <div className="flex items-center justify-end mt-2 gap-2">
-        <Button onClick={() => close()} type="button" variant="destructive">
+        <Button
+          onClick={() => close()}
+          type="button"
+          disabled={isPendingCategories}
+          variant="destructive"
+        >
           Cancel
         </Button>
         <Button type="submit" variant="outline">
-          Save
+          {isPendingCategories ? <Spinner className="size-6" /> : 'Save'}
         </Button>
       </div>
     </form>

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { CategoryColumn } from '../columns';
+import { Spinner } from '@/components/ui/spinner';
 
 interface PropsTypes {
   category: CategoryColumn;
@@ -40,10 +41,14 @@ export default function DeleteCategoryModal(props: PropsTypes) {
           <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => mutateDeleteCategory(category.id)}
-            className="bg-rose-500 hover:bg-rose-700"
+            className="bg-rose-700 hover:bg-rose-500"
             size="sm"
           >
-            {isPendingDeleteCategory ? 'Deleting...' : 'Delete'}
+            {isPendingDeleteCategory ? (
+              <Spinner className="size-6" />
+            ) : (
+              'Delete'
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
