@@ -10,14 +10,20 @@ const supabase = createBrowserClient(
 );
 
 export const categoriesServices = {
-  async getAll() {
-    const { data, error } = await supabase
-      .from('categories')
-      .select('*')
+  async getAll(page: number, limit: number, search: string) {
+    const from = page * limit;
+    const to = from + limit - 1;
+    let query = supabase.from('categories').select('*', { count: 'exact' });
+
+    if (search) {
+      query = query.ilike('name', `%${search}%`);
+    }
+    const { data, error, count } = await query
+      .range(from, to)
       .order('id', { ascending: false });
 
-    if (error) throw error;
-    return data;
+    if (error) throw new Error(error.message);
+    return { data, total: count ?? 0 };
   },
   async create(payload: CategoriesForm) {
     const { data, error } = await supabase
@@ -26,7 +32,7 @@ export const categoriesServices = {
 
     if (error) {
       if (error.code === '23505') {
-        throw new Error('Salah satu nama kategori sudah terdaftar di sistem.');
+        throw new Error('Category is available');
       }
       throw new Error(error.message);
     }

@@ -13,6 +13,7 @@ import { Plus, Trash } from 'lucide-react';
 import useAddBooks from '../hooks/useAddBooks';
 import { Controller } from 'react-hook-form';
 import useCategories from '@/app/admin/categories/components/hooks/useCategories';
+import { Spinner } from '@/components/ui/spinner';
 
 interface PropsTypes {
   close: () => void;
@@ -36,7 +37,7 @@ export default function AddBooksForm(props: PropsTypes) {
 
   return (
     <form onSubmit={handleSubmit(handleSave)}>
-      <div className="max-h-80 overflow-y-auto px-4">
+      <div className="max-h-80 overflow-y-auto scrollbar-thin px-4">
         {fields.map((field, index) => (
           <div key={field.id} className=" grid gap-4">
             <Controller
@@ -74,7 +75,7 @@ export default function AddBooksForm(props: PropsTypes) {
                     id={field.name}
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
-                    placeholder="Input author of book here..."
+                    placeholder="Input book author here..."
                   />
                   {fieldState.invalid && (
                     <FieldError
@@ -146,13 +147,15 @@ export default function AddBooksForm(props: PropsTypes) {
               render={({ field, fieldState }) => (
                 <div className="pt-2">
                   <InputFile
-                    name={`books.${index}.cover_url`}
-                    isDropable
+                    name={field.name}
                     onChange={(file) => field.onChange(file)}
+                    defaultValue={
+                      typeof field.value === 'string' ? field.value : undefined
+                    }
                   />
                   {fieldState.invalid && (
                     <FieldError
-                      className="text-xs text-destructive"
+                      className="text-xs py-2 text-destructive"
                       errors={[fieldState.error]}
                     />
                   )}
@@ -194,11 +197,16 @@ export default function AddBooksForm(props: PropsTypes) {
         )}
       </div>
       <div className="flex gap-2 items-center justify-end py-2">
-        <Button variant="destructive" type="button" onClick={() => close()}>
+        <Button
+          variant="destructive"
+          type="button"
+          disabled={isPendingAddBooks}
+          onClick={close}
+        >
           Cancel
         </Button>
         <Button variant="outline" type="submit">
-          Save
+          {isPendingAddBooks ? <Spinner className="size-6" /> : 'Save'}
         </Button>
       </div>
     </form>

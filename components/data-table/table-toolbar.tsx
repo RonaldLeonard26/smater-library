@@ -10,7 +10,7 @@ export default function TableToolbar(props: PropsTypes) {
   const { globalFilter, setGlobalFilter, children } = props;
 
   return (
-    <div className="flex items-center justify-between px-2">
+    <div className="flex items-center justify-between ">
       <Input
         value={globalFilter ?? ''}
         onChange={(e) => setGlobalFilter(e.target.value)}

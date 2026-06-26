@@ -15,6 +15,12 @@ export const SIDEBAR_ADMIN = [
     icon: LayoutGrid,
   },
   {
+    key: 'loans',
+    label: 'Loans',
+    href: '/admin/loans',
+    icon: BookUp2,
+  },
+  {
     key: 'books',
     label: 'Books',
     href: '/admin/books',
@@ -26,12 +32,7 @@ export const SIDEBAR_ADMIN = [
     href: '/admin/categories',
     icon: Tag,
   },
-  {
-    key: 'loans',
-    label: 'Loans',
-    href: '/admin/loans',
-    icon: BookUp2,
-  },
+
   {
     key: 'students',
     label: 'Students',

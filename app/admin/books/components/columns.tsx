@@ -7,8 +7,11 @@ import {
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreVertical } from 'lucide-react';
 import BookQRCode from './book-QRcode';
-import { img } from 'framer-motion/client';
+
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import EditBookModal from './modals/edit-book-modal';
+import DeleteBookModal from './modals/delete-book-modal';
 
 export interface BookColumn {
   id: string;
@@ -17,6 +20,11 @@ export interface BookColumn {
   barcode: string;
   cover_url: string;
   stock: number;
+  category_id: number;
+  categories?: {
+    id: number;
+    name: string;
+  };
 }
 
 export const columns: ColumnDef<BookColumn>[] = [
@@ -25,10 +33,12 @@ export const columns: ColumnDef<BookColumn>[] = [
     header: 'Image',
     cell: ({ row }) => (
       <Image
+        loading="lazy"
         src={row.original.cover_url}
         alt="cover_url"
-        width={100}
-        height={100}
+        width={60}
+        height={90}
+        className="object-cover aspect-auto"
       />
     ),
   },
@@ -39,6 +49,19 @@ export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'author',
     header: 'Author',
+  },
+  {
+    id: 'category_name',
+    header: 'Category',
+    cell: ({ row }) => {
+      const categoryName = row.original.categories?.name;
+      return (
+        <Badge variant="outline" className="bg-yellow-50">
+          {' '}
+          {categoryName || 'No Category'}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: 'stock',
@@ -65,8 +88,8 @@ export const columns: ColumnDef<BookColumn>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {/* <EditCategoryModal category={category} />
-            <DeleteCategoryModal category={category} /> */}
+            <EditBookModal books={book} />
+            <DeleteBookModal books={book} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

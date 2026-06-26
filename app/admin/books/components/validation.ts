@@ -27,4 +27,33 @@ export const booksSchema = z.object({
   ),
 });
 
+export const editBookSchema = z.object({
+  title: z.string().trim().min(1, 'Title is required'),
+  author: z.string().trim().min(1, 'Author is required'),
+  barcode: z.string().optional(),
+  stock: z.coerce.number<number>().min(1, 'Stock must be at least 1'),
+  category_id: z.coerce.number<number>().min(1, 'Please select a category'),
+  cover_url: z
+    .any()
+    .refine((file) => file !== null && file !== undefined, 'Image is required')
+    .refine((file) => {
+      //jika user tidak ganti gambar
+      if (typeof file === 'string') return true;
+      //jika user ganti gambar {object file} cek type
+      if (file instanceof File) {
+        return ACCEPTED_IMAGE_TYPES.includes(file.type);
+      }
+      return true;
+    }, 'Image format must be jpg, jpeg, or png')
+    .refine((file) => {
+      //hanya cek ukuran jika upload file baru
+      if (file instanceof File) {
+        return file.size <= MAX_FILE_SIZE;
+      }
+      return true; //jika string lewati cek size
+    }, 'Image size max 2MB'),
+});
+
+export type EditBookForm = z.infer<typeof editBookSchema>;
+
 export type BooksForm = z.infer<typeof booksSchema>;

@@ -69,7 +69,7 @@ export default function BookQRCode(props: PropsTypes) {
     <div className="group relative flex flex-col items-center gap-1 w-fit border p-1 rounded bg-white shadow-sm hover:shadow-md transition-all">
       {/* Gambar QR Code yang akan dibaca oleh sistem download */}
       <div ref={svgRef}>
-        <QRCode size={50} value={barcode} viewBox="0 0 256 256" />
+        <QRCode size={80} value={barcode} viewBox="0 0 256 256" />
       </div>
       <span className="font-mono text-[9px] text-muted-foreground font-semibold">
         {barcode}

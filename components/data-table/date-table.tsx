@@ -2,11 +2,12 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
+  OnChangeFn,
+  PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+
 import {
   Table,
   TableBody,
@@ -15,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
-import { LIMIT_DEFAULT, PAGE_DEFAULT } from '@/constants/list.constants';
 import TablePagination from './table-pagination';
 
 interface DataTableProps<TData, TValue> {
@@ -23,6 +23,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   globalFilter: string;
   setGlobalFilter: (value: string) => void;
+  pagination: PaginationState;
+  setPagination: OnChangeFn<PaginationState>;
+  pageCount: number;
 }
 
 export default function DataTable<TData, TValue>({
@@ -30,38 +33,28 @@ export default function DataTable<TData, TValue>({
   columns,
   globalFilter,
   setGlobalFilter,
+  pagination,
+  setPagination,
+  pageCount,
 }: DataTableProps<TData, TValue>) {
-  const [pagination, setPagination] = useState({
-    pageIndex: PAGE_DEFAULT,
-    pageSize: Number(LIMIT_DEFAULT),
-  });
   const table = useReactTable({
     data,
     columns,
-    state: { globalFilter, pagination },
+    state: { pagination },
     onPaginationChange: setPagination,
     onGlobalFilterChange: setGlobalFilter,
+    manualPagination: true,
+    pageCount,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    enableGlobalFilter: true,
-    globalFilterFn: (row, columnId, filterValue) => {
-      const value = row.getValue(columnId);
-      if (value == null) return false;
-
-      const searchValue = String(filterValue).toLocaleLowerCase();
-      const cellValue = String(value).toLocaleLowerCase();
-
-      return cellValue.includes(searchValue);
-    },
   });
 
   return (
-    <div className="overflow-hidden px-2 ">
+    <div className="flex flex-col h-full min-h-0 overflow-hidden">
       {/* table */}
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="flex flex-1 min-h0 relative rounded-md border overflow-y-auto scrollbar-thin">
+        <Table className="relative">
+          <TableHeader className="sticky top-0 bg-white z-10 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -111,7 +104,8 @@ export default function DataTable<TData, TValue>({
       </div>
 
       {/* pagination and limit */}
-      {data.length > 10 && <TablePagination table={table} />}
+      {/* {data.length > 10 && <TablePagination table={table} />} */}
+      <TablePagination table={table} />
     </div>
   );
 }

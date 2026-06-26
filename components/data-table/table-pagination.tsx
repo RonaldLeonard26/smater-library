@@ -18,7 +18,7 @@ type Props<TData> = {
 
 export default function TablePagination<TData>({ table }: Props<TData>) {
   return (
-    <div className="flex items-center py-2 justify-between gap-4">
+    <div className="flex items-center py-4 justify-between gap-4">
       {/* limit */}
       <Select
         value={String(table.getState().pagination.pageSize)}
@@ -46,7 +46,7 @@ export default function TablePagination<TData>({ table }: Props<TData>) {
           <MoveLeft strokeWidth={2} />
         </Button>
         <span className="text-muted-foreground font-semibold">
-          {table.getState().pagination.pageIndex + 1}
+          {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </span>
         <Button
           onClick={() => table.nextPage()}
