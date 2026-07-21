@@ -13,8 +13,8 @@ import { BookColumn } from '../columns';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Controller } from 'react-hook-form';
-import useCategories from '@/app/admin/categories/components/hooks/useCategories';
 import { useEffect } from 'react';
+import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
 
 interface PropsTypes {
   onSuccess: () => void;
@@ -24,7 +24,7 @@ interface PropsTypes {
 
 export default function EditBookForm(props: PropsTypes) {
   const { onSuccess, close, books } = props;
-  const { dataCategories } = useCategories();
+  const { categories, isLoading } = useCategoryOptions();
   const {
     control,
     handleSubmit,
@@ -39,7 +39,6 @@ export default function EditBookForm(props: PropsTypes) {
       reset({
         title: books.title,
         author: books.author,
-        stock: books.stock,
         category_id: books.category_id,
         cover_url: books.cover_url,
       });
@@ -54,7 +53,7 @@ export default function EditBookForm(props: PropsTypes) {
             name="title"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel>Title</FieldLabel>
+                <FieldLabel>Judul</FieldLabel>
                 <Input
                   {...field}
                   disabled={isPendingEditBook}
@@ -76,7 +75,7 @@ export default function EditBookForm(props: PropsTypes) {
             name="author"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel>Author</FieldLabel>
+                <FieldLabel>Penulis</FieldLabel>
                 <Input
                   {...field}
                   type="text"
@@ -92,35 +91,12 @@ export default function EditBookForm(props: PropsTypes) {
               </Field>
             )}
           />
-
-          <Controller
-            control={control}
-            name="stock"
-            render={({ field: { onChange, ...field }, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Stock</FieldLabel>
-                <Input
-                  {...field}
-                  type="number"
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  onChange={(e) => onChange(e.target.valueAsNumber || 0)}
-                />
-                {fieldState.invalid && (
-                  <FieldError
-                    className="text-xs text-destructive"
-                    errors={[fieldState.error]}
-                  />
-                )}
-              </Field>
-            )}
-          />
           <Controller
             control={control}
             name="category_id"
             render={({ field: { onChange, value }, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Category</FieldLabel>
+                <FieldLabel>Kategori</FieldLabel>
                 <Select
                   value={value ? String(value) : ''}
                   onValueChange={(value) => onChange(Number(value))}
@@ -129,7 +105,7 @@ export default function EditBookForm(props: PropsTypes) {
                     <SelectValue placeholder="Please select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {dataCategories?.map((category) => (
+                    {categories?.map((category) => (
                       <SelectItem key={category.id} value={String(category.id)}>
                         {category.name}
                       </SelectItem>
@@ -166,6 +142,7 @@ export default function EditBookForm(props: PropsTypes) {
           </div>
         </div>
       </div>
+
       <div className="flex items-center pt-2 justify-end gap-2">
         <Button
           type="button"

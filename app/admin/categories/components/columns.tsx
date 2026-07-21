@@ -19,22 +19,23 @@ export type CategoryColumn = {
   name: string;
   duration_days: number;
   fine_amount: number;
+  code: string;
 };
 
 export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: 'name',
-    header: () => <span className="font-semibold">Category</span>,
+    header: () => <span className="font-semibold">Kategori</span>,
     cell: ({ row }) => <span>{row.getValue('name')}</span>,
   },
   {
     accessorKey: 'duration_days',
-    header: () => <span className="font-semibold">Loan Duration</span>,
-    cell: ({ row }) => <span>{row.getValue('duration_days')} Days</span>,
+    header: () => <span className="font-semibold">Durasi</span>,
+    cell: ({ row }) => <span>{row.getValue('duration_days')} hari</span>,
   },
   {
     accessorKey: 'fine_amount',
-    header: () => <span className="font-semibold">Fine Amount</span>,
+    header: () => <span className="font-semibold">Denda/hari</span>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('fine_amount'));
       const formatted = new Intl.NumberFormat('id-ID', {
@@ -43,15 +44,20 @@ export const columns: ColumnDef<CategoryColumn>[] = [
         maximumFractionDigits: 0,
       }).format(amount);
       return amount > 0 ? (
-        <Badge variant="destructive" className="font-semibold">
+        <Badge variant="secondary" className="font-semibold bg-amber-50">
           {formatted}
         </Badge>
       ) : (
-        <Badge variant="secondary" className="text-muted-foreground">
+        <Badge variant="outline" className="text-muted-foreground bg-teal-500">
           Free
         </Badge>
       );
     },
+  },
+  {
+    accessorKey: 'code',
+    header: () => <span className="font-semibold">Kode</span>,
+    cell: ({ row }) => <span>{row.getValue('code')}</span>,
   },
   {
     id: 'actions',

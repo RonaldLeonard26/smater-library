@@ -25,7 +25,7 @@ export default function useAddBooks(props: PropsTypes) {
         {
           title: '',
           author: '',
-          stock: 0,
+          copies: 0,
           cover_url: null,
           category_id: undefined,
         },
@@ -40,10 +40,10 @@ export default function useAddBooks(props: PropsTypes) {
   const { mutate: mutateAddBooks, isPending: isPendingAddBooks } = useMutation({
     mutationFn: (payload: BooksForm) => booksServices.create(payload),
     onError: (error) => {
-      toast.error(error.message || 'Failed to add books');
+      toast.error(error.message || 'Gagal menambahkan buku!');
     },
     onSuccess: () => {
-      toast.success('Success to add books');
+      toast.success('Buku berhasil ditambahkan ');
       reset();
       queryQlient.invalidateQueries({ queryKey: ['books'] });
 

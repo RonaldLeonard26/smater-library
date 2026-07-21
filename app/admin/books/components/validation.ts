@@ -9,8 +9,7 @@ export const booksSchema = z.object({
     z.object({
       title: z.string().trim().min(1, 'Title is required'),
       author: z.string().trim().min(1, 'Author is required'),
-      barcode: z.string().optional(),
-      stock: z.coerce.number<number>().min(1, 'Stock must be at least 1'),
+      copies: z.coerce.number<number>().min(1, 'Stock must be at least 1'),
       category_id: z.coerce.number<number>().min(1, 'Please select a category'),
       cover_url: z
         .any()
@@ -30,8 +29,6 @@ export const booksSchema = z.object({
 export const editBookSchema = z.object({
   title: z.string().trim().min(1, 'Title is required'),
   author: z.string().trim().min(1, 'Author is required'),
-  barcode: z.string().optional(),
-  stock: z.coerce.number<number>().min(1, 'Stock must be at least 1'),
   category_id: z.coerce.number<number>().min(1, 'Please select a category'),
   cover_url: z
     .any()
@@ -53,6 +50,15 @@ export const editBookSchema = z.object({
       return true; //jika string lewati cek size
     }, 'Image size max 2MB'),
 });
+
+export const addCopiesSchema = z.object({
+  copies: z.coerce
+    .number<number>()
+    .min(1, 'Minimal 1 buku')
+    .max(100, 'Terlalu banyak'),
+});
+
+export type AddCopiesForm = z.infer<typeof addCopiesSchema>;
 
 export type EditBookForm = z.infer<typeof editBookSchema>;
 

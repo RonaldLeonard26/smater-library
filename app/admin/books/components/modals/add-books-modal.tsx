@@ -16,14 +16,19 @@ export default function AddBooksModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Books</Button>
+        <Button
+          variant="outline"
+          className="bg-teal-500 text-white hover:text-slate-500"
+        >
+          Tambah Data
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Add Books</DialogTitle>
+          <DialogTitle>Data Buku</DialogTitle>
           <DialogDescription>
-            Fill the form below to add a new book.
+            Isi form untuk menambahkan data buku
           </DialogDescription>
         </DialogHeader>
         <AddBooksForm

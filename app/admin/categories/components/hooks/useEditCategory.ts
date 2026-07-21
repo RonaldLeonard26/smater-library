@@ -22,6 +22,7 @@ export default function useEditCategory(
       name: category?.name,
       duration_days: category?.duration_days,
       fine_amount: category?.fine_amount,
+      code: category?.code,
     },
   });
 
@@ -30,11 +31,11 @@ export default function useEditCategory(
       mutationFn: (payload: EditCategoryForm) =>
         categoriesServices.update(category.id, payload),
       onError: (error) => {
-        toast.error(error.message || 'Failed to update category');
+        toast.error(error.message || 'Gagal mengubah data kategori');
       },
       onSuccess: () => {
         queryQlient.invalidateQueries({ queryKey: ['categories'] });
-        toast.success('Success to update category');
+        toast.success('Berhasil mengubah data kategori');
         reset();
 
         if (onSuccess) onSuccess();

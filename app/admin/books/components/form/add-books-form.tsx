@@ -12,8 +12,8 @@ import {
 import { Plus, Trash } from 'lucide-react';
 import useAddBooks from '../hooks/useAddBooks';
 import { Controller } from 'react-hook-form';
-import useCategories from '@/app/admin/categories/components/hooks/useCategories';
 import { Spinner } from '@/components/ui/spinner';
+import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
 
 interface PropsTypes {
   close: () => void;
@@ -22,7 +22,7 @@ interface PropsTypes {
 
 export default function AddBooksForm(props: PropsTypes) {
   const { close, onSuccess } = props;
-  const { dataCategories, isLoadingCategories } = useCategories();
+  const { categories, isLoading } = useCategoryOptions();
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ export default function AddBooksForm(props: PropsTypes) {
 
   return (
     <form onSubmit={handleSubmit(handleSave)}>
-      <div className="max-h-80 overflow-y-auto scrollbar-thin px-4">
+      <div className="max-h-80 overflow-y-auto scrollbar-thin px-2">
         {fields.map((field, index) => (
           <div key={field.id} className=" grid gap-4">
             <Controller
@@ -45,14 +45,14 @@ export default function AddBooksForm(props: PropsTypes) {
               name={`books.${index}.title`}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Judul</FieldLabel>
                   <Input
                     {...field}
                     type="text"
                     id={field.name}
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
-                    placeholder="Input book title here..."
+                    placeholder="Input judul buku..."
                   />
                   {fieldState.invalid && (
                     <FieldError
@@ -68,14 +68,14 @@ export default function AddBooksForm(props: PropsTypes) {
               name={`books.${index}.author`}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Author</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Penulis</FieldLabel>
                   <Input
                     {...field}
                     type="text"
                     id={field.name}
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
-                    placeholder="Input book author here..."
+                    placeholder="Input penulis buku..."
                   />
                   {fieldState.invalid && (
                     <FieldError
@@ -88,10 +88,10 @@ export default function AddBooksForm(props: PropsTypes) {
             />
             <Controller
               control={control}
-              name={`books.${index}.stock`}
+              name={`books.${index}.copies`}
               render={({ field: { onChange, ...field }, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Stock</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Jumlah Buku</FieldLabel>
                   <Input
                     {...field}
                     type="number"
@@ -113,19 +113,20 @@ export default function AddBooksForm(props: PropsTypes) {
               name={`books.${index}.category_id`}
               render={({ field: { onChange, value }, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Category</FieldLabel>
+                  <FieldLabel>Kategori</FieldLabel>
                   <Select
                     onValueChange={onChange}
                     value={value ? String(value) : undefined}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Please select category" />
+                      <SelectValue placeholder="Pilih salah satu kategori" />
                     </SelectTrigger>
                     <SelectContent>
-                      {dataCategories?.map((category) => (
+                      {categories?.map((category) => (
                         <SelectItem
                           key={category.id}
                           value={String(category.id)}
+                          disabled={isLoading}
                         >
                           {category.name}
                         </SelectItem>
@@ -175,7 +176,7 @@ export default function AddBooksForm(props: PropsTypes) {
           </div>
         ))}
       </div>
-      <div className="flex px-4 items-center mt-4 justify-center">
+      <div className="flex px-2 items-center mt-4 justify-center">
         {fields.length < 5 && (
           <Button
             className="w-full bg-gray-100 hover:bg-gray-50"
@@ -187,12 +188,12 @@ export default function AddBooksForm(props: PropsTypes) {
                 title: '',
                 author: '',
                 category_id: 0,
-                stock: 0,
+                copies: 0,
                 cover_url: null,
               })
             }
           >
-            <Plus size={14} /> Add More Books
+            <Plus size={14} /> Tambah Buku
           </Button>
         )}
       </div>

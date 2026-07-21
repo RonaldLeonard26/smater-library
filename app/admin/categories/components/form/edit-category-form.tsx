@@ -26,7 +26,7 @@ export default function EditCategoryForm(props: PropsTypes) {
           name="name"
           render={({ field, fieldState }) => (
             <Field>
-              <FieldLabel>Category</FieldLabel>
+              <FieldLabel>Kategori</FieldLabel>
               <Input
                 {...field}
                 disabled={isPendingEditCategory}
@@ -49,7 +49,7 @@ export default function EditCategoryForm(props: PropsTypes) {
           name="duration_days"
           render={({ field: { onChange, ...field }, fieldState }) => (
             <Field>
-              <FieldLabel>Duration Loans</FieldLabel>
+              <FieldLabel>Durasi</FieldLabel>
               <Input
                 {...field}
                 type="number"
@@ -72,11 +72,34 @@ export default function EditCategoryForm(props: PropsTypes) {
           name="fine_amount"
           render={({ field: { onChange, ...field }, fieldState }) => (
             <Field>
-              <FieldLabel>Duration Loans</FieldLabel>
+              <FieldLabel>Denda Keterlambatan</FieldLabel>
               <Input
                 {...field}
                 type="number"
                 onChange={(e) => onChange(e.target.valueAsNumber || 0)}
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+              />
+              {fieldState.invalid && (
+                <FieldError
+                  className="text-xs text-destructive"
+                  errors={[fieldState.error]}
+                />
+              )}
+            </Field>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="code"
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Kode</FieldLabel>
+              <Input
+                {...field}
+                disabled={isPendingEditCategory}
+                type="text"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
               />

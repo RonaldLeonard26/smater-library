@@ -29,7 +29,7 @@ export default function EditBookModal(props: PropsTypes) {
 
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Edit Books</DialogTitle>
+          <DialogTitle>Edit Buku</DialogTitle>
           <DialogDescription>
             Fill the form below to update book.
           </DialogDescription>

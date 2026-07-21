@@ -17,7 +17,7 @@ export default function useAddCategories(onSuccess?: () => void) {
   } = useForm<CategoriesForm>({
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
-      categories: [{ name: '', duration_days: 1, fine_amount: 0 }],
+      categories: [{ name: '', duration_days: 1, fine_amount: 0, code: '' }],
     },
   });
 
@@ -30,10 +30,10 @@ export default function useAddCategories(onSuccess?: () => void) {
     useMutation({
       mutationFn: (data: CategoriesForm) => categoriesServices.create(data),
       onError: (error) => {
-        toast.error(error.message || 'Failed to create category');
+        toast.error(error.message || 'Gagal menambahkan kategori');
       },
       onSuccess: () => {
-        toast.success('Success to create category');
+        toast.success('Kategori berhasil di tambahkan');
         reset();
         queryQlient.invalidateQueries({ queryKey: ['categories'] });
 

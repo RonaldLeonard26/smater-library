@@ -1,7 +1,11 @@
+import CreateLoansForm from '../components/forms/create-loans-form';
+import CreateLoans from './create-loans';
+
 export default function createLoans() {
   return (
     <div>
-      <h1>test</h1>
+      {/* <CreateLoansForm /> */}
+      <CreateLoans />
     </div>
   );
 }

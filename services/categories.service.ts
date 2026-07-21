@@ -25,6 +25,17 @@ export const categoriesServices = {
     if (error) throw new Error(error.message);
     return { data, total: count ?? 0 };
   },
+
+  async getOptions() {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('id, name')
+      .order('name');
+
+    if (error) throw new Error(error.message);
+
+    return data;
+  },
   async create(payload: CategoriesForm) {
     const { data, error } = await supabase
       .from('categories')

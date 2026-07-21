@@ -5,35 +5,38 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreVertical } from 'lucide-react';
-import BookQRCode from './book-QRcode';
+import { MoreVertical, QrCode } from 'lucide-react';
 
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import EditBookModal from './modals/edit-book-modal';
 import DeleteBookModal from './modals/delete-book-modal';
+import BarcodeModal from './modals/barcode-modal';
 
 export interface BookColumn {
   id: string;
   title: string;
   author: string;
-  barcode: string;
   cover_url: string;
-  stock: number;
   category_id: number;
   categories?: {
     id: number;
     name: string;
   };
+  book_copies: {
+    id: string;
+    barcode: string;
+    status: 'AVAILABLE' | 'BORROWED';
+  }[];
 }
 
 export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'cover_url',
-    header: 'Image',
+    header: 'Sampul',
     cell: ({ row }) => (
       <Image
-        loading="lazy"
+        loading="eager"
         src={row.original.cover_url}
         alt="cover_url"
         width={60}
@@ -44,15 +47,15 @@ export const columns: ColumnDef<BookColumn>[] = [
   },
   {
     accessorKey: 'title',
-    header: 'Title',
+    header: 'Judul',
   },
   {
     accessorKey: 'author',
-    header: 'Author',
+    header: 'Penulis',
   },
   {
     id: 'category_name',
-    header: 'Category',
+    header: 'Kategori',
     cell: ({ row }) => {
       const categoryName = row.original.categories?.name;
       return (
@@ -64,16 +67,21 @@ export const columns: ColumnDef<BookColumn>[] = [
     },
   },
   {
-    accessorKey: 'stock',
-    header: 'Stock',
+    accessorKey: 'copies',
+    header: 'Jumlah Buku',
   },
   {
     accessorKey: 'barcode',
-    header: 'QR Code',
+    header: 'Barcode',
     cell: ({ row }) => {
-      const barcode = row.original.barcode;
-      const title = row.original.title;
-      return <BookQRCode barcode={barcode} title={title} />;
+      const bookId = row.original.id;
+      return (
+        <BarcodeModal bookId={bookId}>
+          <Button variant="link">
+            Lihat <QrCode />
+          </Button>
+        </BarcodeModal>
+      );
     },
   },
   {

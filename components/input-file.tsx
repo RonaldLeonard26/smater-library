@@ -74,6 +74,8 @@ export default function InputFile({ defaultValue, onChange }: InputFileProps) {
         cursor-pointer
         overflow-hidden
         transition-colors
+        bg-slate-50
+        hover:bg-slate-100
         ${
           isDragActive
             ? 'border-primary bg-primary/5'

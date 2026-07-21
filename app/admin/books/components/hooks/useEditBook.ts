@@ -25,7 +25,6 @@ export default function useEditBook(props: PropsTypes) {
     defaultValues: {
       title: books?.title,
       author: books?.author,
-      stock: books?.stock,
       category_id: books?.category_id,
       cover_url: books?.cover_url,
     },

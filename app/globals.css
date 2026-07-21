@@ -1,8 +1,44 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
+
+@media print {
+  /* Sembunyikan seluruh isi website utama dan semua modal pop-up Shadcn */
+  body > * {
+    display: none !important;
+  }
+
+  /* Hanya tampilkan kontainer tiruan cetak yang kita buat lewat javascript */
+  #library-print-area {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr); /* Atur isi 3 kolom kertas stiker */
+    gap: 20px;
+    padding: 10px;
+    background: white !important;
+  }
+
+  /* Pengaturan label per baris barcode agar rapi */
+  .print-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    page-break-inside: avoid;
+    padding: 10px;
+    border: 1px dashed #ccc; /* Batas potong stiker kertas */
+    background: white !important;
+  }
+
+  .print-label {
+    font-family: monospace !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    margin-top: 4px;
+    color: black !important;
+  }
+}
 
 @theme inline {
   --color-background: var(--background);

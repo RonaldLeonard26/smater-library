@@ -102,6 +102,30 @@ export default function AddCategoryForm(props: PropsTypes) {
                 </Field>
               )}
             />
+
+            <Controller
+              control={control}
+              name={`categories.${index}.code`}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Kode</FieldLabel>
+                  <Input
+                    {...field}
+                    type="text"
+                    id={field.name}
+                    placeholder="Input kode kategori..."
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError
+                      className="text-xs text-destructive"
+                      errors={[fieldState.error]}
+                    />
+                  )}
+                </Field>
+              )}
+            />
             {fields.length > 1 && (
               <Button
                 type="button"
@@ -123,7 +147,7 @@ export default function AddCategoryForm(props: PropsTypes) {
             variant="outline"
             disabled={isPendingCategories}
             onClick={() =>
-              append({ name: '', duration_days: 1, fine_amount: 0 })
+              append({ name: '', duration_days: 1, fine_amount: 0, code: '' })
             }
           >
             <Plus size={14} /> Add More Categories
