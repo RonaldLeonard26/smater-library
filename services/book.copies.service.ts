@@ -26,12 +26,18 @@ export const bookCopiesServices = {
     return data;
   },
 
-  async AddCopies(bookId: string, copies: number) {
+  async addCopies(bookId: string, copies: number) {
     const { error } = await supabase.rpc('create_book_copies', {
       p_book_id: bookId,
       p_copies: copies,
     });
     if (error) throw new Error(error.message);
   },
-  async RemoveCopies() {},
+  async removeCopy(copyId: string) {
+    const { error } = await supabase.rpc('remove_book_copy', {
+      p_copy_id: copyId,
+    });
+
+    if (error) throw new Error(error.message);
+  },
 };

@@ -140,44 +140,60 @@ export default function useGetBarcode(copies: CopyType[] | undefined) {
     });
   };
 
-  //fungsi cetak semua ke halaman printer
-  const handlePrint = () => {
-    if (!copies || copies.length === 0) return;
-
+  //helper halaman print
+  const printCopies = (targetCopies: CopyType[]) => {
     // 1. Buat kontainer cetak sementara
     const printArea = document.createElement('div');
     printArea.id = 'library-print-area';
 
     // 2. Salin isi QR dan susun menjadi grid label yang siap cetak
-    copies.forEach((copy) => {
+    targetCopies.forEach((copy) => {
       const qrRef = qrRefs.current.get(copy.id);
       const originalSvg = qrRef?.svg;
 
-      if (originalSvg) {
-        const itemContainer = document.createElement('div');
-        itemContainer.className = 'print-item';
+      if (!originalSvg) return;
 
-        // Duplikat SVG asli agar bisa berdiri sendiri di luar modal
-        const clonedSvg = originalSvg.cloneNode(true) as SVGElement;
-        clonedSvg.setAttribute('width', '140');
-        clonedSvg.setAttribute('height', '140');
+      const itemContainer = document.createElement('div');
+      itemContainer.className = 'print-item';
 
-        const textLabel = document.createElement('div');
-        textLabel.className = 'print-label';
-        textLabel.innerText = copy.barcode;
+      // Duplikat SVG asli agar bisa berdiri sendiri di luar modal
+      const clonedSvg = originalSvg.cloneNode(true) as SVGElement;
+      clonedSvg.setAttribute('width', '140');
+      clonedSvg.setAttribute('height', '140');
+      //string barcode
+      const textLabel = document.createElement('div');
+      textLabel.className = 'print-label';
+      textLabel.innerText = copy.barcode;
 
-        itemContainer.appendChild(clonedSvg);
-        itemContainer.appendChild(textLabel);
-        printArea.appendChild(itemContainer);
-      }
+      itemContainer.appendChild(clonedSvg);
+      itemContainer.appendChild(textLabel);
+
+      printArea.appendChild(itemContainer);
     });
-
     document.body.appendChild(printArea);
-
     // 3. Panggil fungsi cetak browser, lalu bersihkan kontainer setelah selesai
     window.print();
     document.body.removeChild(printArea);
   };
 
-  return { downloadSinggleQR, handlePrint, downloadAllQR, qrRefs };
+  const handlePrintSinggle = (copyId: string) => {
+    const copy = copies?.find((item) => item.id === copyId);
+
+    if (!copy) return;
+
+    printCopies([copy]);
+  };
+  const handlePrintAll = () => {
+    if (!copies?.length) return;
+
+    printCopies(copies);
+  };
+
+  return {
+    downloadSinggleQR,
+    handlePrintSinggle,
+    handlePrintAll,
+    downloadAllQR,
+    qrRefs,
+  };
 }

@@ -11,13 +11,13 @@ export default function useAddCopies(bookId: string) {
   const { control, handleSubmit, reset } = useForm<AddCopiesForm>({
     resolver: zodResolver(addCopiesSchema),
     defaultValues: {
-      copies: 1,
+      copies: 0,
     },
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ copies }: AddCopiesForm) =>
-      bookCopiesServices.AddCopies(bookId, copies),
+      bookCopiesServices.addCopies(bookId, copies),
 
     onError: (error) => {
       toast.error(error.message || 'Gagal menambah jumlah buku');

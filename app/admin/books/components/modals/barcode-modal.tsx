@@ -11,7 +11,7 @@ import useCopies from '../hooks/useCopies';
 import { Badge } from '@/components/ui/badge';
 import { ReactQRCode } from '@lglab/react-qr-code';
 import { Button } from '@/components/ui/button';
-import { Download, PrinterCheck } from 'lucide-react';
+import { Download, PrinterCheck, Trash2 } from 'lucide-react';
 import useGetBarcode from '../hooks/useGetBarcode';
 import { useState } from 'react';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import useAddCopies from '../hooks/useAddCopies';
 import { Spinner } from '@/components/ui/spinner';
 import { Controller } from 'react-hook-form';
+import useDeleteCopy from '../hooks/useDeleteCopy';
 
 interface PropsTypes {
   children: React.ReactNode;
@@ -27,15 +28,21 @@ interface PropsTypes {
 export default function BarcodeModal({ bookId, children }: PropsTypes) {
   const [open, setOpen] = useState(false);
   const { copies } = useCopies(bookId);
-  const { downloadSinggleQR, handlePrint, downloadAllQR, qrRefs } =
-    useGetBarcode(copies);
+  const {
+    downloadSinggleQR,
+    handlePrintAll,
+    handlePrintSinggle,
+    downloadAllQR,
+    qrRefs,
+  } = useGetBarcode(copies);
 
   const { control, handleSubmit, handleSave, isPending } = useAddCopies(bookId);
+  const { mutateDelete, isPendingDelete } = useDeleteCopy(bookId);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto print:p-0 print:max-w-none print:shadow-none">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto  print:p-0 print:max-w-none print:shadow-none">
         <DialogHeader className="print:hidden">
           <DialogTitle>Barcode</DialogTitle>
           <DialogDescription>
@@ -43,11 +50,10 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
-          <div>
-            <p>
-              Total buku saat ini : <strong>{copies.length}</strong>
-            </p>
-          </div>
+          <p>
+            Total buku saat ini : <strong>{copies.length}</strong>
+          </p>
+
           <form onSubmit={handleSubmit(handleSave)}>
             <Controller
               control={control}
@@ -131,8 +137,18 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
                 >
                   <Download />
                 </Button>
-                <Button onClick={handlePrint} variant="ghost">
+                <Button
+                  onClick={() => handlePrintSinggle(copy.id)}
+                  variant="ghost"
+                >
                   <PrinterCheck />
+                </Button>
+                <Button
+                  onClick={() => mutateDelete(copy.id)}
+                  disabled={isPendingDelete}
+                  variant="ghost"
+                >
+                  {isPendingDelete ? <Spinner /> : <Trash2 />}
                 </Button>
               </div>
             </div>
@@ -143,7 +159,7 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
             <Button onClick={downloadAllQR} variant="ghost">
               Unduh Semua <Download />
             </Button>
-            <Button onClick={handlePrint} variant="ghost">
+            <Button onClick={handlePrintAll} variant="ghost">
               Cetak Semua <PrinterCheck />
             </Button>
           </div>
