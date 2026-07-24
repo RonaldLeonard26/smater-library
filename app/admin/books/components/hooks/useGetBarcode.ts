@@ -1,7 +1,7 @@
 import { ReactQRCodeRef } from '@lglab/react-qr-code';
 import { useRef } from 'react';
 
-interface CopyType {
+export interface CopyType {
   id: string;
   barcode: string;
   status: string;

@@ -1,20 +1,25 @@
 'use client';
 
 import { Controller } from 'react-hook-form';
-import useLoans from '../components/hooks/useLoans';
 import StudentSearchBar from './components/students-search-bar';
-import StudentsErrorCard from './components/students-error-card';
 import StudentsInfoCard from './components/students-info-card';
 import BookSearchBar from './components/book-search-bar';
 import BookPreviewCard from './components/book-preview-card';
+import useLoans from './components/hooks/useLoans';
+import SelectedBookList from './components/selected-book-list';
 
 export default function CreateLoans() {
   const loans = useLoans();
+
   return (
-    <div>
+    <div className="flex flex-col gap-4">
+      <p className="text-muted-foreground font-semibold">
+        Transaksi peminjaman buku
+      </p>
+
       <Controller
         control={loans.control}
-        name="student_id"
+        name="student_nisn"
         render={({ field }) => (
           <StudentSearchBar
             value={field.value}
@@ -23,35 +28,47 @@ export default function CreateLoans() {
           />
         )}
       />
-      {loans.studentError && (
-        <StudentsErrorCard
-          onClose={() => loans.setStudentError('')}
-          message={loans.studentError}
-        />
-      )}
-      {loans.student?.id && (
-        <StudentsInfoCard
-          student={loans.student}
-          remainingSlots={loans.remainingSlots}
-        />
-      )}
-      {loans.student?.id && (
-        <Controller
-          control={loans.control}
-          name="keyword"
-          render={({ field }) => (
-            <BookSearchBar
-              value={field.value}
-              onChange={field.onChange}
-              onSearch={() => loans.handleGetBook(field.value)}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+        {/*  preview */}
+        <div className="flex flex-col space-y-4">
+          {loans.student?.id && (
+            <StudentsInfoCard
+              student={loans.student}
+              remainingSlots={loans.activeLoans}
             />
           )}
-        />
-      )}
+          {loans.student?.id && (
+            <Controller
+              control={loans.control}
+              name="keyword"
+              render={({ field }) => (
+                <BookSearchBar
+                  value={field.value}
+                  onChange={field.onChange}
+                  onSearch={() => loans.searchAvailableBook(field.value)}
+                />
+              )}
+            />
+          )}
 
-      {loans.bookPreview && (
-        <BookPreviewCard bookPreview={loans.bookPreview.title} />
-      )}
+          {loans.searchResults && (
+            <BookPreviewCard
+              book={loans.searchResults}
+              onAdd={loans.handleAddBook}
+            />
+          )}
+        </div>
+        {/* payload */}
+        <div>
+          {loans.selectedBooks.length >= 1 && (
+            <SelectedBookList
+              books={loans.selectedBooks}
+              onRemove={loans.handleRemoveBook}
+              onSubmit={loans.handleCreateLoan}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

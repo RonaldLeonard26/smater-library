@@ -11,12 +11,12 @@ interface PropsTypes {
 export default function BookSearchBar(props: PropsTypes) {
   const { onSearch, value, onChange } = props;
   return (
-    <div className="relative w-1/2">
+    <div className="relative">
       <Input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Input judul buku atau kode barcode"
+        placeholder="Masukan kode barcode atau pindai..."
       />
       <Button
         type="button"

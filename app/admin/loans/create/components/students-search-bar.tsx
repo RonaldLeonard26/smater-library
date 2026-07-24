@@ -16,7 +16,7 @@ export default function StudentSearchBar(props: PropsTypes) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={value}
-        placeholder="Cari siswa berdasarkan NISN"
+        placeholder="Masukan NISN siswa..."
       />
       <Button
         type="button"

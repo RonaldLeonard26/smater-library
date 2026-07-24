@@ -1,0 +1,29 @@
+import { BookCopy } from '@/types/type';
+import SelectedBook from './selected-book';
+import { Button } from '@/components/ui/button';
+
+interface Props {
+  books: BookCopy[];
+  onRemove: (copyId: string) => void;
+  onSubmit: () => void;
+}
+
+export default function SelectedBookList({ books, onRemove, onSubmit }: Props) {
+  return (
+    <div className="space-y-3 border rounded-md p-3">
+      {books.map((book) => (
+        <SelectedBook key={book.copy_id} book={book} onRemove={onRemove} />
+      ))}
+
+      <div className="flex justify-between items-center pt-4">
+        <p className="text-sm text-muted-foreground">
+          {books.length} / 3 buku dipilih
+        </p>
+
+        <Button onClick={onSubmit} disabled={books.length === 0}>
+          Pinjam Buku
+        </Button>
+      </div>
+    </div>
+  );
+}
