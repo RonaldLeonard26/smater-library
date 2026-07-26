@@ -1,6 +1,7 @@
 import { BookCopy } from '@/types/type';
 import SelectedBook from './selected-book';
 import { Button } from '@/components/ui/button';
+import { CircleCheckBig } from 'lucide-react';
 
 interface Props {
   books: BookCopy[];
@@ -10,7 +11,7 @@ interface Props {
 
 export default function SelectedBookList({ books, onRemove, onSubmit }: Props) {
   return (
-    <div className="space-y-3 border rounded-md p-3">
+    <div className="space-y-3 border shadow-sm rounded-md p-3">
       {books.map((book) => (
         <SelectedBook key={book.copy_id} book={book} onRemove={onRemove} />
       ))}
@@ -20,8 +21,13 @@ export default function SelectedBookList({ books, onRemove, onSubmit }: Props) {
           {books.length} / 3 buku dipilih
         </p>
 
-        <Button onClick={onSubmit} disabled={books.length === 0}>
-          Pinjam Buku
+        <Button
+          variant="outline"
+          onClick={onSubmit}
+          disabled={books.length === 0}
+          className="bg-teal-400"
+        >
+          <CircleCheckBig /> Pinjam Buku
         </Button>
       </div>
     </div>

@@ -26,3 +26,27 @@ export interface Students {
   full_name: string;
   role: string;
 }
+
+export interface LoanItem {
+  loan_item_id: string;
+  loan_id: string;
+
+  student: {
+    id: string;
+    nisn: string;
+    full_name: string;
+  };
+
+  book: {
+    title: string;
+    barcode: string;
+    cover_url: string;
+  };
+
+  loan_date: string;
+  due_date: string;
+
+  total_books: number;
+
+  status: 'ACTIVE' | 'OVERDUE';
+}

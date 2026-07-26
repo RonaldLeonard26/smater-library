@@ -5,11 +5,11 @@ import StudentSearchBar from './components/students-search-bar';
 import StudentsInfoCard from './components/students-info-card';
 import BookSearchBar from './components/book-search-bar';
 import BookPreviewCard from './components/book-preview-card';
-import useLoans from './components/hooks/useLoans';
 import SelectedBookList from './components/selected-book-list';
+import useCreateLoans from './components/hooks/useCreateLoans';
 
 export default function CreateLoans() {
-  const loans = useLoans();
+  const loans = useCreateLoans();
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,7 +34,7 @@ export default function CreateLoans() {
           {loans.student?.id && (
             <StudentsInfoCard
               student={loans.student}
-              remainingSlots={loans.activeLoans}
+              totalLoans={loans.totalLoans}
             />
           )}
           {loans.student?.id && (

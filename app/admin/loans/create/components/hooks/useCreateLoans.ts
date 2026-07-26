@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 import { BookCopy, CreateLoanPayload, Students } from '@/types/type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export default function useLoans() {
+export default function useCreateLoans() {
   const [student, setStudent] = useState<Students | null>(null);
   const [activeLoans, setActiveLoans] = useState(0);
   const [searchResults, setSearchResults] = useState<BookCopy | null>(null);
@@ -38,6 +38,7 @@ export default function useLoans() {
       if (count >= 3) {
         setValue('student_nisn', '');
         setStudent(null);
+
         setActiveLoans(0);
       }
       setStudent(student as Students);
@@ -67,6 +68,8 @@ export default function useLoans() {
 
     if (selectedBooks.length >= 3) {
       toast.error('Siswa sudah mencapai batas peminjaman');
+      setSearchResults(null);
+      setValue('keyword', '');
       return;
     }
 
@@ -89,6 +92,11 @@ export default function useLoans() {
   const handleRemoveBook = (copyId: string) => {
     setSelectedBooks((prev) => prev.filter((item) => item.copy_id !== copyId));
   };
+
+  // pantau slot pinjam
+  const totalLoans = useMemo(() => {
+    return activeLoans + selectedBooks.length;
+  }, [activeLoans, selectedBooks]);
 
   const { mutate: mutateCreateLoan, isPending: isPendingCreateLoan } =
     useMutation({
@@ -123,7 +131,7 @@ export default function useLoans() {
   return {
     handleSearchStudent,
     student,
-    activeLoans,
+    totalLoans,
     setActiveLoans,
 
     searchAvailableBook,

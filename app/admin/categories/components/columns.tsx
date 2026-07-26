@@ -13,6 +13,7 @@ import EditCategoryModal from './modal/edit-category-modal';
 import { Badge } from '@/components/ui/badge';
 
 import DeleteCategoryModal from './modal/delete-category-modal';
+import { formatCurrency } from '@/utils/format-currency';
 
 export type CategoryColumn = {
   id: number;
@@ -38,14 +39,10 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     header: () => <span className="font-semibold">Denda/hari</span>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('fine_amount'));
-      const formatted = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0,
-      }).format(amount);
+
       return amount > 0 ? (
         <Badge variant="secondary" className="font-semibold bg-amber-50">
-          {formatted}
+          {formatCurrency(amount)}
         </Badge>
       ) : (
         <Badge variant="outline" className="text-muted-foreground bg-teal-500">

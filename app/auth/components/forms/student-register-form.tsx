@@ -21,11 +21,11 @@ export default function StudentRegisterForm() {
       className=" grid gap-4"
     >
       <div className="space-y-2">
-        <Label>Fullname</Label>
+        <Label>Nama Lengkap</Label>
         <Input
           id="fullName"
           type="text"
-          placeholder="Input your fullname..."
+          placeholder="Masukan nama lengkap anda..."
           required
           {...register('fullName')}
         />

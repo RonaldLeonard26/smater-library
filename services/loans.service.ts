@@ -54,4 +54,19 @@ export const loansServices = {
 
     return data;
   },
+
+  //get loans
+  async getLoans(page: number, limit: number, search: string) {
+    const { data, error } = await supabase.rpc('get_active_loans_items', {
+      p_search: search,
+      p_page: page,
+      p_limit: limit,
+    });
+    const total = data.length > 0 ? data[0].total_count : 0;
+    if (error) throw new Error(error.message);
+    return {
+      data: data ?? [],
+      total,
+    };
+  },
 };

@@ -2,6 +2,7 @@ import { Book as BookIcon, ShoppingCart } from 'lucide-react';
 import type { BookCopy } from '@/types/type';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/utils/format-date';
 
 interface Props {
   book: BookCopy;
@@ -40,14 +41,7 @@ export default function BookPreviewCard(props: Props) {
       <div className="border-b pb-3">
         <p className="text-sm text-muted-foreground">
           Estimasi tanggal pengembalian :{' '}
-          <span className="font-semibold">
-            {' '}
-            {estimatedReturn.toLocaleDateString('id-ID', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-            })}
-          </span>{' '}
+          <span className="font-semibold"> {formatDate(estimatedReturn)}</span>{' '}
           {''}
           jika dipinjam hari ini.
         </p>

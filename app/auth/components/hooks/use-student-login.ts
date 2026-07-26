@@ -14,6 +14,7 @@ export default function useStudentLogin() {
   const router = useRouter();
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -28,10 +29,10 @@ export default function useStudentLogin() {
         authStudentService.logIn(payload),
       onError: (err) => {
         console.error(err);
-        toast.error('Failed to login');
+        toast.error('Gagal masuk ke akun anda');
       },
       onSuccess: () => {
-        toast.success('Success to login');
+        toast.success('Berhasil masuk ke akun anda');
         reset();
         router.push('/');
       },
@@ -43,6 +44,7 @@ export default function useStudentLogin() {
   };
 
   return {
+    control,
     register,
     handleSubmit,
     errors,

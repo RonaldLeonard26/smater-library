@@ -12,7 +12,7 @@ interface Props {
 export default function SelectedBook(props: Props) {
   const { book, onRemove } = props;
   return (
-    <Card className="relative p-2">
+    <Card className="relative rounded-sm p-2">
       <div className="flex items-start gap-4">
         <Image
           src={book.cover_url}

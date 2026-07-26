@@ -21,7 +21,7 @@ export default function AnimatedAdminAuth() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -80, opacity: 0 }}
               transition={{
-                duration: 0.3,
+                duration: 0.8,
                 ease: 'easeInOut',
               }}
               className="space-y-4"

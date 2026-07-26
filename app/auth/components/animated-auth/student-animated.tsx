@@ -6,6 +6,7 @@ import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import StudentLoginForm from '../forms/student-login-form';
 import StudentRegisterForm from '../forms/student-register-form';
+import { Button } from '@/components/ui/button';
 
 export default function AnimatedStudentsAuth() {
   const [mode, setMode] = useState<AuthMode>('login');
@@ -20,28 +21,27 @@ export default function AnimatedStudentsAuth() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -80, opacity: 0 }}
               transition={{
-                duration: 0.3,
+                duration: 0.8,
                 ease: 'easeInOut',
               }}
               className="space-y-4"
             >
               <div>
-                <CardTitle>Login to admin account</CardTitle>
-                <CardDescription>
-                  Enter your email and password to login
-                </CardDescription>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>Masukan NISN dan password</CardDescription>
               </div>
 
               <StudentLoginForm />
-              <p className="text-center text-sm">
-                Don&apos;t have an account?{' '}
-                <button
+              <p className="text-xs">
+                Belum punya akun? {''}
+                <Button
                   type="button"
+                  variant="link"
                   onClick={() => setMode('register')}
-                  className="font-medium text-primary hover:underline"
+                  className="text-xs text-primary hover:underline"
                 >
-                  Register here
-                </button>
+                  Daftar disni
+                </Button>
               </p>
             </motion.div>
           ) : (
