@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { columns } from './components/columns';
 import useLoans from './components/hooks/useLoans';
 import Link from 'next/link';
+import { ScanQrCode } from 'lucide-react';
 
 export default function ListLoans() {
   const [mounted, setMounted] = useState(false);
@@ -42,9 +43,19 @@ export default function ListLoans() {
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       >
-        <Link href="/admin/loans/create">
-          <Button variant="outline">Buat Pinjaman</Button>
-        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <div className="items-start">
+            <Button variant="outline">
+              <ScanQrCode />
+              Pindai untuk pengmbalian
+            </Button>
+          </div>
+          <Link href="/admin/loans/create">
+            <Button variant="outline" className="bg-teal-500 text-white">
+              Buat Pinjaman
+            </Button>
+          </Link>
+        </div>
       </TableToolbar>
       <div className="flex-1 min-h-0 w-full">
         {isLoading ? (

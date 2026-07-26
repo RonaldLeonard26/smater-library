@@ -77,8 +77,9 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
                     )}
                     <Button
                       type="submit"
+                      variant="outline"
                       disabled={isPending}
-                      className="bg-teal-300 text-black"
+                      className="bg-teal-500 text-white"
                     >
                       {isPending ? <Spinner /> : 'Tambah'}
                     </Button>
@@ -130,7 +131,7 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
               >
                 {copy.status === 'AVAILABLE' ? 'Tersedia' : 'Dipinjam'}
               </Badge>
-              <div className="flex print:hidden">
+              <div className="flex print:hidden px-2">
                 <Button
                   onClick={() => downloadSinggleQR(copy.id, copy.barcode)}
                   variant="ghost"
@@ -148,7 +149,7 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
                   disabled={isPendingDelete}
                   variant="ghost"
                 >
-                  {isPendingDelete ? <Spinner /> : <Trash2 />}
+                  {isPendingDelete ? <Spinner /> : <Trash2 color="red" />}
                 </Button>
               </div>
             </div>
