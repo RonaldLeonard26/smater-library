@@ -20,33 +20,34 @@ export interface CreateLoanPayload {
   copyIds: string[];
 }
 
-export interface Students {
-  id: string;
-  nisn: string;
-  full_name: string;
-  role: string;
-}
-
 export interface LoanItem {
   loan_item_id: string;
   loan_id: string;
 
-  student: {
-    id: string;
-    nisn: string;
-    full_name: string;
-  };
+  title: string;
+  barcode: string;
+  category: string;
 
-  book: {
-    title: string;
-    barcode: string;
-    cover_url: string;
-  };
+  full_name: string;
+  nisn: string;
 
   loan_date: string;
   due_date: string;
+  status: string;
 
-  total_books: number;
+  fine_amount_per_day: number;
+}
 
-  status: 'ACTIVE' | 'OVERDUE';
+export interface BorrowedBook {
+  book_id: string;
+  title: string;
+  barcode: string;
+  due_date: string;
+}
+
+export interface StudentLoanInfo {
+  id: string;
+  nisn: string;
+  full_name: string;
+  borrowedBooks: BorrowedBook[];
 }

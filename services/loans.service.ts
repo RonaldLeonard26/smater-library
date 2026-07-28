@@ -1,3 +1,4 @@
+import { StudentLoanRow } from '@/types/rpc';
 import { CreateLoanPayload } from '@/types/type';
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -9,29 +10,35 @@ const supabase = createBrowserClient(
 export const loansServices = {
   //cari siswa by nisn
   async findStudentByNisn(nisn: string) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, nisn, full_name')
-      .eq('nisn', nisn)
-      .eq('role', 'STUDENT')
-      .single();
+    const { data, error } = await supabase.rpc('search_student_by_nisn', {
+      p_nisn: nisn,
+    });
 
     if (error)
       throw new Error(
         error.message || 'Siswa tidak ditemukan, masukan NISN yang sesuai',
       );
+    if (!data || data.length === 0) {
+      throw new Error('Siswa tidak ditemukan');
+    }
+    const rows = data as StudentLoanRow[];
+    const student = {
+      id: rows[0].student_id,
+      nisn: rows[0].nisn,
+      full_name: rows[0].full_name,
+      borrowedBooks: rows
+        .filter((item) => item.book_id !== null)
+        .map((item) => ({
+          copy_id: item.copy_id,
+          book_id: item.book_id,
+          title: item.title,
+          barcode: item.barcode,
+          loan_item_id: item.loan_item_id,
+          due_date: item.due_date,
+        })),
+    };
 
-    return data;
-  },
-
-  async getActiveLoans(studentId: string) {
-    const { data, error } = await supabase.rpc('get_active_loans', {
-      student: studentId,
-    });
-
-    if (error) throw new Error(error.message);
-
-    return data ?? 0;
+    return student;
   },
 
   async searchBooks(barcode: string) {

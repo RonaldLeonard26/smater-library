@@ -44,12 +44,11 @@ export default function ListLoans() {
         setGlobalFilter={setGlobalFilter}
       >
         <div className="flex items-center justify-between gap-4">
-          <div className="items-start">
-            <Button variant="outline">
-              <ScanQrCode />
-              Pindai untuk pengmbalian
-            </Button>
-          </div>
+          <Button variant="outline">
+            <ScanQrCode />
+            Pindai untuk pengmbalian
+          </Button>
+
           <Link href="/admin/loans/create">
             <Button variant="outline" className="bg-teal-500 text-white">
               Buat Pinjaman

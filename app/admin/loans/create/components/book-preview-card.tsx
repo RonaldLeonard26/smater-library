@@ -33,7 +33,7 @@ export default function BookPreviewCard(props: Props) {
 
       <div className="flex items-center justify-between">
         <p className="font-semibold">Durasi</p>
-        <Badge variant="outline" className="bg-teal-100 w-15 text-black">
+        <Badge variant="outline" className="bg-teal-500 w-15 text-white ">
           {book.duration_days} hari
         </Badge>
       </div>
@@ -55,7 +55,7 @@ export default function BookPreviewCard(props: Props) {
       </div>
       <div>
         <Button
-          className="w-full bg-teal-100"
+          className="w-full bg-teal-500 text-white"
           variant="outline"
           onClick={() => onAdd(book)}
         >

@@ -36,7 +36,7 @@ export default function Categories() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2>Categories</h2>
+      <h2>Data Kategori</h2>
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

@@ -10,38 +10,38 @@ import {
 export const SIDEBAR_ADMIN = [
   {
     key: 'dashboard',
-    label: 'Dashboard',
+    label: 'Menu',
     href: '/admin/dashboard',
     icon: LayoutGrid,
   },
   {
     key: 'loans',
-    label: 'Loans',
+    label: 'Transaksi',
     href: '/admin/loans',
     icon: BookUp2,
   },
   {
     key: 'books',
-    label: 'Books',
+    label: 'Data Buku',
     href: '/admin/books',
     icon: BookOpenText,
   },
   {
     key: 'categories',
-    label: 'Categories',
+    label: 'Kategori',
     href: '/admin/categories',
     icon: Tag,
   },
 
   {
     key: 'students',
-    label: 'Students',
+    label: 'Siswa',
     href: '/admin/students',
     icon: Users,
   },
   {
     key: 'settings',
-    label: 'Settings',
+    label: 'Pengaturan',
     href: '/admin/settings',
     icon: Settings,
   },

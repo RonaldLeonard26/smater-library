@@ -31,7 +31,7 @@ export default function AddCategoryForm(props: PropsTypes) {
               name={`categories.${index}.name`}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Category</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Kategori</FieldLabel>
                   <Input
                     {...field}
                     type="text"
@@ -55,7 +55,7 @@ export default function AddCategoryForm(props: PropsTypes) {
               name={`categories.${index}.duration_days`}
               render={({ field: { onChange, ...field }, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Duration Loans</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Durasi</FieldLabel>
                   <Input
                     {...field}
                     type="number"
@@ -81,7 +81,9 @@ export default function AddCategoryForm(props: PropsTypes) {
               name={`categories.${index}.fine_amount`}
               render={({ field: { onChange, ...field }, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Fine Amount</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>
+                    Denda Keterlambatan
+                  </FieldLabel>
                   <Input
                     {...field}
                     type="number"
@@ -113,7 +115,7 @@ export default function AddCategoryForm(props: PropsTypes) {
                     {...field}
                     type="text"
                     id={field.name}
-                    placeholder="Input kode kategori..."
+                    placeholder="Masukan kode kategori..."
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
                   />
@@ -150,7 +152,7 @@ export default function AddCategoryForm(props: PropsTypes) {
               append({ name: '', duration_days: 1, fine_amount: 0, code: '' })
             }
           >
-            <Plus size={14} /> Add More Categories
+            <Plus size={14} /> Tambah Ketegori
           </Button>
         )}
       </div>
@@ -162,10 +164,10 @@ export default function AddCategoryForm(props: PropsTypes) {
           disabled={isPendingCategories}
           variant="destructive"
         >
-          Cancel
+          Batal
         </Button>
         <Button type="submit" variant="outline">
-          {isPendingCategories ? <Spinner className="size-6" /> : 'Save'}
+          {isPendingCategories ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>
     </form>

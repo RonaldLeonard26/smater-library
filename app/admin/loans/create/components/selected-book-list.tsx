@@ -18,14 +18,14 @@ export default function SelectedBookList({ books, onRemove, onSubmit }: Props) {
 
       <div className="flex justify-between items-center pt-4">
         <p className="text-sm text-muted-foreground">
-          {books.length} / 3 buku dipilih
+          {books.length} buku dipilih
         </p>
 
         <Button
           variant="outline"
           onClick={onSubmit}
           disabled={books.length === 0}
-          className="bg-teal-400"
+          className="bg-teal-500 text-white"
         >
           <CircleCheckBig /> Pinjam Buku
         </Button>

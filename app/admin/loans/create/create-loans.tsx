@@ -25,19 +25,20 @@ export default function CreateLoans() {
             value={field.value}
             onChange={field.onChange}
             onSearch={() => loans.handleSearchStudent(field.value)}
+            isLoading={loans.isSearchingStudent}
           />
         )}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         {/*  preview */}
         <div className="flex flex-col space-y-4">
-          {loans.student?.id && (
+          {loans.student && (
             <StudentsInfoCard
+              currentLoans={loans.currentLoans}
               student={loans.student}
-              totalLoans={loans.totalLoans}
             />
           )}
-          {loans.student?.id && (
+          {loans.student && !loans.isQuotaFull && (
             <Controller
               control={loans.control}
               name="keyword"
@@ -45,7 +46,8 @@ export default function CreateLoans() {
                 <BookSearchBar
                   value={field.value}
                   onChange={field.onChange}
-                  onSearch={() => loans.searchAvailableBook(field.value)}
+                  onSearch={() => loans.handleSearchBook(field.value)}
+                  isLoading={loans.isSearchingBook}
                 />
               )}
             />

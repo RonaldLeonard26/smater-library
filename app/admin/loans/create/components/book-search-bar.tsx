@@ -1,29 +1,45 @@
+import { handleKeyDown } from '@/components/common/search-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Loader2, ScanQrCode, Search } from 'lucide-react';
 
 interface PropsTypes {
   value: string;
   onSearch: () => void;
   onChange: (value: string) => void;
+  isLoading: boolean;
 }
 
 export default function BookSearchBar(props: PropsTypes) {
-  const { onSearch, value, onChange } = props;
+  const { onSearch, value, onChange, isLoading } = props;
   return (
-    <div className="relative">
-      <Input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Masukan kode barcode atau pindai..."
-      />
-      <Button
-        type="button"
-        onClick={onSearch}
-        className="absolute top-0 right-1 bg-transparent"
-      >
-        <Search size={18} color="grey" />
+    <div className="flex items-center gap-2 ">
+      <div className="relative flex-1">
+        <Input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => handleKeyDown(e, onSearch)}
+          placeholder="Pindai atau masukan barcode buku..."
+          disabled={isLoading}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={onSearch}
+          className="absolute top-0 right-1 bg-transparent "
+        >
+          {' '}
+          {isLoading ? (
+            <Loader2 size={18} className="animate-spin text-muted-foreground" />
+          ) : (
+            <Search size={18} className="h-4 w-4 text-muted-foreground" />
+          )}
+        </Button>
+      </div>
+      <Button variant="outline">
+        <ScanQrCode /> Pindai
       </Button>
     </div>
   );

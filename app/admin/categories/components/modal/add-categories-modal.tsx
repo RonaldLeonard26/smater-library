@@ -15,14 +15,16 @@ export default function AddCategoryModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Category</Button>
+        <Button variant="outline" className="bg-teal-600 text-white">
+          Tambah Data
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Add Categories</DialogTitle>
+          <DialogTitle>Kategori</DialogTitle>
           <DialogDescription>
-            Fill the form below to add a new category.
+            Isi data dibawah untuk menambah kategori baru.
           </DialogDescription>
         </DialogHeader>
         <AddCategoryForm
