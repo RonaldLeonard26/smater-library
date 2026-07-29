@@ -2,7 +2,6 @@ import { useRouter } from 'next/navigation';
 import {
   StudentLoginForm,
   studentLoginSchema,
-  StudentLoginSchema,
 } from '../validation/student-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -19,8 +18,12 @@ export default function useStudentLogin() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<StudentLoginSchema>({
+  } = useForm<StudentLoginForm>({
     resolver: zodResolver(studentLoginSchema),
+    defaultValues: {
+      nisn: '',
+      password: '',
+    },
   });
 
   const { mutate: mutateStudentLogin, isPending: isPendingStudentLogin } =
@@ -38,10 +41,8 @@ export default function useStudentLogin() {
       },
     });
 
-  const handleStudentLogin = (data: StudentLoginSchema) => {
-    const { confirmPassword, ...payload } = data;
+  const handleStudentLogin = (data: StudentLoginForm) =>
     mutateStudentLogin(data);
-  };
 
   return {
     control,

@@ -23,12 +23,19 @@ export default function useAdminRegister() {
     });
   };
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<AdminRegisterSchema>({
     resolver: zodResolver(adminRegisterSchema),
+    defaultValues: {
+      fullName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   const { mutate: mutateAdminRegister, isPending: isPendingAdminRegister } =
@@ -51,6 +58,7 @@ export default function useAdminRegister() {
 
   return {
     register,
+    control,
     handleSubmit,
     errors,
     isPendingAdminRegister,

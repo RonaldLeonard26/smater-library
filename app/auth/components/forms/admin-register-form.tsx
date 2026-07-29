@@ -3,11 +3,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import useAdminRegister from '../hooks/use-admin-register';
 import { Spinner } from '@/components/ui/spinner';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LockKeyhole, Mail, User } from 'lucide-react';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Controller } from 'react-hook-form';
+import InputWithIcon from '@/components/common/input-with-icon';
 
 export default function AdminRegisterForm() {
   const {
-    register,
+    control,
     handleSubmit,
     errors,
     isPendingAdminRegister,
@@ -17,98 +20,120 @@ export default function AdminRegisterForm() {
   } = useAdminRegister();
   return (
     <form onSubmit={handleSubmit(handleRegister)} className=" grid gap-4">
-      <div className="space-y-2">
-        <Label>Fullname</Label>
-        <Input
-          id="fullName"
-          type="text"
-          required
-          placeholder="Input your fullname here..."
-          {...register('fullName')}
-        />
-        {errors.fullName?.message && (
-          <p className="text-destructive text-xs">{errors.fullName?.message}</p>
+      <Controller
+        control={control}
+        name="fullName"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid} className="relative">
+            <FieldLabel>Nama Lengkap</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type="text"
+              aria-invalid={fieldState.invalid}
+              leftIcon={<User className="h-4 w-4" />}
+              placeholder="Masukan nama lengkap"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
         )}
-      </div>
+      />
+      <Controller
+        control={control}
+        name="email"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>Email</FieldLabel>
+            <InputWithIcon
+              {...field}
+              leftIcon={<Mail className="h-4 w-4" />}
+              type="email"
+              aria-invalid={fieldState.invalid}
+              placeholder="Masukkan email aktif"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
+        )}
+      />
 
-      <div className="space-y-2">
-        <Label>Email</Label>
-        <Input
-          id="email"
-          type="email"
-          required
-          placeholder="example@gmail.com"
-          {...register('email')}
-        />
-        {errors.email?.message && (
-          <p className="text-destructive text-xs">{errors.email?.message}</p>
+      <Controller
+        control={control}
+        name="password"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>Password</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type={visiblePassword.password ? 'text' : 'password'}
+              aria-invalid={fieldState.invalid}
+              leftIcon={<LockKeyhole className="h-4 w-4" />}
+              rightIcon={
+                visiblePassword.password ? (
+                  <Eye
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('password')}
+                  />
+                ) : (
+                  <EyeOff
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('password')}
+                  />
+                )
+              }
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
         )}
-      </div>
-      <div className=" relative space-y-2">
-        <Label>Password</Label>
-        <Input
-          id="password"
-          type={visiblePassword.password ? 'text' : 'password'}
-          required
-          {...register('password')}
-          className=""
-        />
-        <button
-          className="focus:outline-none absolute top-8 right-2"
-          type="button"
-          onClick={() => handleVisiblePassword('password')}
-        >
-          {visiblePassword.password ? (
-            <Eye
-              size={16}
-              strokeWidth={1.5}
-              className="text-gray-500 pointer-events-none "
+      />
+
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>Konfirmasi Password</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type={visiblePassword.confirmPassword ? 'text' : 'password'}
+              leftIcon={<LockKeyhole className="h-4 w-4" />}
+              aria-invalid={fieldState.invalid}
+              rightIcon={
+                visiblePassword.confirmPassword ? (
+                  <Eye
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('confirmPassword')}
+                  />
+                ) : (
+                  <EyeOff
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('confirmPassword')}
+                  />
+                )
+              }
             />
-          ) : (
-            <EyeOff
-              strokeWidth={1.5}
-              size={16}
-              className="text-gray-500 pointer-events-none"
-            />
-          )}
-        </button>
-        {errors.password?.message && (
-          <p className="text-destructive text-xs">{errors.password?.message}</p>
+            {fieldState.error && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
         )}
-      </div>
-      <div className="relative space-y-2">
-        <Label>Confirm Password</Label>
-        <Input
-          type={visiblePassword.confirmPassword ? 'text' : 'password'}
-          id="confirmPassword"
-          required
-          {...register('confirmPassword')}
-        />
-        <button
-          className="focus:outline-none absolute top-8 right-2"
-          type="button"
-          onClick={() => handleVisiblePassword('confirmPassword')}
-        >
-          {visiblePassword.confirmPassword ? (
-            <Eye
-              size={16}
-              strokeWidth={1.5}
-              className="text-gray-500 pointer-events-none "
-            />
-          ) : (
-            <EyeOff
-              strokeWidth={1.5}
-              size={16}
-              className="text-gray-500 pointer-events-none"
-            />
-          )}
-        </button>
-        {errors.confirmPassword?.message && (
-          <p className="text-destructive text-xs">
-            {errors.confirmPassword?.message}
-          </p>
-        )}
-      </div>
+      />
 
       <div className="space-y-2">
         <Button
@@ -116,7 +141,7 @@ export default function AdminRegisterForm() {
           className="w-full bg-teal-600 hover:bg-teal-400"
           disabled={isPendingAdminRegister}
         >
-          {isPendingAdminRegister ? <Spinner className="size-6" /> : 'Register'}
+          {isPendingAdminRegister ? <Spinner className="size-6" /> : 'Daftar'}
         </Button>
       </div>
     </form>

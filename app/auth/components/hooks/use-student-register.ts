@@ -11,12 +11,19 @@ import { toast } from 'sonner';
 
 export default function useStudentRegister() {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<StudentRegisterSchema>({
     resolver: zodResolver(studentRegisterSchema),
+    defaultValues: {
+      fullName: '',
+      nisn: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   const { mutate: mutateStudentRegister, isPending: isPendingStudentRegister } =
@@ -38,7 +45,7 @@ export default function useStudentRegister() {
   };
 
   return {
-    register,
+    control,
     handleSubmit,
     errors,
     isPendingStudentRegister,

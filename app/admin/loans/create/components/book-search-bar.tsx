@@ -22,6 +22,7 @@ export default function BookSearchBar(props: PropsTypes) {
           onKeyDown={(e) => handleKeyDown(e, onSearch)}
           placeholder="Pindai atau masukan barcode buku..."
           disabled={isLoading}
+          autoFocus
         />
         <Button
           type="button"

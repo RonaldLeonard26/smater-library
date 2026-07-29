@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import {
   AdminLoginForm,
   adminLoginSchema,
-  AdminLoginSchema,
 } from '../validation/admin-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -25,12 +24,16 @@ export default function useAdminLogin() {
   };
   const router = useRouter();
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<AdminLoginSchema>({
+  } = useForm<AdminLoginForm>({
     resolver: zodResolver(adminLoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const { mutate: mutateAdminLogin, isPending: isPendingAdminLogin } =
@@ -46,14 +49,11 @@ export default function useAdminLogin() {
       },
     });
 
-  const handleLogin = (data: AdminLoginSchema) => {
-    const { confirmPassword, ...payload } = data;
-    mutateAdminLogin(payload);
-  };
+  const handleLogin = (data: AdminLoginForm) => mutateAdminLogin(data);
   return {
     handleLogin,
     isPendingAdminLogin,
-    register,
+    control,
     errors,
     handleSubmit,
     visiblePassword,

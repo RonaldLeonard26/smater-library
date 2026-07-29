@@ -1,101 +1,88 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
 import useStudentLogin from '../hooks/use-student-login';
 import useAdminRegister from '../hooks/use-admin-register';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, IdCard, LockKeyhole } from 'lucide-react';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import InputWithIcon from '@/components/common/input-with-icon';
+import { Controller } from 'react-hook-form';
+
+import { Spinner } from '@/components/ui/spinner';
 
 export default function StudentLoginForm() {
   const { handleVisiblePassword, visiblePassword } = useAdminRegister();
-  const {
-    register,
-    handleSubmit,
-    errors,
-    isPendingStudentLogin,
-    handleStudentLogin,
-  } = useStudentLogin();
+  const { control, handleSubmit, isPendingStudentLogin, handleStudentLogin } =
+    useStudentLogin();
   return (
-    <form onSubmit={handleSubmit(handleStudentLogin)} className="grid gap-4">
-      <div className="space-y-2">
-        <Label>NISN</Label>
-        <Input
-          id="nisn"
-          type="text"
-          placeholder="Input your NISN..."
-          required
-          {...register('nisn')}
-        />
-        {errors.nisn?.message && (
-          <p className="text-xs text-destructive">{errors.nisn.message}</p>
+    <form onSubmit={handleSubmit(handleStudentLogin)} className="grid gap-2">
+      <Controller
+        control={control}
+        name="nisn"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>NISN</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type="text"
+              leftIcon={<IdCard className="h-4 w-4" />}
+              aria-invalid={fieldState.invalid}
+              placeholder="Masukan NISN"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
         )}
+      />
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>Password</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type={visiblePassword.password ? 'text' : 'password'}
+              leftIcon={<LockKeyhole className="h-4 w-4" />}
+              aria-invalid={fieldState.invalid}
+              rightIcon={
+                visiblePassword.password ? (
+                  <Eye
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('password')}
+                  />
+                ) : (
+                  <EyeOff
+                    className="h-4 w-4 cursor-pointer text-muted-foreground"
+                    onClick={() => handleVisiblePassword('password')}
+                  />
+                )
+              }
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
+        )}
+      />
+      <div className="flex justify-end items-end">
+        <p className="text-xs text-primary">Lupa Password?</p>
       </div>
-      <div className="relative space-y-2">
-        <Label>Password</Label>
-        <Input
-          id="password"
-          required
-          type={visiblePassword.password ? 'text' : 'password'}
-          {...register('password')}
-        />
-        <button
-          className="focus:outline-none absolute top-8 right-2"
-          type="button"
-          onClick={() => handleVisiblePassword('password')}
+      <div className="mt-2">
+        <Button
+          type="submit"
+          variant="outline"
+          className="w-full bg-teal-500 text-white"
+          disabled={isPendingStudentLogin}
         >
-          {visiblePassword.password ? (
-            <Eye
-              size={16}
-              strokeWidth={1.5}
-              className="text-gray-500 pointer-events-none "
-            />
-          ) : (
-            <EyeOff
-              strokeWidth={1.5}
-              size={16}
-              className="text-gray-500 pointer-events-none"
-            />
-          )}
-        </button>
-        {errors.password?.message && (
-          <p className="text-xs text-destructive">{errors.password.message}</p>
-        )}
-      </div>
-      <div className=" relative space-y-2">
-        <Label>Confirm Password</Label>
-        <Input
-          id="confirmPassword"
-          required
-          type={visiblePassword.confirmPassword ? 'text' : 'password'}
-          {...register('confirmPassword')}
-        />
-        <button
-          className="focus:outline-none absolute top-8 right-2"
-          type="button"
-          onClick={() => handleVisiblePassword('confirmPassword')}
-        >
-          {visiblePassword.confirmPassword ? (
-            <Eye
-              size={16}
-              strokeWidth={1.5}
-              className="text-gray-500 pointer-events-none "
-            />
-          ) : (
-            <EyeOff
-              strokeWidth={1.5}
-              size={16}
-              className="text-gray-500 pointer-events-none"
-            />
-          )}
-        </button>
-        {errors.confirmPassword?.message && (
-          <p className="text-xs text-destructive">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-      </div>
-      <div className="space-y-2">
-        <Button type="submit" className="w-full">
-          Login
+          {isPendingStudentLogin ? <Spinner /> : 'Masuk'}
         </Button>
       </div>
     </form>
