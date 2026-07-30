@@ -39,11 +39,10 @@ export default function useAdminLogin() {
   const { mutate: mutateAdminLogin, isPending: isPendingAdminLogin } =
     useMutation({
       mutationFn: (payload: AdminLoginForm) => authAdminServices.logIn(payload),
-      onError: () => {
-        toast.error('Failed to login');
+      onError: (error) => {
+        toast.error(error.message || 'Gagal masuk ke akun anda');
       },
       onSuccess: () => {
-        toast.success('Success to login');
         reset();
         router.push('/admin/dashboard');
       },

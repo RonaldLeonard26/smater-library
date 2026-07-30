@@ -30,11 +30,11 @@ export default function useStudentRegister() {
     useMutation({
       mutationFn: (payload: StudentRegisterForm) =>
         authStudentService.register(payload),
-      onError: () => {
-        toast.error('Failed to register');
+      onError: (error) => {
+        toast.error(error.message || 'Gagal melakukan pendaftaran');
       },
       onSuccess: () => {
-        toast.success('Check your email for confirmation');
+        toast.success('Periksa email untuk melakukan konfirmasi');
         reset();
       },
     });

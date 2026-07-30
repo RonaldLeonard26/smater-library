@@ -30,12 +30,10 @@ export default function useStudentLogin() {
     useMutation({
       mutationFn: (payload: StudentLoginForm) =>
         authStudentService.logIn(payload),
-      onError: (err) => {
-        console.error(err);
-        toast.error('Gagal masuk ke akun anda');
+      onError: (error) => {
+        toast.error(error.message || 'Gagal masuk ke akun anda');
       },
       onSuccess: () => {
-        toast.success('Berhasil masuk ke akun anda');
         reset();
         router.push('/');
       },

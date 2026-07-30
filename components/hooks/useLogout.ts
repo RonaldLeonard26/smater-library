@@ -8,11 +8,10 @@ export default function useLogOut() {
   const { mutate: logOut, isPending: isPendingLogOut } = useMutation({
     mutationFn: authAdminServices.logOut,
     onSuccess: () => {
-      toast.success('Success logot');
-      router.push('/auth');
+      router.push('/');
     },
-    onError: () => {
-      toast.error('Failed to logout');
+    onError: (error) => {
+      toast.error(error.message || 'Gagal keluar dari aplikasi');
     },
   });
 

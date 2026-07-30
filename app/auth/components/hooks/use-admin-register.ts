@@ -42,11 +42,11 @@ export default function useAdminRegister() {
     useMutation({
       mutationFn: (payload: AdminRegisterForm) =>
         authAdminServices.register(payload),
-      onError: () => {
-        toast.error('Failed to register');
+      onError: (error) => {
+        toast.error(error.message || 'Pendaftaran akun anda gagal');
       },
       onSuccess: () => {
-        toast.success('Check your email for confirmation');
+        toast.success('Periksa email untuk melakukan konfirmasi');
         reset();
       },
     });
