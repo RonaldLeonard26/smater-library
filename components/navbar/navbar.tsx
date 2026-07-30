@@ -18,9 +18,9 @@ import useLogOut from '../hooks/useLogout';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { user, session, isAuthenticated } = useSession();
+  const { isAuthenticated } = useSession();
   const { logOut, isPendingLogOut } = useLogOut();
-  console.log(session, isAuthenticated);
+
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
       <div className="container mx-auto flex h-12 items-center justify-between px-6">
@@ -42,8 +42,12 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {user ? (
-            <Button variant="destructive" onClick={() => logOut()}>
+          {isAuthenticated ? (
+            <Button
+              disabled={isPendingLogOut}
+              variant="destructive"
+              onClick={() => logOut()}
+            >
               Keluar
             </Button>
           ) : (

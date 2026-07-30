@@ -62,8 +62,4 @@ export const authStudentService = {
 
     return authData;
   },
-  async logOut() {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw new Error(error.message);
-  },
 };

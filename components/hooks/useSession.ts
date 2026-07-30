@@ -4,11 +4,19 @@ import { useEffect, useState } from 'react';
 
 export default function useSession() {
   const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-    });
+    const initialize = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      setSession(session);
+      setLoading(false);
+    };
+
+    initialize();
 
     const {
       data: { subscription },
@@ -23,5 +31,6 @@ export default function useSession() {
     session,
     user: session?.user ?? null,
     isAuthenticated: !!session,
+    loading,
   };
 }

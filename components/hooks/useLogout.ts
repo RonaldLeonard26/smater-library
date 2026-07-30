@@ -1,4 +1,4 @@
-import { authAdminServices } from '@/services/auth.admin.service';
+import { authServices } from '@/services/auth.service';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 export default function useLogOut() {
   const router = useRouter();
   const { mutate: logOut, isPending: isPendingLogOut } = useMutation({
-    mutationFn: authAdminServices.logOut,
+    mutationFn: authServices.logOut,
     onSuccess: () => {
       router.push('/');
     },
