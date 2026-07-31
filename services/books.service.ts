@@ -4,6 +4,7 @@ import {
   EditBookForm,
 } from '@/app/admin/books/components/validation';
 import { createBrowserClient } from '@supabase/ssr';
+import { count } from 'console';
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -164,5 +165,38 @@ export const booksServices = {
 
     if (error) throw new Error(error.message);
     return data;
+  },
+
+  async getCatalogBooks(page: number, limit: number, search: string) {
+    const from = page * limit;
+    const to = from + limit - 1;
+
+    let query = supabase.from('books').select(
+      `id,
+    title,
+    author,
+    cover_url,
+    book_copies(status)`,
+      { count: 'exact' },
+    );
+
+    if (search) {
+      query = query.ilike('title', `%${search}%`);
+    }
+
+    const { data, error, count } = await query
+      .range(from, to)
+      .order('id', { ascending: false });
+
+    if (error) throw new Error(error.message);
+
+    const normalized = data.map((book) => ({
+      ...book,
+      availableCopies: book.book_copies.filter(
+        (copy) => copy.status === 'AVAILABLE',
+      ).length,
+    }));
+
+    return { data: normalized, total: count ?? 0 };
   },
 };
