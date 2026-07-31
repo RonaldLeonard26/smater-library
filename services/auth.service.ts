@@ -6,10 +6,14 @@ const supabase = createBrowserClient(
 );
 
 export const authServices = {
-  async getProfile() {
-    const { data, error } = await supabase.from('profiles').select('*');
+  async getProfile(userId: string) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
 
-    if (error) throw new Error(error.message || 'User tidak ditemukan');
+    if (error) throw new Error(error.message || 'Pengguna tidak ditemukan');
 
     return data;
   },

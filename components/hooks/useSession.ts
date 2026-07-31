@@ -30,6 +30,8 @@ export default function useSession() {
   return {
     session,
     user: session?.user ?? null,
+    userId: session?.user.id ?? null,
+    email: session?.user.email ?? null,
     isAuthenticated: !!session,
     loading,
   };

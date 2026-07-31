@@ -1,4 +1,4 @@
-import { BookOpen, Heart, User } from 'lucide-react';
+import { BookOpenText, Heart, User } from 'lucide-react';
 
 export const navLinks = [
   {
@@ -17,21 +17,22 @@ export const navLinks = [
 
 export const navStudents = [
   {
-    key: 'wishlist',
-    label: 'Wishlist',
-    href: '/student/wishlist',
-    icon: Heart,
-  },
-  {
-    key: 'my-book',
-    label: 'My Books',
-    href: '/student/my-books',
-    icon: BookOpen,
-  },
-  {
     key: 'profile',
     label: 'Profile',
     href: '/student/profile',
     icon: User,
+  },
+
+  {
+    key: 'my-book',
+    label: 'My Books',
+    href: '/student/my-books',
+    icon: BookOpenText,
+  },
+  {
+    key: 'wishlist',
+    label: 'Wishlist',
+    href: '/student/wishlist',
+    icon: Heart,
   },
 ];
