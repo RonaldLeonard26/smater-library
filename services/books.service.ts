@@ -3,6 +3,7 @@ import {
   BooksForm,
   EditBookForm,
 } from '@/app/admin/books/components/validation';
+import { CatalogBook, CatalogBookParams } from '@/types/catalog.type';
 import { createBrowserClient } from '@supabase/ssr';
 import { count } from 'console';
 
@@ -167,7 +168,12 @@ export const booksServices = {
     return data;
   },
 
-  async getCatalogBooks(page: number, limit: number, search: string) {
+  async getCatalogBooks({
+    page,
+    limit,
+    search = '',
+    categories = [],
+  }: CatalogBookParams) {
     const from = page * limit;
     const to = from + limit - 1;
 
@@ -176,26 +182,44 @@ export const booksServices = {
     title,
     author,
     cover_url,
-    book_copies(status)`,
+    categories (
+      id,
+      name
+    ),
+    book_copies (
+      status
+    )`,
       { count: 'exact' },
     );
 
     if (search) {
-      query = query.ilike('title', `%${search}%`);
+      query = query.or(`title.ilike.%${search}%,author.ilike.%${search}%`);
+    }
+
+    if (categories.length > 0) {
+      query = query.in('category_id', categories);
     }
 
     const { data, error, count } = await query
       .range(from, to)
       .order('id', { ascending: false });
+    console.log(data, error);
 
     if (error) throw new Error(error.message);
 
-    const normalized = data.map((book) => ({
-      ...book,
-      availableCopies: book.book_copies.filter(
-        (copy) => copy.status === 'AVAILABLE',
-      ).length,
-    }));
+    const normalized: CatalogBook[] =
+      data?.map((book) => ({
+        id: book.id,
+        title: book.title,
+        author: book.author,
+        cover_url: book.cover_url,
+        categories: Array.isArray(book.categories)
+          ? book.categories[0]
+          : book.categories,
+        availableCopies:
+          book.book_copies?.filter((copy) => copy.status === 'AVAILABLE')
+            .length ?? 0,
+      })) ?? [];
 
     return { data: normalized, total: count ?? 0 };
   },

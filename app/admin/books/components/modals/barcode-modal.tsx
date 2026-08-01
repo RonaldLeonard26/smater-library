@@ -20,6 +20,7 @@ import useAddCopies from '../hooks/useAddCopies';
 import { Spinner } from '@/components/ui/spinner';
 import { Controller } from 'react-hook-form';
 import useDeleteCopy from '../hooks/useDeleteCopy';
+import { Separator } from '@/components/ui/separator';
 
 interface PropsTypes {
   children: React.ReactNode;
@@ -42,16 +43,19 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto  print:p-0 print:max-w-none print:shadow-none">
+      <DialogContent className=" max-h-[80vh] max-w-sm overflow-y-auto scrollbar-thin print:p-0 print:max-w-none print:shadow-none">
         <DialogHeader className="print:hidden">
           <DialogTitle>Barcode</DialogTitle>
           <DialogDescription>
             Unduh atau cetak daftar barcode buku!
           </DialogDescription>
+          <Separator />
         </DialogHeader>
+
         <div className="space-y-4">
-          <p>
-            Total buku saat ini : <strong>{copies.length}</strong>
+          <p className="text-muted-foreground">
+            Total buku saat ini :{' '}
+            <span className="font-semibold text-black">{copies.length}</span>
           </p>
 
           <form onSubmit={handleSubmit(handleSave)}>
