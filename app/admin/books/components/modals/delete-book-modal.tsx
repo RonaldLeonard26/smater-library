@@ -31,10 +31,10 @@ export default function DeleteBookModal(props: PropsTypes) {
       <AlertDialogContent size="sm">
         <AlertDialogHeader className="items-start">
           <AlertDialogTitle className="text-md">
-            Are you absolutely sure?
+            Apakah anda yakin?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete this book.
+            Tindakan ini akan menghapus data secara permanen.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

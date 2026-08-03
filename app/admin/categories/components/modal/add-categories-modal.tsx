@@ -20,7 +20,7 @@ export default function AddCategoryModal() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-sm">
+      <DialogContent className="max-w-sm m-0">
         <DialogHeader>
           <DialogTitle>Kategori</DialogTitle>
           <DialogDescription>

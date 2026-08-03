@@ -37,7 +37,6 @@ export default function Books() {
 
   return (
     <div className="h-full flex flex-col gap-4 px-2 overflow-hidden">
-      <h2>Books</h2>
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

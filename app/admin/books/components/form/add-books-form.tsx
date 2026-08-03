@@ -26,10 +26,8 @@ export default function AddBooksForm(props: PropsTypes) {
   const {
     control,
     handleSubmit,
-    errors,
     isPendingAddBooks,
     handleSave,
-
     fields,
     append,
     remove,
@@ -204,10 +202,10 @@ export default function AddBooksForm(props: PropsTypes) {
           disabled={isPendingAddBooks}
           onClick={close}
         >
-          Cancel
+          Batal
         </Button>
         <Button variant="outline" type="submit">
-          {isPendingAddBooks ? <Spinner className="size-6" /> : 'Save'}
+          {isPendingAddBooks ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>
     </form>

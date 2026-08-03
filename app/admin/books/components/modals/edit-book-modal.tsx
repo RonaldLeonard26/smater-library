@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -31,7 +30,7 @@ export default function EditBookModal(props: PropsTypes) {
         <DialogHeader>
           <DialogTitle>Edit Buku</DialogTitle>
           <DialogDescription>
-            Fill the form below to update book.
+            Isi form dibawah untuk mengubah data buku.
           </DialogDescription>
         </DialogHeader>
         <EditBookForm

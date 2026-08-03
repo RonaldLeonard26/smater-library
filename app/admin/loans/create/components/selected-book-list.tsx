@@ -11,7 +11,7 @@ interface Props {
 
 export default function SelectedBookList({ books, onRemove, onSubmit }: Props) {
   return (
-    <div className="space-y-3 border shadow-sm rounded-md p-3">
+    <div className="space-y-3 border mx-2 lg:mx-0 shadow-sm rounded-md p-3">
       {books.map((book) => (
         <SelectedBook key={book.copy_id} book={book} onRemove={onRemove} />
       ))}

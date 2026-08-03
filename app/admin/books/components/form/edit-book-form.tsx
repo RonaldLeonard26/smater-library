@@ -150,10 +150,10 @@ export default function EditBookForm(props: PropsTypes) {
           onClick={close}
           disabled={isPendingEditBook}
         >
-          Cancel
+          Batal
         </Button>
         <Button type="submit" variant="outline" disabled={isPendingEditBook}>
-          {isPendingEditBook ? <Spinner className="size-6" /> : 'Save'}
+          {isPendingEditBook ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>
     </form>

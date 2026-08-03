@@ -18,13 +18,13 @@ type Props<TData> = {
 
 export default function TablePagination<TData>({ table }: Props<TData>) {
   return (
-    <div className="flex items-center py-4 justify-between gap-4">
+    <div className="flex items-center py-4 justify-center md:justify-between">
       {/* limit */}
       <Select
         value={String(table.getState().pagination.pageSize)}
         onValueChange={(value) => table.setPageSize(Number(value))}
       >
-        <SelectTrigger>
+        <SelectTrigger className="hidden md:flex">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

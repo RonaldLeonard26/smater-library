@@ -36,3 +36,11 @@ export const navStudents = [
     icon: Heart,
   },
 ];
+export const navAdmin = [
+  {
+    key: 'profile',
+    label: 'Profile',
+    href: '/admin/settings',
+    icon: User,
+  },
+];

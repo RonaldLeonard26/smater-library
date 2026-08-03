@@ -15,13 +15,13 @@ export default function BookPreviewCard(props: Props) {
   estimatedReturn.setDate(estimatedReturn.getDate() + book.duration_days);
 
   return (
-    <div className="flex flex-col border rounded-md shadow-sm p-3 space-y-2">
+    <div className="flex flex-col border rounded-md shadow-sm p-3 mx-2 lg:mx-0 space-y-2">
       <div className="flex items-center gap-2">
         <BookIcon size={16} />
         <p className="font-bold">{book.title}</p>
       </div>
 
-      <div className="flex items-center gap-2 border-b pb-3 ">
+      <div className="flex flex-wrap items-center gap-2 border-b pb-3 ">
         <p className="text-sm text-muted-foreground list-inside list-item">
           Kategori :{' '}
           <span className="font-semibold text-sm">{book.category_name}</span>
@@ -55,7 +55,7 @@ export default function BookPreviewCard(props: Props) {
       </div>
       <div>
         <Button
-          className="w-full bg-teal-500 text-white"
+          className="w-full bg-teal-500 text-white cursor-pointer"
           variant="outline"
           onClick={() => onAdd(book)}
         >

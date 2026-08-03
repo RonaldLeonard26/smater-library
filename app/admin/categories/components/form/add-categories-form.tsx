@@ -22,10 +22,10 @@ export default function AddCategoryForm(props: PropsTypes) {
     handleSave,
   } = useAddCategories(onSuccess);
   return (
-    <form onSubmit={handleSubmit(handleSave)} className=" grid gap-4 px-2">
-      <div className="grid gap-4 max-h-80 no-scrollbar overflow-y-auto">
+    <form onSubmit={handleSubmit(handleSave)}>
+      <div className="grid gap-4 max-h-72 scrollbar-thin overflow-y-auto">
         {fields.map((field, index) => (
-          <div key={field.id} className="grid gap-4 p-4 rounded-lg shadow-sm">
+          <div key={field.id} className="grid gap-4 px-2">
             <Controller
               control={control}
               name={`categories.${index}.name`}
@@ -132,7 +132,7 @@ export default function AddCategoryForm(props: PropsTypes) {
               <Button
                 type="button"
                 variant="destructive"
-                className="w-full mb-4 flex items-center justify-center"
+                className="w-full flex items-center justify-center"
                 onClick={() => remove(index)}
               >
                 <Trash size={14} />

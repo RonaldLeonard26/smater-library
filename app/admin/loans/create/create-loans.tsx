@@ -13,10 +13,6 @@ export default function CreateLoans() {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-muted-foreground font-semibold">
-        Transaksi peminjaman buku
-      </p>
-
       <Controller
         control={loans.control}
         name="student_nisn"

@@ -5,7 +5,6 @@ import {
 } from '@/app/admin/books/components/validation';
 import { CatalogBook, CatalogBookParams } from '@/types/catalog.type';
 import { createBrowserClient } from '@supabase/ssr';
-import { count } from 'console';
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

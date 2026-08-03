@@ -40,8 +40,8 @@ export const columns: ColumnDef<BookColumn>[] = [
         src={row.original.cover_url}
         alt="cover_url"
         width={60}
-        height={90}
-        className="object-cover aspect-auto"
+        height={60}
+        className="object-cover"
       />
     ),
   },

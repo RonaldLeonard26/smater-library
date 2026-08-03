@@ -13,24 +13,28 @@ export const SIDEBAR_ADMIN = [
     label: 'Menu',
     href: '/admin/dashboard',
     icon: LayoutGrid,
+    dsc: '',
   },
   {
     key: 'loans',
     label: 'Transaksi',
     href: '/admin/loans',
     icon: BookUp2,
+    dsc: 'Kelola transaksi peminjaman dan pengembalian buku',
   },
   {
     key: 'books',
     label: 'Data Buku',
     href: '/admin/books',
     icon: BookOpenText,
+    dsc: 'Kelola data buku perpustakaan',
   },
   {
     key: 'categories',
     label: 'Kategori',
     href: '/admin/categories',
     icon: Tag,
+    dsc: 'Kelola data kategori perpustakaan',
   },
 
   {
@@ -38,6 +42,7 @@ export const SIDEBAR_ADMIN = [
     label: 'Siswa',
     href: '/admin/students',
     icon: Users,
+    dsc: 'Kelola data siswa, edit dan hapus data siswa',
   },
   {
     key: 'settings',

@@ -31,24 +31,20 @@ export default function DeleteCategoryModal(props: PropsTypes) {
       <AlertDialogContent size="sm">
         <AlertDialogHeader className="items-start">
           <AlertDialogTitle className="text-md">
-            Are you absolutely sure?
+            Apakah anda yakin?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete this category.
+            Tindakan ini akan menghapus data secara permanen.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
+          <AlertDialogCancel size="sm">Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => mutateDeleteCategory(category.id)}
             className="bg-rose-700 hover:bg-rose-500"
             size="sm"
           >
-            {isPendingDeleteCategory ? (
-              <Spinner className="size-6" />
-            ) : (
-              'Delete'
-            )}
+            {isPendingDeleteCategory ? <Spinner className="size-6" /> : 'Hapus'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

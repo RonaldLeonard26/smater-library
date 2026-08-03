@@ -1,3 +1,4 @@
+import InputWithIcon from '@/components/common/input-with-icon';
 import { handleKeyDown } from '@/components/common/search-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,34 +14,20 @@ interface PropsTypes {
 export default function BookSearchBar(props: PropsTypes) {
   const { onSearch, value, onChange, isLoading } = props;
   return (
-    <div className="flex items-center gap-2 ">
-      <div className="relative flex-1">
-        <Input
-          type="text"
+    <div className="flex items-center gap-2 mx-2 lg:mx-0 ">
+      <div className="flex-1">
+        <InputWithIcon
+          placeholder="Masukan kode barcode"
+          rightIcon={<Search size={18} color="grey" />}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          type={value}
           onKeyDown={(e) => handleKeyDown(e, onSearch)}
-          placeholder="Pindai atau masukan barcode buku..."
           disabled={isLoading}
-          autoFocus
         />
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={onSearch}
-          className="absolute top-0 right-1 bg-transparent "
-        >
-          {' '}
-          {isLoading ? (
-            <Loader2 size={18} className="animate-spin text-muted-foreground" />
-          ) : (
-            <Search size={18} className="h-4 w-4 text-muted-foreground" />
-          )}
-        </Button>
       </div>
       <Button variant="outline">
-        <ScanQrCode /> Pindai
+        <ScanQrCode />
       </Button>
     </div>
   );

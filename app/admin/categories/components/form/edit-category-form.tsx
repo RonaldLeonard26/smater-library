@@ -15,7 +15,7 @@ interface PropsTypes {
 export default function EditCategoryForm(props: PropsTypes) {
   const { close, category, onSuccess } = props;
 
-  const { control, handleSubmit, errors, isPendingEditCategory, handleUpdate } =
+  const { control, handleSubmit, isPendingEditCategory, handleUpdate } =
     useEditCategory(category, onSuccess);
 
   return (
@@ -121,10 +121,10 @@ export default function EditCategoryForm(props: PropsTypes) {
           disabled={isPendingEditCategory}
           onClick={close}
         >
-          Cancel
+          Batal
         </Button>
         <Button type="submit" className="bg-teal-500 hover:bg-teal-300">
-          {isPendingEditCategory ? <Spinner className="size-6" /> : 'Save'}
+          {isPendingEditCategory ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>
     </form>

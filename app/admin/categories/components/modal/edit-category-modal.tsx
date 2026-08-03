@@ -28,7 +28,7 @@ export default function EditCategoryModal({
         <DialogHeader>
           <DialogTitle> Edit Category</DialogTitle>
           <DialogDescription>
-            Fill the form below to edit this category.
+            Isi form dibawah untuk mengubah data kategori
           </DialogDescription>
         </DialogHeader>
         <EditCategoryForm

@@ -38,7 +38,6 @@ export default function ListLoans() {
   if (!mounted) return null;
   return (
     <div className="h-full flex flex-col gap-4 px-2 overflow-hidden">
-      <h2>Daftar buku yang dipinjam</h2>
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
