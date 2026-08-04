@@ -1,7 +1,7 @@
 import {
   AdminLoginForm,
   AdminRegisterForm,
-} from '@/app/(public)/auth/components/validation/admin-validation';
+} from '@/app/auth/components/validation/admin-validation';
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabase = createBrowserClient(
