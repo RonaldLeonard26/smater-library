@@ -48,6 +48,10 @@ export const loansServices = {
 
     if (error) throw new Error(error.message);
 
+    if (!data?.length) {
+      throw new Error('Buku sedang dipinjam atau tidak tersedia');
+    }
+
     return data?.[0] ?? [];
   },
 
