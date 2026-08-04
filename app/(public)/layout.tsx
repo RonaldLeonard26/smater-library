@@ -8,7 +8,6 @@ export default function PublicLayout({
   return (
     <>
       <Navbar />
-
       <main className="container mx-auto py-4">{children}</main>
     </>
   );

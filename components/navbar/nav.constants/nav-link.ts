@@ -36,6 +36,7 @@ export const navStudents = [
     icon: Heart,
   },
 ];
+
 export const navAdmin = [
   {
     key: 'profile',
