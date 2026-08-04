@@ -23,6 +23,7 @@ export default function StudentSearchBar(props: PropsTypes) {
         type={value}
         onKeyDown={(e) => handleKeyDown(e, onSearch)}
         disabled={isLoading}
+        className="lg:w-1/2"
       />
     </div>
   );

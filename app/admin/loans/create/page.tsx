@@ -4,13 +4,7 @@ export default function createLoans() {
   return (
     <div>
       {/* <CreateLoansForm /> */}
-      <CreateLoans
-        id=""
-        nisn=""
-        full_name=""
-        active_loans={0}
-        borrowedBooks={[]}
-      />
+      <CreateLoans />
     </div>
   );
 }
