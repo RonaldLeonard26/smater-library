@@ -1,7 +1,7 @@
 import {
   StudentLoginForm,
   StudentRegisterForm,
-} from '@/app/(public)/auth/components/validation/student-validation';
+} from '@/app/auth/components/validation/student-validation';
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabase = createBrowserClient(
