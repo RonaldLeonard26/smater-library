@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 
 export default function PublicLayout({
@@ -10,7 +9,6 @@ export default function PublicLayout({
     <>
       <Navbar />
       <main className="container mx-auto">{children}</main>
-      {/* <Footer /> */}
     </>
   );
 }

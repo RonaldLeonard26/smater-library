@@ -1,7 +1,5 @@
 import useSession from '@/components/hooks/useSession';
-import { booksServices } from '@/services/books.service';
 import { CatalogBook } from '@/types/catalog.type';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

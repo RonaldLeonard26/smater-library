@@ -6,7 +6,7 @@ import { BookOpenCheck, Library } from 'lucide-react';
 import FilterCategory from './components/filter/filter-category';
 import { useState } from 'react';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
-import useWishlist from '../student/wishlist/hooks/useWishlist';
+import useWishlist from '../../student/wishlist/hooks/useWishlist';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Catalog() {
