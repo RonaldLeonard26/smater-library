@@ -6,8 +6,9 @@ import { BookOpenCheck, Library } from 'lucide-react';
 import FilterCategory from './components/filter/filter-category';
 import { useState } from 'react';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
-import useWishlist from '../../student/wishlist/hooks/useWishlist';
+
 import { Skeleton } from '@/components/ui/skeleton';
+import useWishlist from '@/app/(student)/student/wishlist/hooks/useWishlist';
 
 export default function Catalog() {
   const { categories } = useCategoryOptions();
@@ -91,17 +92,4 @@ export default function Catalog() {
       )}
     </section>
   );
-}
-
-{
-  /* <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-5">
-        {books.map((book) => (
-          <CardBook
-            key={book.id}
-            book={book}
-            isWishlist={wishlist.some((item) => item.id === book.id)}
-            onToggleWishlist={() => handleWishlist(book)}
-          />
-        ))}
-      </div> */
 }

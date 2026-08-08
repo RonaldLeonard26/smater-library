@@ -1,8 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import useSession from '../hooks/useSession';
 
 export default function HomePage() {
+  const { isAuthenticated } = useSession();
   return (
     <section className="w-full min-h-[calc(100vh-5rem)] bg-background flex items-center py-6 lg:py-14">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -27,14 +31,18 @@ export default function HomePage() {
             >
               <Link href="/books">Jelajahi Katalog</Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="rounded-full hover:bg-accent border-slate-300"
-            >
-              <Link href="/auth">Masuk / Daftar</Link>
-            </Button>
+            {!isAuthenticated ? (
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="rounded-full hover:bg-accent border-slate-300"
+              >
+                <Link href="/auth">Masuk / Daftar</Link>
+              </Button>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
 
