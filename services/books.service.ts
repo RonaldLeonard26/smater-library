@@ -202,7 +202,6 @@ export const booksServices = {
     const { data, error, count } = await query
       .range(from, to)
       .order('id', { ascending: false });
-    console.log(data, error);
 
     if (error) throw new Error(error.message);
 

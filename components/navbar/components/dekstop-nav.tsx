@@ -14,7 +14,7 @@ export default function DesktopNav({ profile, isAuthenticated }: Props) {
         <Link
           key={item.title}
           href={item.href}
-          className="hover:bg-teal-500 hover:rounded-lg hover:text-white p-1.5 text-sm font-medium transition-all"
+          className="hover:bg-primary hover:rounded-full hover:text-white p-1.5 hover:px-2 text-sm border rounded-full px-2 text-slate-700 font-medium transition-all"
         >
           {item.title}
         </Link>
@@ -24,7 +24,10 @@ export default function DesktopNav({ profile, isAuthenticated }: Props) {
         <StudentDropdown profile={profile} />
       ) : (
         <Link href="/auth">
-          <Button variant="ghost" className="bg-teal-500 text-white">
+          <Button
+            variant="ghost"
+            className="bg-primary rounded-full  text-white"
+          >
             Masuk
           </Button>
         </Link>

@@ -1,3 +1,4 @@
+import Footer from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 
 export default function PublicLayout({
@@ -8,7 +9,8 @@ export default function PublicLayout({
   return (
     <>
       <Navbar />
-      <main className="container mx-auto py-4">{children}</main>
+      <main className="container mx-auto">{children}</main>
+      {/* <Footer /> */}
     </>
   );
 }

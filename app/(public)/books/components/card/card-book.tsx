@@ -2,14 +2,15 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { HeartPlus } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Heart, HeartPlus } from 'lucide-react';
 import Image from 'next/image';
 
 export interface CatalogBook {
@@ -21,13 +22,16 @@ export interface CatalogBook {
 }
 interface BookCard {
   book: CatalogBook;
+  isWishlist: boolean;
+  onToggleWishlist: () => void;
 }
 
 export default function CardBook(props: BookCard) {
-  const { book } = props;
+  const { book, isWishlist, onToggleWishlist } = props;
+
   return (
     <Card className="overflow-hidden p-0">
-      <div className="relative aspect-3/4  w-full overflow-hidden">
+      <div className="relative aspect-3/4 w-full overflow-hidden">
         {book.cover_url && (
           <Image
             src={book.cover_url}
@@ -38,7 +42,9 @@ export default function CardBook(props: BookCard) {
         )}
       </div>
       <CardContent className="space-y-2">
-        <h3 className="line-clamp-2 text-lg font-semibold">{book.title}</h3>
+        <h3 className="line-clamp-2 text-sm md:text-lg font-semibold">
+          {book.title}
+        </h3>
         <p className="text-sm text-muted-foreground">{book.author}</p>
 
         <Separator />
@@ -49,8 +55,20 @@ export default function CardBook(props: BookCard) {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="cursor-pointer">
-                <HeartPlus className="size-6" />
+              <Button
+                onClick={onToggleWishlist}
+                variant="ghost"
+                size="icon"
+                className="cursor-pointer"
+              >
+                <Heart
+                  className={cn(
+                    'size-6 transition-colors',
+                    isWishlist
+                      ? 'fill-red-500 text-red-500'
+                      : 'text-muted-foreground',
+                  )}
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

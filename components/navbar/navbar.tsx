@@ -10,12 +10,14 @@ export default function Navbar() {
   if (isLoading) return <SkeletonNav />;
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur">
       <div className="container mx-auto flex h-12 items-center justify-between px-6">
         <Link href="/">
-          <p className="text-lg font-semibold text-teal-500">
+          <p className="text-xl font-semibold text-primary tracking-tight leading-tight">
             SMATER
-            <span className="font-serif font-medium text-black">-l𝓲brary.</span>
+            <span className="font-serif font-medium text-slate-700">
+              -l𝓲brary.
+            </span>
           </p>
         </Link>
 
