@@ -15,3 +15,9 @@ export interface CatalogBookParams {
   search?: string;
   categories?: string[];
 }
+
+export interface WishlistItem {
+  id: string;
+  bookId: string;
+  book: CatalogBook;
+}

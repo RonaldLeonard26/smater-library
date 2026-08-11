@@ -6,9 +6,9 @@ import { BookOpenCheck, Library } from 'lucide-react';
 import FilterCategory from './components/filter/filter-category';
 import { useState } from 'react';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
-
 import { Skeleton } from '@/components/ui/skeleton';
-import useWishlist from '@/app/(student)/student/wishlist/hooks/useWishlist';
+import useWIshlist from '@/components/hooks/useWishlists';
+import useSession from '@/components/hooks/useSession';
 
 export default function Catalog() {
   const { categories } = useCategoryOptions();
@@ -18,7 +18,8 @@ export default function Catalog() {
     search,
     categories: selectedCategories,
   });
-  const { handleWishlist, wishlist } = useWishlist();
+  const { userId } = useSession();
+  const { handleToggle, wishlistedBookIds } = useWIshlist(userId ?? '');
 
   const handleToggleCategory = (id: string) => {
     setSelectedCategories((prev) =>
@@ -68,14 +69,17 @@ export default function Catalog() {
         </div>
       ) : books.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-6 mt-4">
-          {books.map((book) => (
-            <CardBook
-              key={book.id}
-              book={book}
-              isWishlist={wishlist.some((item) => item.id === book.id)}
-              onToggleWishlist={() => handleWishlist(book)}
-            />
-          ))}
+          {books.map((book) => {
+            const isWishlist = wishlistedBookIds.has(book.id);
+            return (
+              <CardBook
+                key={book.id}
+                book={book}
+                isWishlist={isWishlist}
+                onToggleWishlist={() => handleToggle(book.id)}
+              />
+            );
+          })}
         </div>
       ) : (
         // empti state

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import CardBorrowedBook from './card-borrowed';
 import useStudentBook from './hooks/useStudentBook';
 import useSession from '@/components/hooks/useSession';
+import CardHistoryBook from './card-history-book';
 
 export default function MyBookPage() {
   const [tab, setTab] = useState('active');
@@ -62,7 +63,7 @@ export default function MyBookPage() {
         </TabsContent>
 
         {/* Tab content: Riwayat */}
-        {/* <TabsContent value="history" className="space-y-4">
+        <TabsContent value="history" className="space-y-4">
           {isLoading ? (
             <div className="space-y-3">
               <Skeleton className="h-24 w-full rounded-xl" />
@@ -78,7 +79,7 @@ export default function MyBookPage() {
               Belum ada riwayat pengembalian buku.
             </p>
           )}
-        </TabsContent> */}
+        </TabsContent>
       </Tabs>
     </section>
   );
