@@ -10,10 +10,10 @@ import {
 export const SIDEBAR_ADMIN = [
   {
     key: 'dashboard',
-    label: 'Menu',
+    label: 'Dashboard',
     href: '/admin/dashboard',
     icon: LayoutGrid,
-    dsc: '',
+    dsc: 'Pantau performa koleksi buku, tren peminjaman, dan permintaan siswa.',
   },
   {
     key: 'loans',

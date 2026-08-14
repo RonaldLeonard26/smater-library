@@ -37,7 +37,7 @@ export default function ListLoans() {
 
   if (!mounted) return null;
   return (
-    <div className="h-full flex flex-col gap-4 px-2 overflow-hidden">
+    <div className="h-full flex flex-col gap-4 p-2 overflow-hidden">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

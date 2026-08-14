@@ -35,7 +35,7 @@ export default function Categories() {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col p-2 gap-4">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

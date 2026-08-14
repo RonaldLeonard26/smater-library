@@ -1,7 +1,9 @@
+import Dashboard from './dashboard';
+
 export default function DashboardPage() {
   return (
-    <div>
-      <h1>Dashboard Page</h1>
-    </div>
+    <section>
+      <Dashboard />
+    </section>
   );
 }
