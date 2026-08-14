@@ -11,7 +11,7 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const [open, setOpen] = useState(false);
   return (
-    <section className="h-screen flex lg:gap-4 overflow-hidden">
+    <section className="min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden flex lg:gap-4 overflow-hidden">
       {/* sidebar */}
       <aside
         className={cn(
@@ -23,7 +23,7 @@ export default function AdminLayout({
         <Sidebard open={open} setOpen={setOpen} />
       </aside>
       {/* main content */}
-      <main className="flex-1 p-2 overflow-hidden">
+      <main className="flex-1 p-2 min-h-screen overflow-y-auto lg:overflow-hidden">
         <AdminHeader open={open} setOpen={setOpen} />
         {children}
       </main>

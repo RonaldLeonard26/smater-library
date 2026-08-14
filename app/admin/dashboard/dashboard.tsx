@@ -14,7 +14,7 @@ export default function Dashboard() {
   const maxBorrowCount = topBorrowed.length > 0 ? topBorrowed[0].totalLoans : 1;
 
   return (
-    <div className="h-full flex flex-col gap-4 p-2 overflow-hidden">
+    <div className="h-full overflow-y-auto lg:overflow-hidden flex flex-col gap-4 p-2 overflow-hidden">
       {/* 1. Baris Kartu KPI (Tinggi Otomatis) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
         {statsOverview.map((item) => (
@@ -31,9 +31,9 @@ export default function Dashboard() {
       </div>
 
       {/* 2. Baris Utama Analitik (Memenuhi sisa tinggi layar / flex-1) */}
-      <div className="flex-1 max-h-96 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="flex-1 lg:min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Card Top Wishlist */}
-        <Card className="h-full flex flex-col overflow-hidden border-slate-200/80 shadow-sm">
+        <Card className="h-full flex flex-col border-slate-200/80 lg:max-h-96 overflow-y-auto scrollbar-thin shadow-sm">
           <CardHeader className="pb-3 border-b border-slate-100 shrink-0">
             <CardTitle className="text-base font-semibold flex items-center gap-2">
               <Heart className="size-6 text-rose-500 fill-rose-500" />
@@ -46,7 +46,7 @@ export default function Dashboard() {
           </CardHeader>
 
           {/* Area Konten Card: Hanya bagian ini yang bisa di-scroll jika item sangat banyak */}
-          <CardContent className="flex-1 overflow-y-auto p-4 space-y-2.5">
+          <CardContent className="flex-1  overflow-y-auto p-3 space-y-2.5">
             {topWishlist.length === 0 ? (
               <p className="text-xs text-slate-400 text-center py-8">
                 Belum ada data wishlist.
@@ -67,7 +67,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Kolom Kanan (Nanti untuk Buku Terpopuler / Sering Dipinjam) */}
-        <div className="hidden lg:block h-full">
+        <div className="block h-full">
           {/* Komponen Top Borrowed / Chart bisa dimasukkan di sini */}
           <Card className="h-full flex flex-col overflow-hidden border-slate-200/80 shadow-sm">
             <CardHeader className="pb-3 border-b border-slate-100">
