@@ -118,7 +118,7 @@ export default function ReturnLoanModal(loanItem: LoanItem) {
           <Button
             onClick={() => handleReturnLoan(loanItem.loan_item_id)}
             disabled={isPendingReturnLoan}
-            className="bg-slate-900 hover:bg-slate-800 text-white"
+            className=" hover:bg-slate-800 bg-primary text-white"
           >
             {isPendingReturnLoan ? (
               <Loader2 className="h-4 w-4 animate-spin mr-2" />

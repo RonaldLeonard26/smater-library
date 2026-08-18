@@ -11,11 +11,14 @@ import { columns } from './components/columns';
 import useLoans from './components/hooks/useLoans';
 import Link from 'next/link';
 import { ScanQrCode } from 'lucide-react';
+import ScannerDialog from './components/modals/scanner-dialog';
+import useReturnLoan from './components/hooks/useReturnLoan';
 
 export default function ListLoans() {
   const [mounted, setMounted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
   const debouncedSearch = useDebounce(globalFilter, 500);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const [pagination, setPagination] = useState({
     pageIndex: PAGE_DEFAULT,
@@ -26,6 +29,11 @@ export default function ListLoans() {
     pagination.pageSize,
     debouncedSearch,
   );
+  const { handleReturnByBarcode, isPendingReturnByBarcode } = useReturnLoan();
+
+  const handleScanSuccess = (barcode: string) => {
+    handleReturnByBarcode(barcode);
+  };
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -45,7 +53,7 @@ export default function ListLoans() {
         <div className="flex items-center justify-between gap-4">
           <Button variant="outline">
             <ScanQrCode />
-            Pindai untuk pengmbalian
+            Pindai Buku
           </Button>
 
           <Link href="/admin/loans/create">
@@ -70,6 +78,12 @@ export default function ListLoans() {
           />
         )}
       </div>
+      <ScannerDialog
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScanSuccess={handleScanSuccess}
+        title="Pindai Barcode Pengembalian Buku"
+      />
     </div>
   );
 }
