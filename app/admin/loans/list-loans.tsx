@@ -51,7 +51,7 @@ export default function ListLoans() {
         setGlobalFilter={setGlobalFilter}
       >
         <div className="flex items-center justify-between gap-4">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => setIsScannerOpen(true)}>
             <ScanQrCode />
             Pindai Buku
           </Button>
