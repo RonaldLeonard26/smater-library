@@ -14,7 +14,7 @@ interface PropsTypes {
 export default function StudentSearchBar(props: PropsTypes) {
   const { onSearch, value, onChange, isLoading } = props;
   return (
-    <div className="mx-2 lg:mx-0">
+    <div className="mx-2 lg:w-1/2 lg:mx-0">
       <InputWithIcon
         rightIcon={<Search size={18} color="grey" />}
         placeholder="Masukan NISN siswa"
@@ -23,7 +23,6 @@ export default function StudentSearchBar(props: PropsTypes) {
         type={value}
         onKeyDown={(e) => handleKeyDown(e, onSearch)}
         disabled={isLoading}
-        className="lg:w-1/2"
       />
     </div>
   );
