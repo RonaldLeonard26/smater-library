@@ -1,6 +1,5 @@
 import { loansServices } from '@/services/loans.service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { error } from 'console';
 import { toast } from 'sonner';
 
 export default function useReturnLoan() {

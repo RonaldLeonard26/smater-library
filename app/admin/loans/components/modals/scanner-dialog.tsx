@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode, Html5QrcodeScannerState } from 'html5-qrcode';
 import {
   Dialog,
   DialogContent,
@@ -23,27 +23,55 @@ export default function ScannerDialog({
 }: ScannerDialogProps) {
   const [isInitializing, setIsInitializing] = useState(true);
   const html5QrcodeRef = useRef<Html5Qrcode | null>(null);
+  const isStoppingRef = useRef<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
+
+    const stopScanner = async () => {
+      const scanner = html5QrcodeRef.current;
+      // Jika scanner tidak ada atau sedang dalam proses dihentikan, lewati
+      if (!scanner || isStoppingRef.current) return;
+
+      try {
+        isStoppingRef.current = true; // Tandai sedang dalam proses penghentian
+
+        // Cek apakah scanner dalam posisi aktif (SCANNING atau PAUSED)
+        const state = scanner.getState();
+        if (
+          state === Html5QrcodeScannerState.SCANNING ||
+          state === Html5QrcodeScannerState.PAUSED
+        ) {
+          await scanner.stop();
+        }
+
+        scanner.clear();
+      } catch (err) {
+        console.error('Gagal menghentikan scanner:', err);
+      } finally {
+        html5QrcodeRef.current = null;
+        isStoppingRef.current = false;
+      }
+    };
 
     const startScanner = async () => {
       if (!isOpen) return;
       setIsInitializing(true);
 
-      // Beri jeda kecil agar DOM modal render sempurna sebelum scanner diikat
+      // Beri jeda kecil agar DOM modal ter-render sepenuhnya
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       const elementId = 'camera-reader-mesh';
       const element = document.getElementById(elementId);
       if (!element || !isMounted) return;
 
+      // Hentikan sisa instance jika ada
+      await stopScanner();
+
       try {
-        // Inisialisasi instansi Html5Qrcode
         const html5Qrcode = new Html5Qrcode(elementId);
         html5QrcodeRef.current = html5Qrcode;
 
-        // Jalankan kamera belakang (environment)
         await html5Qrcode.start(
           { facingMode: 'environment' },
           {
@@ -51,7 +79,6 @@ export default function ScannerDialog({
             qrbox: { width: 250, height: 150 },
           },
           (decodedText) => {
-            // Callback saat barcode berhasil terdeteksi
             if (isMounted) {
               stopScanner().then(() => {
                 onScanSuccess(decodedText);
@@ -59,28 +86,13 @@ export default function ScannerDialog({
               });
             }
           },
-          () => {}, // mengabaikan error pencarian per frame
+          () => {}, // mengabaikan error frame
         );
 
         if (isMounted) setIsInitializing(false);
       } catch (err) {
         console.error('Gagal membuka kamera:', err);
         if (isMounted) setIsInitializing(false);
-      }
-    };
-
-    const stopScanner = async () => {
-      if (html5QrcodeRef.current) {
-        try {
-          if (html5QrcodeRef.current.isScanning) {
-            await html5QrcodeRef.current.stop();
-          }
-          html5QrcodeRef.current.clear();
-        } catch (err) {
-          console.error('Gagal menghentikan scanner:', err);
-        } finally {
-          html5QrcodeRef.current = null;
-        }
       }
     };
 
@@ -111,7 +123,6 @@ export default function ScannerDialog({
             </div>
           )}
 
-          {/* ID elemen ini diikat ke instance Html5Qrcode */}
           <div id="camera-reader-mesh" className="w-full h-full" />
         </div>
       </DialogContent>
