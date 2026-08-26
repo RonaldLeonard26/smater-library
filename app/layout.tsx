@@ -44,7 +44,19 @@ export default function RootLayout({
         <TooltipProvider>
           <Providers>
             <main>{children}</main>
-            <Toaster position="top-right" richColors />
+            <Toaster
+              position="top-right"
+              richColors
+              toastOptions={{
+                // Menyesuaikan font family & styling umum
+                style: {
+                  fontFamily: 'inter', // Mengikuti font utama aplikasi
+                  borderRadius: '0.75rem', // Rounded-xl
+                  padding: '10px 14px',
+                  fontSize: '0.875rem', // text-sm
+                },
+              }}
+            />
           </Providers>
         </TooltipProvider>
       </body>
