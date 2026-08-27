@@ -87,7 +87,7 @@ export const loansServices = {
     });
 
     if (error) throw new Error(error.message);
-    return data[0];
+    return data;
   },
 
   //return loans
