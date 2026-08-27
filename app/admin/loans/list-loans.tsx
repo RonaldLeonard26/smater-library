@@ -13,12 +13,16 @@ import Link from 'next/link';
 import { ScanQrCode } from 'lucide-react';
 import ScannerDialog from './components/modals/scanner-dialog';
 import useReturnLoan from './components/hooks/useReturnLoan';
+import { LoanItem } from '@/types/type';
+import ReturnLoanModal from './components/modals/return-loan-modal';
 
 export default function ListLoans() {
   const [mounted, setMounted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
   const debouncedSearch = useDebounce(globalFilter, 500);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [loanData, setLoanData] = useState<LoanItem | null>(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [pagination, setPagination] = useState({
     pageIndex: PAGE_DEFAULT,
@@ -29,10 +33,18 @@ export default function ListLoans() {
     pagination.pageSize,
     debouncedSearch,
   );
-  const { handleReturnByBarcode, isPendingReturnByBarcode } = useReturnLoan();
+  const { getLoanByBarcode, isFetchingByBarcode } = useReturnLoan();
 
-  const handleScanSuccess = (barcode: string) => {
-    handleReturnByBarcode(barcode);
+  const handleScanSuccess = async (barcode: string) => {
+    try {
+      const loanData = await getLoanByBarcode(barcode);
+      if (loanData) {
+        setLoanData(loanData);
+        setIsOpenModal(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -84,6 +96,17 @@ export default function ListLoans() {
         onScanSuccess={handleScanSuccess}
         title="Pindai Barcode Pengembalian Buku"
       />
+
+      {loanData && (
+        <ReturnLoanModal
+          loanItem={loanData}
+          isOpen={isOpenModal}
+          onClose={() => {
+            setIsOpenModal(false);
+            setLoanData(null);
+          }}
+        />
+      )}
     </div>
   );
 }

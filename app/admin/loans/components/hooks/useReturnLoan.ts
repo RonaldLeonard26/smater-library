@@ -18,29 +18,26 @@ export default function useReturnLoan() {
       },
     });
 
-  const { mutate: mutateRetrunByBarcode, isPending: isPendingReturnByBarcode } =
+  const { mutateAsync: getLoanByBarcode, isPending: isFetchingByBarcode } =
     useMutation({
-      mutationFn: (barcode: string) => loansServices.returnByBarcode(barcode),
-      onError: (error) => {
-        toast.error(error.message);
-      },
-      onSuccess: () => {
-        toast.success('Buku Berhasil dikembalikan');
-        queryQlient.invalidateQueries({ queryKey: ['loan-items'] });
+      mutationFn: (barcode: string) =>
+        loansServices.getActiveLoanByBarcode(barcode),
+      onError: (error: Error) => {
+        toast.error(
+          error.message || 'Buku tidak ditemukan / tidak sedang dipinjam',
+        );
       },
     });
 
   const handleReturnLoan = (loanItemId: string) => mutateReturnLoan(loanItemId);
-  const handleReturnByBarcode = (barcode: string) =>
-    mutateRetrunByBarcode(barcode);
 
   return {
     handleReturnLoan,
     isPendingReturnLoan,
 
-    handleReturnByBarcode,
-    isPendingReturnByBarcode,
+    getLoanByBarcode,
+    isFetchingByBarcode,
 
-    isPending: isPendingReturnLoan || isPendingReturnByBarcode,
+    isPending: isPendingReturnLoan || isFetchingByBarcode,
   };
 }

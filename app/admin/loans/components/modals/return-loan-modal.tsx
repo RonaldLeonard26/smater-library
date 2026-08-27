@@ -8,7 +8,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useState } from 'react';
 import useReturnLoan from '../hooks/useReturnLoan';
 import { LoanItem } from '@/types/type';
 import { differenceInCalendarDays } from 'date-fns';
@@ -16,8 +15,17 @@ import { formatDate } from '@/utils/format-date';
 import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default function ReturnLoanModal(loanItem: LoanItem) {
-  const [open, setOpen] = useState(false);
+interface LoanModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  loanItem: LoanItem;
+}
+
+export default function ReturnLoanModal({
+  isOpen,
+  onClose,
+  loanItem,
+}: LoanModalProps) {
   const { handleReturnLoan, isPendingReturnLoan } = useReturnLoan();
 
   const daysLate = Math.max(
@@ -27,7 +35,7 @@ export default function ReturnLoanModal(loanItem: LoanItem) {
 
   const fineAmount = daysLate * loanItem.fine_amount_per_day;
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           Pengembalian
@@ -109,7 +117,7 @@ export default function ReturnLoanModal(loanItem: LoanItem) {
         <DialogFooter className="gap-2">
           <Button
             variant="outline"
-            onClick={() => setOpen(false)}
+            onClick={onClose}
             disabled={isPendingReturnLoan}
           >
             Batal

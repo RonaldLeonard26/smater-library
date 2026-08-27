@@ -72,7 +72,7 @@ export const columns: ColumnDef<LoanItem>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <ReturnLoanModal {...loan} />
+            <ReturnLoanModal loanItem={loan} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

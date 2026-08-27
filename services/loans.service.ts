@@ -81,6 +81,15 @@ export const loansServices = {
     };
   },
 
+  async getActiveLoanByBarcode(barcode: string) {
+    const { data, error } = await supabase.rpc('get_active_loan_by_barcode', {
+      p_barcode: barcode,
+    });
+
+    if (error) throw new Error(error.message);
+    return data[0];
+  },
+
   //return loans
   async returnLoanItem(loanItemId: string) {
     const { data, error } = await supabase.rpc('return_loan_item', {
@@ -88,15 +97,6 @@ export const loansServices = {
     });
     if (error) throw new Error(error.message);
 
-    return data;
-  },
-
-  async returnByBarcode(barcode: string) {
-    const { data, error } = await supabase.rpc('return_book_by_barcode', {
-      p_barcode: barcode,
-    });
-
-    if (error) throw new Error(error.message);
     return data;
   },
 };
