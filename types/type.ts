@@ -24,17 +24,16 @@ export interface LoanItem {
   loan_item_id: string;
   loan_id: string;
 
+  nisn: string;
+  full_name: string;
   title: string;
   barcode: string;
-  category: string;
-
-  full_name: string;
-  nisn: string;
+  status: string;
 
   loan_date: string;
   due_date: string;
-  status: string;
 
+  category: string;
   fine_amount_per_day: number;
 }
 
