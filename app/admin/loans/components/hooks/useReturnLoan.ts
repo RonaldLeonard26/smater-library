@@ -29,10 +29,8 @@ export default function useReturnLoan() {
       },
     });
 
-  const handleReturnLoan = (loanItemId: string) => mutateReturnLoan(loanItemId);
-
   return {
-    handleReturnLoan,
+    mutateReturnLoan,
     isPendingReturnLoan,
 
     getLoanByBarcode,

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LoanItem } from '@/types/type';
@@ -10,6 +11,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { MoreVertical } from 'lucide-react';
 import ReturnLoanModal from './modals/return-loan-modal';
 import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
 
 const statusConfig = {
   ACTIVE: {
@@ -21,6 +23,37 @@ const statusConfig = {
     className: 'bg-red-100 text-red-700 hover:bg-red-100',
   },
 } as const;
+
+const LoansAction = ({ loanItem }: { loanItem: LoanItem }) => {
+  const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <MoreVertical className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              setIsReturnModalOpen(true);
+            }}
+            onClick={() => setIsReturnModalOpen(true)}
+          >
+            Pengembalian
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <ReturnLoanModal
+        isOpen={isReturnModalOpen}
+        onClose={() => setIsReturnModalOpen(false)}
+        loanItem={loanItem}
+      />
+    </>
+  );
+};
 
 export const columns: ColumnDef<LoanItem>[] = [
   {
@@ -64,18 +97,7 @@ export const columns: ColumnDef<LoanItem>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const loan = row.original;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="xs" className="p-0">
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <ReturnLoanModal loanItem={loan} />
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <LoansAction loanItem={loan} />;
     },
   },
 ];

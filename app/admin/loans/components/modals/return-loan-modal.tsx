@@ -5,19 +5,18 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import useReturnLoan from '../hooks/useReturnLoan';
-import { LoanItem } from '@/types/type';
+
+import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { differenceInCalendarDays } from 'date-fns';
 import { formatDate } from '@/utils/format-date';
-import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
+import { LoanItem } from '@/types/type';
 import { Button } from '@/components/ui/button';
+import useReturnLoan from '../hooks/useReturnLoan';
 
 interface LoanModalProps {
-  isOpen?: boolean;
-  onClose?: () => void;
+  isOpen: boolean;
+  onClose: () => void;
   loanItem: LoanItem;
 }
 
@@ -26,7 +25,7 @@ export default function ReturnLoanModal({
   onClose,
   loanItem,
 }: LoanModalProps) {
-  const { handleReturnLoan, isPendingReturnLoan } = useReturnLoan();
+  const { mutateReturnLoan, isPendingReturnLoan } = useReturnLoan();
 
   const daysLate = Math.max(
     differenceInCalendarDays(new Date(), new Date(loanItem.due_date)),
@@ -34,14 +33,17 @@ export default function ReturnLoanModal({
   );
 
   const fineAmount = daysLate * loanItem.fine_amount_per_day;
+
+  const handleSubmit = () => {
+    mutateReturnLoan(loanItem.loan_item_id, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Pengembalian
-        </DropdownMenuItem>
-      </DialogTrigger>
-
       <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>Pengembalian Buku</DialogTitle>
@@ -124,7 +126,7 @@ export default function ReturnLoanModal({
           </Button>
           {/* 4. TEMBAK RPC UTAMA SAAT MODAL DI-SUBMIT */}
           <Button
-            onClick={() => handleReturnLoan(loanItem.loan_item_id)}
+            onClick={handleSubmit}
             disabled={isPendingReturnLoan}
             className=" hover:bg-slate-800 bg-primary text-white"
           >
