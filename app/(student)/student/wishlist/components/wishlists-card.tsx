@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { CatalogBook, WishlistItem } from '@/types/catalog.type';
-import { Trash2 } from 'lucide-react';
+import { CatalogBook } from '@/types/catalog.type';
+import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
 interface WishlistCardProps {
@@ -34,7 +34,7 @@ export default function WishlistsCard({ book, onRemove }: WishlistCardProps) {
               size="icon"
               className="cursor-pointer h-8 w-8 rounded-full bg-background backdrop-blur-md hover:bg-white shadow-sm border border-slate-100"
             >
-              <Trash2 className="size-5 text-destructive" />
+              <Heart className="size-5 text-destructive" />
             </Button>
           </div>
         </div>

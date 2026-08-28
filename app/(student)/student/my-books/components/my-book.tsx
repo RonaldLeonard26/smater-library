@@ -2,7 +2,7 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Clock, History } from 'lucide-react';
+import { BookOpen, Clock, History, Library } from 'lucide-react';
 import { useState } from 'react';
 import CardBorrowedBook from './card-borrowed';
 import useStudentBook from './hooks/useStudentBook';
@@ -56,9 +56,15 @@ export default function MyBookPage() {
               ))}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">
-              Kamu belum meminjam buku apapun saat ini.
-            </p>
+            <div className="flex flex-col items-center justify-center py-16 text-center space-y-3">
+              <div className="p-4 bg-slate-50 rounded-full text-slate-400">
+                <Library className="h-8 w-8" />
+              </div>
+              <p className="font-medium text-slate-700">Buku tidak ditemukan</p>
+              <p className="text-xs text-muted-foreground max-w-sm">
+                Kamu belum meminjam buku apapun saat ini.
+              </p>
+            </div>
           )}
         </TabsContent>
 
@@ -75,9 +81,15 @@ export default function MyBookPage() {
               ))}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">
-              Belum ada riwayat pengembalian buku.
-            </p>
+            <div className="flex flex-col items-center justify-center py-16 text-center space-y-3">
+              <div className="p-4 bg-slate-50 rounded-full text-slate-400">
+                <Library className="h-8 w-8" />
+              </div>
+              <p className="font-medium text-slate-700">Buku tidak ditemukan</p>
+              <p className="text-xs text-muted-foreground max-w-sm">
+                Kamu belum meminjam buku apapun saat ini.
+              </p>
+            </div>
           )}
         </TabsContent>
       </Tabs>
