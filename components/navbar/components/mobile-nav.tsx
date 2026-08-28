@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { navLinks } from '../nav.constants/nav-link';
-import StudentDropdown, { Profile } from './student-dropdown';
+import StudentDropdown, { Profile } from './user-dropdown';
 import { Separator } from '@/components/ui/separator';
 
 interface Props {

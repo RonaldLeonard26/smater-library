@@ -47,7 +47,7 @@ export default function EditBookForm(props: PropsTypes) {
   return (
     <form onSubmit={handleSubmit(handleUpdate)}>
       <div className=" max-h-80 overflow-y-auto scrollbar-thin px-3">
-        <div className="grid gap-2">
+        <div className="grid gap-4">
           <Controller
             control={control}
             name="title"
@@ -152,7 +152,12 @@ export default function EditBookForm(props: PropsTypes) {
         >
           Batal
         </Button>
-        <Button type="submit" variant="outline" disabled={isPendingEditBook}>
+        <Button
+          type="submit"
+          variant="outline"
+          className="bg-primary text-white"
+          disabled={isPendingEditBook}
+        >
           {isPendingEditBook ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>

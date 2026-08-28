@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { navStudents } from '../nav.constants/nav-link';
+import { navAdmin, navStudents } from '../nav.constants/nav-link';
 import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import useLogOut from '@/components/hooks/useLogout';
@@ -23,8 +23,9 @@ interface Props {
   profile: Profile;
 }
 
-export default function StudentDropdown({ profile }: Props) {
+export default function UserDropdown({ profile }: Props) {
   const { logOut, isPendingLogOut } = useLogOut();
+  const isAdmin = profile?.role === 'ADMIN';
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,18 +40,32 @@ export default function StudentDropdown({ profile }: Props) {
         <DropdownMenuLabel>{profile.full_name}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        {navStudents.map((item) => {
-          const Icon = item.icon;
 
-          return (
-            <DropdownMenuItem key={item.key} asChild>
-              <Link href={item.href}>
-                <Icon className="mr-2 h-4 w-4" />
-                <span>{item.label}</span>
-              </Link>
-            </DropdownMenuItem>
-          );
-        })}
+        {isAdmin
+          ? navAdmin.map((item) => {
+              const Icon = item.icon;
+              return (
+                <DropdownMenuItem key={item.key} asChild>
+                  <Link href={item.href}>
+                    <Icon className="mr-2 h-4 w-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })
+          : navStudents.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <DropdownMenuItem key={item.key} asChild>
+                  <Link href={item.href}>
+                    <Icon className="mr-2 h-4 w-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => logOut()}

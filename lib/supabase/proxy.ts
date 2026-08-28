@@ -10,10 +10,22 @@ export function createProxyClient(req: NextRequest, res: NextResponse) {
         getAll() {
           return req.cookies.getAll();
         },
-
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
-            res.cookies.set(name, value, options);
+            // HAPUS maxAge & expires agar tidak menjadi persistent cookie
+            const { maxAge, expires, ...sessionOptions } = options;
+
+            req.cookies.set({
+              name,
+              value,
+              ...sessionOptions,
+            });
+
+            res.cookies.set({
+              name,
+              value,
+              ...sessionOptions,
+            });
           });
         },
       },

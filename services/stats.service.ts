@@ -1,4 +1,3 @@
-import { CatalogBook } from '@/types/catalog.type';
 import {
   AdminStatsOverview,
   RawBookData,

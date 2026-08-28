@@ -204,7 +204,11 @@ export default function AddBooksForm(props: PropsTypes) {
         >
           Batal
         </Button>
-        <Button variant="outline" type="submit">
+        <Button
+          variant="outline"
+          type="submit"
+          className="bg-primary text-white"
+        >
           {isPendingAddBooks ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>

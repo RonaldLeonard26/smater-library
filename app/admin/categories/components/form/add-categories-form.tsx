@@ -36,7 +36,7 @@ export default function AddCategoryForm(props: PropsTypes) {
                     {...field}
                     type="text"
                     id={field.name}
-                    placeholder="Input category here..."
+                    placeholder="Masukan nama kategori..."
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
                   />
@@ -166,7 +166,11 @@ export default function AddCategoryForm(props: PropsTypes) {
         >
           Batal
         </Button>
-        <Button type="submit" variant="outline">
+        <Button
+          type="submit"
+          variant="outline"
+          className="bg-primary text-white"
+        >
           {isPendingCategories ? <Spinner className="size-6" /> : 'Simpan'}
         </Button>
       </div>

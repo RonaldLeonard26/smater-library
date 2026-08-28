@@ -25,7 +25,7 @@ export default function DeleteBookModal(props: PropsTypes) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Delete
+          Hapus
         </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent size="sm">
@@ -38,13 +38,13 @@ export default function DeleteBookModal(props: PropsTypes) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
+          <AlertDialogCancel size="sm">Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => mutateDeleteBook(books.id)}
             className="bg-rose-700 hover:bg-rose-500"
             size="sm"
           >
-            {isPendingDeleteBook ? <Spinner className="size-6" /> : 'Delete'}
+            {isPendingDeleteBook ? <Spinner className="size-6" /> : 'Hapus'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

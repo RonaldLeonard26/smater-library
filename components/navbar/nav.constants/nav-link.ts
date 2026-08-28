@@ -41,7 +41,7 @@ export const navAdmin = [
   {
     key: 'profile',
     label: 'Profile',
-    href: '/admin/settings',
+    href: '/admin/dashboard',
     icon: User,
   },
 ];

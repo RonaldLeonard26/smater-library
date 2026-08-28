@@ -1,5 +1,6 @@
 'use client';
 
+import useSession from '@/components/hooks/useSession';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -28,6 +29,9 @@ interface BookCard {
 
 export default function CardBook(props: BookCard) {
   const { book, isWishlist, onToggleWishlist } = props;
+  const { user } = useSession();
+
+  const isAdmin = user?.user_metadata?.role === 'ADMIN';
 
   return (
     <Card className="group overflow-hidden rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between p-0">
@@ -46,32 +50,34 @@ export default function CardBook(props: BookCard) {
             </div>
           )}
           {/* floating wishlist button */}
-          <div className="absolute top-2 right-2 z-10">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={onToggleWishlist}
-                  variant="ghost"
-                  size="icon"
-                  className="cursor-pointer h-8 w-8 rounded-full bg-background backdrop-blur-md hover:bg-white shadow-sm border border-slate-100"
-                >
-                  <HeartPlus
-                    className={cn(
-                      'size-6 transition-colors',
-                      isWishlist
-                        ? 'fill-red-500 text-red-500'
-                        : 'text-muted-foreground',
-                    )}
-                  />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {isWishlist ? 'Hapus dari wishlist' : 'Tambah ke wishlist'}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
+          {!isAdmin && (
+            <div className="absolute top-2 right-2 z-10">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={onToggleWishlist}
+                    variant="ghost"
+                    size="icon"
+                    className="cursor-pointer h-8 w-8 rounded-full bg-background backdrop-blur-md hover:bg-white shadow-sm border border-slate-100"
+                  >
+                    <HeartPlus
+                      className={cn(
+                        'size-6 transition-colors',
+                        isWishlist
+                          ? 'fill-red-500 text-red-500'
+                          : 'text-muted-foreground',
+                      )}
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {isWishlist ? 'Hapus dari wishlist' : 'Tambah ke wishlist'}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          )}
         </div>
         {/* informasi konten */}
         <CardContent className=" p-3 pb-0 space-y-1">

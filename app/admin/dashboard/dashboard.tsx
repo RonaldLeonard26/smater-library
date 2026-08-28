@@ -4,7 +4,7 @@ import { getStatsOverviewConfig } from '@/constants/adminStats';
 import useAdminStats from './components/hooks/useAdminStats';
 import CardKpi from './components/card/card-kpi';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, TrendingUp } from 'lucide-react';
+import { Heart, Library, TrendingUp } from 'lucide-react';
 import CardWishlist from './components/card/card-wishlists';
 import { Progress } from '@/components/ui/progress';
 
@@ -48,9 +48,14 @@ export default function Dashboard() {
           {/* Area Konten Card: Hanya bagian ini yang bisa di-scroll jika item sangat banyak */}
           <CardContent className="flex-1  overflow-y-auto p-3 space-y-2.5">
             {topWishlist.length === 0 ? (
-              <p className="text-xs text-slate-400 text-center py-8">
-                Belum ada data wishlist.
-              </p>
+              <div className="flex flex-col items-center justify-center py-8 text-center space-y-3">
+                <div className="p-4 bg-slate-50 rounded-full text-slate-400">
+                  <Library className="h-6 w-6" />
+                </div>
+                <p className="text-xs text-muted-foreground max-w-sm">
+                  Belum ada buku yang ditambahkan ke wishlist.
+                </p>
+              </div>
             ) : (
               topWishlist.map((item) => (
                 <CardWishlist
@@ -82,9 +87,14 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="pt-4 space-y-5">
               {topBorrowed.length === 0 ? (
-                <p className="text-xs text-slate-400 text-center py-6">
-                  Belum ada transaksi peminjaman.
-                </p>
+                <div className="flex flex-col items-center justify-center py-8 text-center space-y-3">
+                  <div className="p-4 bg-slate-50 rounded-full text-slate-400">
+                    <Library className="h-6 w-6" />
+                  </div>
+                  <p className="text-xs text-muted-foreground max-w-sm">
+                    Belum ada transaksi peminjaman.
+                  </p>
+                </div>
               ) : (
                 topBorrowed.map((book) => {
                   const percentage = Math.round(
