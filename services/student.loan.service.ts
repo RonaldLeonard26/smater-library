@@ -35,6 +35,7 @@ export const studentLoanServices = {
         `,
       )
       .eq('loans.student_id', userId)
+      .eq('is_hidden_by_student', false)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -43,5 +44,16 @@ export const studentLoanServices = {
     }
 
     return data;
+  },
+
+  async hideStudentLoanHistory(loanItemId: string) {
+    const { error } = await supabase
+      .from('loan_items')
+      .update({ is_hidden_by_student: true })
+      .eq('id', loanItemId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
   },
 };

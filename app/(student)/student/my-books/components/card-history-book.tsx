@@ -1,16 +1,23 @@
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { FormattedHistoryLoan } from '@/types/student-loan';
-import { Calendar, CircleCheck } from 'lucide-react';
+import { Calendar, CircleCheck, Loader2, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 
-export default function CardHistoryBook({
-  loan,
-}: {
+interface CardHistoryProps {
+  onRemove: () => void;
   loan: FormattedHistoryLoan;
-}) {
+  isLoading: boolean;
+}
+
+export default function CardHistoryBook({
+  onRemove,
+  loan,
+  isLoading,
+}: CardHistoryProps) {
   return (
     <Card className="overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all">
-      <CardContent className="flex items-center p-4 gap-4">
+      <CardContent className=" relative flex items-center p-3 gap-4">
         <div className="relative w-20 h-28 shrink-0 rounded-lg overflow-hidden bg-slate-100">
           {loan.coverUrl ? (
             <Image
@@ -24,6 +31,22 @@ export default function CardHistoryBook({
               No Cover
             </div>
           )}
+        </div>
+
+        <div className="absolute top-2 right-4 z-10">
+          <Button
+            onClick={onRemove}
+            disabled={isLoading}
+            variant="ghost"
+            size="icon"
+            className="cursor-pointer h-8 w-8 rounded-full bg-background backdrop-blur-md hover:bg-white shadow-sm border border-slate-100"
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Trash2 className="h-4 w-4 text-destructive" />
+            )}
+          </Button>
         </div>
 
         {/* info peminjaman */}

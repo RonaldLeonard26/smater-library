@@ -5,17 +5,20 @@ import {
   RawLoanItem,
 } from '@/types/student-loan';
 import { formatDate } from '@/utils/format-date';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { toast } from 'sonner';
 
 export default function useStudentBook(userId: string | null) {
+  const queryClient = useQueryClient();
+  //1.Fetch dari DB
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['loan-items', userId],
     queryFn: () => studentLoanServices.getStudentLoan(userId!),
     enabled: Boolean(userId),
   });
 
-  // Pemrosesan & Destrukturisasi Data
+  // 2. Pemrosesan & Destrukturisasi Data
   const { activeLoans, historyLoans } = useMemo(() => {
     if (!data) return { activeLoans: [], historyLoans: [] };
 
@@ -72,5 +75,27 @@ export default function useStudentBook(userId: string | null) {
     return { activeLoans: active, historyLoans: history };
   }, [data]);
 
-  return { activeLoans, historyLoans, isLoading, error, refetch };
+  // 3. Mutation untuk Hapus/Sembunyikan Riwayat
+  const { mutate: hideHistory, isPending: isPendingHide } = useMutation({
+    mutationFn: (loanItemId: string) =>
+      studentLoanServices.hideStudentLoanHistory(loanItemId),
+    onSuccess: () => {
+      toast.success('Riwayat berhasil dihapus');
+      // Invalidate cache agar React Query otomatis re-fetch data terbaru
+      queryClient.invalidateQueries({ queryKey: ['loan-items', userId] });
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Gagal menghapus riwayat');
+    },
+  });
+
+  return {
+    activeLoans,
+    historyLoans,
+    isLoading,
+    error,
+    refetch,
+    hideHistory,
+    isPendingHide,
+  };
 }

@@ -12,8 +12,15 @@ import CardHistoryBook from './card-history-book';
 export default function MyBookPage() {
   const [tab, setTab] = useState('active');
   const { userId } = useSession();
-  const { activeLoans, historyLoans, isLoading, error, refetch } =
-    useStudentBook(userId ?? '');
+  const {
+    activeLoans,
+    historyLoans,
+    isLoading,
+    error,
+    refetch,
+    hideHistory,
+    isPendingHide,
+  } = useStudentBook(userId ?? '');
   return (
     <section className="container mx-auto px-6  py-6 space-y-4 max-w-6xl">
       {/* header */}
@@ -77,7 +84,12 @@ export default function MyBookPage() {
           ) : historyLoans.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {historyLoans.map((item) => (
-                <CardHistoryBook key={item.id} loan={item} />
+                <CardHistoryBook
+                  key={item.id}
+                  loan={item}
+                  onRemove={() => hideHistory(item.id)}
+                  isLoading={isPendingHide}
+                />
               ))}
             </div>
           ) : (
@@ -87,7 +99,7 @@ export default function MyBookPage() {
               </div>
               <p className="font-medium text-slate-700">Buku tidak ditemukan</p>
               <p className="text-xs text-muted-foreground max-w-sm">
-                Kamu belum meminjam buku apapun saat ini.
+                Belum ada buku yang di kembalikan.
               </p>
             </div>
           )}

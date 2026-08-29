@@ -39,7 +39,7 @@ export default function CardBorrowedBook({ loan }: { loan: LoanItem }) {
           <div className="space-y-1 text-xs text-slate-600">
             <div className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-slate-400" />
-              <span>Pinjam: {loan.borrowDate}</span>
+              <span>Tgl Pinjam: {loan.borrowDate}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
