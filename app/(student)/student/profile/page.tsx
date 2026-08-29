@@ -1,7 +1,9 @@
-export default function ProfilePage() {
+import ProfilePage from './profile';
+
+export default function Profile() {
   return (
-    <div>
-      <h2>Halaman Profile</h2>
-    </div>
+    <>
+      <ProfilePage />
+    </>
   );
 }

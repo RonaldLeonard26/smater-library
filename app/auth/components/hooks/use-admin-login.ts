@@ -12,15 +12,19 @@ import { useState } from 'react';
 
 export default function useAdminLogin() {
   const [visiblePassword, setVisiblePassword] = useState({
+    oldPassword: false,
     password: false,
     confirmPassword: false,
   });
 
-  const handleVisiblePassword = (key: 'password' | 'confirmPassword') => {
-    setVisiblePassword({
-      ...visiblePassword,
-      [key]: !visiblePassword[key],
-    });
+  // 2. Perbarui tipe kuncinya menjadi 3 pilihan
+  type PasswordFieldKey = 'oldPassword' | 'password' | 'confirmPassword';
+
+  const handleVisiblePassword = (key: PasswordFieldKey) => {
+    setVisiblePassword((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
   const router = useRouter();
   const {

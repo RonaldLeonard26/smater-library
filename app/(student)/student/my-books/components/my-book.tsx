@@ -27,7 +27,7 @@ export default function MyBookPage() {
       <div className="flex flex-col gap-1 border-b border-slate-100 pb-4">
         <div className="flex items-center gap-2">
           <BookOpen className="h-6 w-6 text-primary" />
-          <h1 className="text-xl sm:text-2xl font-semibold   tracking-tight text-slate-700">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-700">
             Buku Saya
           </h1>
         </div>
