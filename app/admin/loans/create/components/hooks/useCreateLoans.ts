@@ -49,7 +49,7 @@ export default function useCreateLoans() {
   const selectedCount = selectedBooks.length;
 
   const currentLoans = borrowedCount + selectedCount;
-  const isQuotaFull = currentLoans >= 3;
+  const isQuotaFull = currentLoans >= 40;
 
   //cari buku by barcode
   const { mutate: searchAvailableBook, isPending: isSearchingBook } =
@@ -79,7 +79,7 @@ export default function useCreateLoans() {
     }
     //cek apakah buku sudah masih dalam pinjaman aktif
     const alreadyBorrowed = student?.borrowedBooks.some(
-      (item) => item.book_id === searchResults.book_id,
+      (item) => item.barcode === searchResults.barcode,
     );
     if (alreadyBorrowed) {
       toast.error('Siswa sudah meminjam buku ini');
@@ -90,7 +90,7 @@ export default function useCreateLoans() {
 
     //tidak boleh duplikat
     const exist = selectedBooks.some(
-      (item) => item.title === searchResults.title,
+      (item) => item.barcode === searchResults.barcode,
     );
     if (exist) {
       toast.error('Buku sudah ada di daftar pinjaman');

@@ -10,7 +10,7 @@ interface PropsTypes {
 
 export default function StudentsInfoCard(props: PropsTypes) {
   const { student, currentLoans } = props;
-  const isQuotaFull = currentLoans >= 3;
+  const isQuotaFull = currentLoans >= 40;
   return (
     <div
       className={cn(
@@ -40,7 +40,7 @@ export default function StudentsInfoCard(props: PropsTypes) {
         </div>
       ) : (
         <p className="text-sm text-slate-500">
-          Kuota Pinjam : <span className="font-bold">{currentLoans} / 3</span>
+          Kuota Pinjam : <span className="font-bold">{currentLoans} / 40</span>
         </p>
       )}
     </div>

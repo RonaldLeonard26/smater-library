@@ -7,7 +7,8 @@ export default function useDeleteBook() {
   const { mutate: mutateDeleteBook, isPending: isPendingDeleteBook } =
     useMutation({
       mutationFn: (id: string) => booksServices.remove(id),
-      onError: () => {
+      onError: (error) => {
+        console.error(error);
         toast.error('Failed to delete book');
       },
       onSuccess: () => {
