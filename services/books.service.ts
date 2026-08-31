@@ -40,7 +40,7 @@ export const booksServices = {
       { count: 'exact' },
     );
     if (search) {
-      query = query.ilike('title', `%${search}%`);
+      query = query.or(`title.ilike.%${search}%,author.ilike.%${search}%`);
     }
 
     const { data, error, count } = await query

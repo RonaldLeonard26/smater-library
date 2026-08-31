@@ -18,7 +18,7 @@ import ReturnLoanModal from './components/modals/return-loan-modal';
 export default function ListLoans() {
   const [mounted, setMounted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
-  const debouncedSearch = useDebounce(globalFilter, 500);
+
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [loanData, setLoanData] = useState<LoanItem | null>(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -30,7 +30,7 @@ export default function ListLoans() {
   const { loanItems, total, isLoading } = useLoans(
     pagination.pageIndex,
     pagination.pageSize,
-    debouncedSearch,
+    globalFilter,
   );
   const { getLoanByBarcode, isFetchingByBarcode } = useReturnLoan();
 

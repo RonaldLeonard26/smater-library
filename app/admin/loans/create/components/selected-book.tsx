@@ -21,7 +21,11 @@ export default function SelectedBook(props: Props) {
           className="object-cover"
           alt="cover.png"
         />
-        <p className="font-semibold text-muted-foreground">{book.title}</p>
+        <div className="flex flex-col items-start justify-center gap-2">
+          <p className="font-semibold text-muted-foreground">{book.title}</p>
+          <p className="font-normal text-muted-foreground">{book.author}</p>
+          <p className="font-mono text-muted-foreground">{book.barcode}</p>
+        </div>
       </div>
       <Button
         onClick={() => onRemove(book.copy_id)}

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Library, TrendingUp } from 'lucide-react';
 import CardWishlist from './components/card/card-wishlists';
 import { Progress } from '@/components/ui/progress';
+import SkeletonCard from './components/skeleton-card';
 
 export default function Dashboard() {
   const { overview, isLoading, topWishlist, topBorrowed } = useAdminStats();
@@ -16,19 +17,23 @@ export default function Dashboard() {
   return (
     <div className="h-full overflow-y-auto lg:overflow-hidden flex flex-col gap-4 p-2 overflow-hidden">
       {/* 1. Baris Kartu KPI (Tinggi Otomatis) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
-        {statsOverview.map((item) => (
-          <CardKpi
-            key={item.id}
-            title={item.title}
-            value={item.value}
-            desc={item.desc}
-            icon={item.icon}
-            iconBg={item.bg}
-            iconColor={item.color}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <SkeletonCard />
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
+          {statsOverview.map((item) => (
+            <CardKpi
+              key={item.id}
+              title={item.title}
+              value={item.value}
+              desc={item.desc}
+              icon={item.icon}
+              iconBg={item.bg}
+              iconColor={item.color}
+            />
+          ))}
+        </div>
+      )}
 
       {/* 2. Baris Utama Analitik (Memenuhi sisa tinggi layar / flex-1) */}
       <div className="flex-1 lg:min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4">

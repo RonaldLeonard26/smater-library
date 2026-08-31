@@ -1,3 +1,4 @@
+import useDebounce from '@/components/hooks/useDebounce';
 import { booksServices } from '@/services/books.service';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
@@ -8,13 +9,14 @@ export default function useCatalogBooks({
   search: string;
   categories: string[];
 }) {
+  const debounceSearch = useDebounce(search, 500);
   const { data, isLoading } = useQuery({
-    queryKey: ['catalog-books', search, categories],
+    queryKey: ['catalog-books', debounceSearch, categories],
     queryFn: () =>
       booksServices.getCatalogBooks({
         page: 0,
         limit: 12,
-        search,
+        search: debounceSearch,
         categories,
       }),
     placeholderData: keepPreviousData,

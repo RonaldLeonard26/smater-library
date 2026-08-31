@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import StudentDropdown, { Profile } from './user-dropdown';
+import { Profile } from './user-dropdown';
 import { Button } from '@/components/ui/button';
 import { navLinks } from '../nav.constants/nav-link';
 import UserDropdown from './user-dropdown';

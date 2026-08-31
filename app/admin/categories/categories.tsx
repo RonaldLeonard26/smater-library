@@ -7,13 +7,12 @@ import TableToolbar from '@/components/data-table/table-toolbar';
 import AddCategoryModal from './components/modal/add-categories-modal';
 import useCategories from './components/hooks/useCategories';
 import { SkeletonTable } from '@/components/skeleton/skeleton-table';
-import useDebounce from '@/components/hooks/useDebounce';
 import { LIMIT_DEFAULT, PAGE_DEFAULT } from '@/constants/list.constants';
 
 export default function Categories() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [mounted, setMounted] = useState(false);
-  const debouncedSearch = useDebounce(globalFilter, 300);
+
   const [pagination, setPagination] = useState({
     pageIndex: PAGE_DEFAULT,
     pageSize: Number(LIMIT_DEFAULT),
@@ -21,7 +20,7 @@ export default function Categories() {
   const { categories, total, isLoading } = useCategories(
     pagination.pageIndex,
     pagination.pageSize,
-    debouncedSearch,
+    globalFilter,
   );
 
   useEffect(() => {

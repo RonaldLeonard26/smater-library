@@ -161,10 +161,10 @@ export default function BarcodeModal({ bookId, children }: PropsTypes) {
         </div>
         <DialogFooter className="print:hidden">
           <div className="flex gap-2 items-baseline-last">
-            <Button onClick={downloadAllQR} variant="ghost">
+            <Button onClick={downloadAllQR} variant="outline">
               Unduh Semua <Download />
             </Button>
-            <Button onClick={handlePrintAll} variant="ghost">
+            <Button onClick={handlePrintAll} variant="outline">
               Cetak Semua <PrinterCheck />
             </Button>
           </div>
