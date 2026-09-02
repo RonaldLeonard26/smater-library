@@ -17,6 +17,8 @@ export interface BookColumn {
   id: string;
   title: string;
   author: string;
+  isbn: string;
+  publisher: string;
   cover_url: string;
   category_id: number;
   categories?: {
@@ -33,7 +35,7 @@ export interface BookColumn {
 export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'cover_url',
-    header: 'Sampul',
+    header: 'Cover',
     cell: ({ row }) => (
       <Image
         loading="eager"
@@ -52,6 +54,14 @@ export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'author',
     header: 'Penulis',
+  },
+  {
+    accessorKey: 'isbn',
+    header: 'ISBN',
+  },
+  {
+    accessorKey: 'publisher',
+    header: 'Penerbit',
   },
   {
     id: 'category_name',

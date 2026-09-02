@@ -39,6 +39,8 @@ export default function EditBookForm(props: PropsTypes) {
       reset({
         title: books.title,
         author: books.author,
+        isbn: books.isbn,
+        publisher: books.publisher,
         category_id: books.category_id,
         cover_url: books.cover_url,
       });
@@ -76,6 +78,48 @@ export default function EditBookForm(props: PropsTypes) {
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel>Penulis</FieldLabel>
+                <Input
+                  {...field}
+                  type="text"
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && (
+                  <FieldError
+                    className="text-xs text-destructive"
+                    errors={[fieldState.error]}
+                  />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            control={control}
+            name="isbn"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>ISBN</FieldLabel>
+                <Input
+                  {...field}
+                  type="text"
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && (
+                  <FieldError
+                    className="text-xs text-destructive"
+                    errors={[fieldState.error]}
+                  />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            control={control}
+            name="publisher"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Penerbit</FieldLabel>
                 <Input
                   {...field}
                   type="text"

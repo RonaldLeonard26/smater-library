@@ -14,19 +14,19 @@ export default function StudentLoginForm() {
   const { control, handleSubmit, isPendingStudentLogin, handleStudentLogin } =
     useStudentLogin();
   return (
-    <form onSubmit={handleSubmit(handleStudentLogin)} className="grid gap-2">
+    <form onSubmit={handleSubmit(handleStudentLogin)} className="grid gap-4">
       <Controller
         control={control}
-        name="nisn"
+        name="identifier"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel>NISN</FieldLabel>
+            <FieldLabel>NISN / NIS</FieldLabel>
             <InputWithIcon
               {...field}
               type="text"
               leftIcon={<IdCard className="h-4 w-4" />}
               aria-invalid={fieldState.invalid}
-              placeholder="Masukan NISN"
+              placeholder="Masukan NISN atau NIS"
             />
             {fieldState.invalid && (
               <FieldError

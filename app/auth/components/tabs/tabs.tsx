@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AnimatedAdminAuth from '../animated-auth/admin-animated';
 import AnimatedStudentsAuth from '../animated-auth/student-animated';
+import { User } from 'lucide-react';
 
 export default function Tab() {
   return (
@@ -9,10 +10,16 @@ export default function Tab() {
         <p className="font-semibold">Perpustakan Digital</p>
         <h2 className="font-bold text-teal-500">SMATER MOF</h2>
       </div>
-      <Tabs className="w-full  items-center">
-        <TabsList>
-          <TabsTrigger value="admin">Admin</TabsTrigger>
-          <TabsTrigger value="student">Siswa</TabsTrigger>
+      <Tabs className="w-full items-center">
+        <TabsList className=" grid w-full grid-cols-2 max-w-xs mb-4">
+          <TabsTrigger value="admin" className="text-xs sm:text-sm gap-2">
+            <User />
+            Admin
+          </TabsTrigger>
+          <TabsTrigger value="student" className="text-xs sm:text-sm gap-2">
+            <User />
+            Siswa
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="admin">
           <AnimatedAdminAuth />

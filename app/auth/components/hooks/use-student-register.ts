@@ -20,6 +20,7 @@ export default function useStudentRegister() {
     defaultValues: {
       fullName: '',
       nisn: '',
+      nis: '',
       email: '',
       password: '',
       confirmPassword: '',

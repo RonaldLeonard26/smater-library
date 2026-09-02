@@ -3,6 +3,7 @@ import * as z from 'zod';
 export const adminRegisterSchema = z
   .object({
     fullName: z.string().trim().min(1, 'Nama lengkap wajib di isi'),
+    position: z.string().trim().min(1, 'Jabatan wajib diisi'),
     email: z.email({ message: 'Format email tidak valid' }),
     password: z.string().min(6, 'Password minimal 6 karakter'),
     confirmPassword: z.string(),

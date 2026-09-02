@@ -13,7 +13,7 @@ export default function useDeleteBook() {
       },
       onSuccess: () => {
         queryQlient.invalidateQueries({ queryKey: ['books'] });
-        toast.success('Success to delete book');
+        toast.success('Buku berhasil terhapus');
       },
     });
 

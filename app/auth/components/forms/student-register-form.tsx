@@ -18,7 +18,7 @@ export default function StudentRegisterForm() {
   return (
     <form
       onSubmit={handleSubmit(handleStudentRegister)}
-      className="grid space-y-4 mb-2"
+      className="grid grid-cols-2 gap-4  space-y-4 mb-2"
     >
       <Controller
         control={control}
@@ -55,6 +55,29 @@ export default function StudentRegisterForm() {
               aria-invalid={fieldState.invalid}
               leftIcon={<IdCard className="h-4 w-4" />}
               placeholder="Masukan NISN"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="nis"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>NIS</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type="text"
+              aria-invalid={fieldState.invalid}
+              leftIcon={<IdCard className="h-4 w-4" />}
+              placeholder="Masukan NIS"
             />
             {fieldState.invalid && (
               <FieldError

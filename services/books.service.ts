@@ -13,6 +13,8 @@ const supabase = createBrowserClient(
 interface CreateBookPayload {
   title: string;
   author: string;
+  isbn: string;
+  publisher: string;
   category_id: number;
   cover_url: string;
 }
@@ -25,6 +27,8 @@ export const booksServices = {
       id,
       title,
       author,
+      isbn,
+      publisher,
       cover_url,
       category_id,
       categories (
@@ -96,13 +100,21 @@ export const booksServices = {
     return data;
   },
 
-  async findBook(title: string, author: string, categoryId: number) {
+  async findBook(
+    title: string,
+    author: string,
+    isbn: string,
+    publisher: string,
+    categoryId: number,
+  ) {
     const { data, error } = await supabase
       .from('books')
       .select('id')
       .eq('title', title)
       .eq('author', author)
       .eq('category_id', categoryId)
+      .eq('isbn', isbn)
+      .eq('publisher', publisher)
       .maybeSingle();
 
     if (error) throw new Error(error.message);
@@ -115,6 +127,8 @@ export const booksServices = {
       const existingBook = await this.findBook(
         item.title,
         item.author,
+        item.isbn,
+        item.publisher,
         item.category_id,
       );
       if (existingBook) {
@@ -133,6 +147,8 @@ export const booksServices = {
       const book = await this.createBook({
         title: item.title,
         author: item.author,
+        isbn: item.isbn,
+        publisher: item.publisher,
         category_id: item.category_id,
         cover_url: coverUrl,
       });

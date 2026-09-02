@@ -19,6 +19,7 @@ export const authStudentService = {
         data: {
           full_name: payload.fullName,
           nisn: payload.nisn,
+          nis: payload.nis,
           role: 'STUDENT',
         },
       },
@@ -27,15 +28,15 @@ export const authStudentService = {
     return data;
   },
   async logIn(payload: StudentLoginForm) {
-    //1. cari data profile berdasarkan NISN untuk dapat user_id
+    //1. cari data profile berdasarkan NISN /NIS untuk dapat user_id
     const { data: profileData, error: profileError } = await supabase
       .from('profiles')
       .select('id')
-      .eq('nisn', payload.nisn)
+      .or(`nisn.eq.${payload.identifier}, nis.eq.${payload.identifier}`)
       .single();
 
     if (profileError || !profileData) {
-      throw new Error('NISN not available');
+      throw new Error('NISN / NIS tidak ditemukan!');
     }
     // 2. Gunakan RPC atau cara aman Supabase untuk login.
     // Karena client-side SDK tidak bisa membaca tabel auth.users secara bebas,
@@ -48,7 +49,7 @@ export const authStudentService = {
       },
     );
     if (rpcError || !emailData) {
-      throw new Error('Failed to find login identity');
+      throw new Error('Identitas siswa tidak ditemukan');
     }
 
     // 3. Eksekusi login menggunakan email asli yang didapatkan dari database

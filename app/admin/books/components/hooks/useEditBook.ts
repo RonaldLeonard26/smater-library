@@ -25,6 +25,8 @@ export default function useEditBook(props: PropsTypes) {
     defaultValues: {
       title: books?.title,
       author: books?.author,
+      isbn: books?.isbn,
+      publisher: books?.publisher,
       category_id: books?.category_id,
       cover_url: books?.cover_url,
     },
@@ -36,11 +38,11 @@ export default function useEditBook(props: PropsTypes) {
       return booksServices.update(books.id, payload);
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to edit book');
+      toast.error(error.message || 'Gagal mengubah data buku');
     },
     onSuccess: () => {
       queryQlient.invalidateQueries({ queryKey: ['books'] });
-      toast.success('Success to update book');
+      toast.success('Berhasil mengubah data buku');
       reset();
 
       if (onSuccess) onSuccess();

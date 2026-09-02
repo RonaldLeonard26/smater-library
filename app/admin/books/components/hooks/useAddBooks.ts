@@ -25,6 +25,8 @@ export default function useAddBooks(props: PropsTypes) {
         {
           title: '',
           author: '',
+          isbn: '',
+          publisher: '',
           copies: 0,
           cover_url: null,
           category_id: undefined,

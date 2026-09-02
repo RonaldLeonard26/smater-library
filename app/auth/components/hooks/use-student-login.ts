@@ -21,7 +21,7 @@ export default function useStudentLogin() {
   } = useForm<StudentLoginForm>({
     resolver: zodResolver(studentLoginSchema),
     defaultValues: {
-      nisn: '',
+      identifier: '',
       password: '',
     },
   });

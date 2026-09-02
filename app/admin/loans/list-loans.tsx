@@ -8,7 +8,6 @@ import { columns } from './components/columns';
 import { Button } from '@/components/ui/button';
 import DataTable from '@/components/data-table/date-table';
 import TableToolbar from '@/components/data-table/table-toolbar';
-import useDebounce from '@/components/hooks/useDebounce';
 import useLoans from './components/hooks/useLoans';
 import Link from 'next/link';
 import ScannerDialog from './components/modals/scanner-dialog';

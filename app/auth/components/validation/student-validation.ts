@@ -4,6 +4,7 @@ export const studentRegisterSchema = z
   .object({
     fullName: z.string().trim().min(1, 'Nama lengkap wajib diisi'),
     nisn: z.string().trim().min(10, 'NISN harus 10 karakter'),
+    nis: z.string().trim().min(4, 'NIS harus 4 karakter'),
     email: z.email({ message: 'Email tidak valid' }),
     password: z.string().trim().min(6, 'Password minimal 6 karakter'),
     confirmPassword: z.string(),
@@ -14,7 +15,7 @@ export const studentRegisterSchema = z
   });
 
 export const studentLoginSchema = z.object({
-  nisn: z.string().trim().min(4, 'NISN wajib diisi'),
+  identifier: z.string().trim().min(4, 'NISN atau NIS wajib diisi'),
   password: z.string().trim().min(6, 'Password minimal 6 karakter'),
 });
 

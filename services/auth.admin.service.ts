@@ -19,6 +19,7 @@ export const authAdminServices = {
         data: {
           full_name: payload.fullName,
           role: 'ADMIN',
+          position: payload.position,
         },
       },
     });

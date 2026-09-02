@@ -33,6 +33,7 @@ export default function useAdminRegister() {
     defaultValues: {
       fullName: '',
       email: '',
+      position: '',
       password: '',
       confirmPassword: '',
     },

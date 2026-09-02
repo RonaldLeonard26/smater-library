@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import useAdminRegister from '../hooks/use-admin-register';
 import { Spinner } from '@/components/ui/spinner';
-import { Eye, EyeOff, LockKeyhole, Mail, User } from 'lucide-react';
+import { Eye, EyeOff, IdCard, LockKeyhole, Mail, User } from 'lucide-react';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Controller } from 'react-hook-form';
 import InputWithIcon from '@/components/common/input-with-icon';
@@ -32,6 +32,28 @@ export default function AdminRegisterForm() {
               aria-invalid={fieldState.invalid}
               leftIcon={<User className="h-4 w-4" />}
               placeholder="Masukan nama lengkap"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
+        )}
+      />
+      <Controller
+        control={control}
+        name="position"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid} className="relative">
+            <FieldLabel>Jabatan</FieldLabel>
+            <InputWithIcon
+              {...field}
+              type="text"
+              aria-invalid={fieldState.invalid}
+              leftIcon={<IdCard className="h-4 w-4" />}
+              placeholder="Masukan jabatan anda"
             />
             {fieldState.invalid && (
               <FieldError

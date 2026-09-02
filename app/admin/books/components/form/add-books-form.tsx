@@ -86,6 +86,53 @@ export default function AddBooksForm(props: PropsTypes) {
             />
             <Controller
               control={control}
+              name={`books.${index}.isbn`}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>ISBN</FieldLabel>
+                  <Input
+                    {...field}
+                    type="text"
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                    placeholder="Masukan no ISBN buku"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError
+                      className="text-xs text-destructive"
+                      errors={[fieldState.error]}
+                    />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={control}
+              name={`books.${index}.publisher`}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Penerbit</FieldLabel>
+                  <Input
+                    {...field}
+                    type="text"
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                    placeholder="Masukan penerbit buku"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError
+                      className="text-xs text-destructive"
+                      errors={[fieldState.error]}
+                    />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              control={control}
               name={`books.${index}.copies`}
               render={({ field: { onChange, ...field }, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
@@ -185,6 +232,8 @@ export default function AddBooksForm(props: PropsTypes) {
               append({
                 title: '',
                 author: '',
+                isbn: '',
+                publisher: '',
                 category_id: 0,
                 copies: 0,
                 cover_url: null,
