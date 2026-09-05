@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import Providers from './providers';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import SessionGuard from '@/components/session-guard';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -49,24 +50,25 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          <Providers>
-            <main>{children}</main>
-            <Toaster
-              position="top-right"
-              richColors
-              toastOptions={{
-                // Menyesuaikan font family & styling umum
-                style: {
-                  fontFamily: 'inter', // Mengikuti font utama aplikasi
-                  borderRadius: '0.75rem', // Rounded-xl
-                  padding: '10px 14px',
-                  fontSize: '0.875rem', // text-sm
-                },
-              }}
-            />
-          </Providers>
-        </TooltipProvider>
+        <SessionGuard>
+          <TooltipProvider>
+            <Providers>
+              <main>{children}</main>
+              <Toaster
+                position="top-right"
+                richColors
+                toastOptions={{
+                  style: {
+                    fontFamily: 'inter',
+                    borderRadius: '0.75rem',
+                    padding: '10px 14px',
+                    fontSize: '0.875rem',
+                  },
+                }}
+              />
+            </Providers>
+          </TooltipProvider>
+        </SessionGuard>
       </body>
     </html>
   );

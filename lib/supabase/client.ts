@@ -5,8 +5,10 @@ export const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   {
     cookieOptions: {
-      // Menghapus maxAge dari browser client
-      maxAge: 0,
+      name: 'sb-session',
+      domain: '',
+      path: '/',
+      sameSite: 'lax',
     },
   },
 );

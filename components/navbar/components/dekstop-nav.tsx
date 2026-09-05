@@ -9,6 +9,7 @@ interface Props {
   profile: Profile;
 }
 export default function DesktopNav({ profile, isAuthenticated }: Props) {
+  console.log(profile);
   return (
     <nav className="hidden md:flex items-center gap-6">
       {navLinks.map((item) => (

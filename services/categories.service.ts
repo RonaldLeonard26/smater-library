@@ -59,7 +59,7 @@ export const categoriesServices = {
 
     if (error) {
       if (error.code === '23505') {
-        throw new Error('Category is available');
+        throw new Error('Nama kategori sudah tersedia');
       }
       throw new Error(error.message);
     }

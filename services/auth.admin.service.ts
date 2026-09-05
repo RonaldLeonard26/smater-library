@@ -23,7 +23,7 @@ export const authAdminServices = {
         },
       },
     });
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(error.code);
     return data;
   },
   async logIn(payload: AdminLoginForm) {

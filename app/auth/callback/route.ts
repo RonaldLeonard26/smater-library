@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
-
   const code = searchParams.get('code');
 
   if (code) {
@@ -17,9 +16,11 @@ export async function GET(request: Request) {
         cookies: {
           getAll: () => cookieStore.getAll(),
           setAll: (cookiesToSet) => {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              // HAPUS maxAge & expires agar menjadi session cookie
+              const { maxAge, expires, ...sessionOptions } = options;
+              cookieStore.set(name, value, sessionOptions);
+            });
           },
         },
       },

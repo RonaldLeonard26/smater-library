@@ -52,10 +52,7 @@ export default function useAdminRegister() {
       },
     });
 
-  const handleRegister = (data: AdminRegisterSchema) => {
-    const { confirmPassword, ...payload } = data;
-    mutateAdminRegister(payload);
-  };
+  const handleRegister = (data: AdminRegisterForm) => mutateAdminRegister(data);
 
   return {
     register,

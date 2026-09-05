@@ -40,11 +40,8 @@ export default function useStudentRegister() {
       },
     });
 
-  const handleStudentRegister = (data: StudentRegisterSchema) => {
-    const { confirmPassword, ...payload } = data;
+  const handleStudentRegister = (data: StudentRegisterForm) =>
     mutateStudentRegister(data);
-  };
-
   return {
     control,
     handleSubmit,

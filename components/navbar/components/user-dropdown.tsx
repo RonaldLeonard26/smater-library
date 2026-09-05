@@ -12,11 +12,14 @@ import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import useLogOut from '@/components/hooks/useLogout';
 import { Spinner } from '@/components/ui/spinner';
+import useNavbar from '../useNavbar';
 
 export interface Profile {
   full_name: string;
   nisn: string;
-  role: string;
+  nis: string;
+  role?: string;
+  position: string;
 }
 
 interface Props {
@@ -25,7 +28,9 @@ interface Props {
 
 export default function UserDropdown({ profile }: Props) {
   const { logOut, isPendingLogOut } = useLogOut();
+
   const isAdmin = profile?.role === 'ADMIN';
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

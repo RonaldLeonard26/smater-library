@@ -7,6 +7,7 @@ import DesktopNav from './components/dekstop-nav';
 
 export default function Navbar() {
   const { profile, isAuthenticated, isLoading } = useNavbar();
+
   if (isLoading) return <SkeletonNav />;
 
   return (
