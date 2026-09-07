@@ -43,7 +43,7 @@ export const categoriesServices = {
 
     if (error) {
       if (error.code === '23505') {
-        throw new Error('Category is available');
+        throw new Error('Nama Kategori Sudah Tersedia');
       }
       throw new Error(error.message);
     }
@@ -71,7 +71,7 @@ export const categoriesServices = {
       .delete()
       .eq('id', id);
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
     return data;
   },
 };

@@ -1,71 +1,21 @@
-import { BookColumn } from '@/app/admin/books/components/columns';
 import {
   BooksForm,
   EditBookForm,
 } from '@/app/admin/books/components/validation';
-import { CatalogBook, CatalogBookParams } from '@/types/catalog.type';
+import {
+  BookColumn,
+  CreateBookPayload,
+  CatalogBook,
+  CatalogBookParams,
+} from '@/types/books';
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
-interface CreateBookPayload {
-  title: string;
-  author: string;
-  isbn: string;
-  publisher: string;
-  category_id: number;
-  cover_url: string;
-}
+
 export const booksServices = {
-  async getAll(page: number, limit: number, search: string) {
-    const from = page * limit;
-    const to = from + limit - 1;
-    let query = supabase.from('books').select(
-      `
-      id,
-      title,
-      author,
-      isbn,
-      publisher,
-      cover_url,
-      category_id,
-      categories (
-        id,
-        name
-      ),
-      book_copies (
-        id,
-        barcode,
-        status
-      )
-    `,
-      { count: 'exact' },
-    );
-    if (search) {
-      query = query.or(`title.ilike.%${search}%,author.ilike.%${search}%`);
-    }
-
-    const { data, error, count } = await query
-      .range(from, to)
-      .order('id', { ascending: false });
-
-    const normalizedData: BookColumn[] =
-      data?.map((book) => ({
-        ...book,
-        categories: Array.isArray(book.categories)
-          ? book.categories[0]
-          : book.categories,
-
-        copies: book.book_copies?.length ?? 0,
-        book_copies: book.book_copies,
-      })) ?? [];
-
-    if (error) throw new Error(error.message);
-    return { data: normalizedData, total: count ?? 0 };
-  },
-
   async uploadCover(file: File, title: string) {
     const fileExt = file.name.split('.').pop();
     const safeTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
@@ -78,18 +28,19 @@ export const booksServices = {
     // Menggabungkan menjamin tidak akan ada nama file yang kembar dalam satu klik submit
     const fileName = `${timestamp}_${safeTitle}_${uniqueString}.${fileExt}`;
     const { data, error: storageError } = await supabase.storage
-      .from('book_covers')
+      .from('covers')
       .upload(fileName, file);
     if (storageError) throw new Error(`Upload image: ${storageError.message}`);
     //ambil public url
     const {
       data: { publicUrl },
-    } = supabase.storage.from('book_covers').getPublicUrl(fileName);
+    } = supabase.storage.from('covers').getPublicUrl(fileName);
 
     return publicUrl;
   },
 
-  async createBook(payload: CreateBookPayload) {
+  //1.Fungsi Helper Simpan Buku
+  async insertBookRecord(payload: CreateBookPayload) {
     const { data, error } = await supabase
       .from('books')
       .insert(payload)
@@ -100,9 +51,10 @@ export const booksServices = {
     return data;
   },
 
-  async findBook(
+  //2.Cek duplikat
+  async findExistingBook(
     title: string,
-    author: string,
+    authors: string,
     isbn: string,
     publisher: string,
     categoryId: number,
@@ -111,7 +63,7 @@ export const booksServices = {
       .from('books')
       .select('id')
       .eq('title', title)
-      .eq('author', author)
+      .eq('authors', authors)
       .eq('category_id', categoryId)
       .eq('isbn', isbn)
       .eq('publisher', publisher)
@@ -122,11 +74,13 @@ export const booksServices = {
     return data;
   },
 
-  async create(payload: BooksForm) {
+  //3. Fungsi Utama yg handle array form
+  async createBooks(payload: BooksForm) {
     for (const item of payload.books) {
-      const existingBook = await this.findBook(
+      const authors = item.authors.map((a) => a.name).join(' | ');
+      const existingBook = await this.findExistingBook(
         item.title,
-        item.author,
+        authors,
         item.isbn,
         item.publisher,
         item.category_id,
@@ -144,9 +98,9 @@ export const booksServices = {
         item.title,
       );
 
-      const book = await this.createBook({
+      const newBook = await this.insertBookRecord({
         title: item.title,
-        author: item.author,
+        authors,
         isbn: item.isbn,
         publisher: item.publisher,
         category_id: item.category_id,
@@ -154,7 +108,7 @@ export const booksServices = {
       });
 
       await supabase.rpc('create_book_copies', {
-        p_book_id: book.id,
+        p_book_id: newBook.id,
         p_copies: item.copies,
       });
     }
@@ -183,6 +137,56 @@ export const booksServices = {
     return data;
   },
 
+  //4.Fungsi get data buku
+  async getAll(page: number, limit: number, search: string) {
+    const from = page * limit;
+    const to = from + limit - 1;
+    let query = supabase.from('books').select(
+      `
+      id,
+      title,
+      authors,
+      isbn,
+      publisher,
+      cover_url,
+      category_id,
+      categories (
+        id,
+        name
+      ),
+      book_copies (
+        id,
+        barcode,
+        status
+      )
+    `,
+      { count: 'exact' },
+    );
+    if (search) {
+      query = query.or(
+        `title.ilike.%${search}%,authors.ilike.%${search}%,isbn.ilike.%${search}%,publisher.ilike.%${search}%`,
+      );
+    }
+
+    const { data, error, count } = await query
+      .range(from, to)
+      .order('id', { ascending: false });
+
+    const normalizedData: BookColumn[] =
+      data?.map((book) => ({
+        ...book,
+        categories: Array.isArray(book.categories)
+          ? book.categories[0]
+          : book.categories,
+
+        copies: book.book_copies?.length ?? 0,
+        book_copies: book.book_copies,
+      })) ?? [];
+
+    if (error) throw new Error(error.message);
+    return { data: normalizedData, total: count ?? 0 };
+  },
+
   async getCatalogBooks({
     page,
     limit,
@@ -195,7 +199,7 @@ export const booksServices = {
     let query = supabase.from('books').select(
       `id,
     title,
-    author,
+    authors,
     cover_url,
     categories (
       id,
@@ -225,7 +229,7 @@ export const booksServices = {
       data?.map((book) => ({
         id: book.id,
         title: book.title,
-        author: book.author,
+        authors: book.authors,
         cover_url: book.cover_url,
         categories: Array.isArray(book.categories)
           ? book.categories[0]

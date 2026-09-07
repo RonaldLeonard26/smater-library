@@ -9,12 +9,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import useEditBook from '../hooks/useEditBook';
-import { BookColumn } from '../columns';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Controller } from 'react-hook-form';
 import { useEffect } from 'react';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
+import { BookColumn } from '@/types/books';
 
 interface PropsTypes {
   onSuccess: () => void;
@@ -38,7 +38,7 @@ export default function EditBookForm(props: PropsTypes) {
     if (books) {
       reset({
         title: books.title,
-        author: books.author,
+        authors: books.authors,
         isbn: books.isbn,
         publisher: books.publisher,
         category_id: books.category_id,
@@ -74,7 +74,7 @@ export default function EditBookForm(props: PropsTypes) {
           />
           <Controller
             control={control}
-            name="author"
+            name="authors"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel>Penulis</FieldLabel>

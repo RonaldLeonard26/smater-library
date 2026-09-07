@@ -2,10 +2,9 @@ import { useForm } from 'react-hook-form';
 import { EditBookForm, editBookSchema } from '../validation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { booksServices } from '@/services/books.service';
 import { toast } from 'sonner';
-import { BookColumn } from '../columns';
+import { BookColumn } from '@/types/books';
 
 interface PropsTypes {
   books?: BookColumn;
@@ -24,7 +23,7 @@ export default function useEditBook(props: PropsTypes) {
     resolver: zodResolver(editBookSchema),
     defaultValues: {
       title: books?.title,
-      author: books?.author,
+      authors: books?.authors,
       isbn: books?.isbn,
       publisher: books?.publisher,
       category_id: books?.category_id,

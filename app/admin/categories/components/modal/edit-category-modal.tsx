@@ -9,7 +9,7 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 import EditCategoryForm from '../form/edit-category-form';
-import { CategoryColumn } from '../columns';
+import { CategoryColumn } from '@/types/categories';
 
 export default function EditCategoryModal({
   category,

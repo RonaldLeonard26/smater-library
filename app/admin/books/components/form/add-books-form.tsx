@@ -14,6 +14,7 @@ import useAddBooks from '../hooks/useAddBooks';
 import { Controller } from 'react-hook-form';
 import { Spinner } from '@/components/ui/spinner';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
+import { AuthorFields } from '../author-fields';
 
 interface PropsTypes {
   close: () => void;
@@ -61,29 +62,9 @@ export default function AddBooksForm(props: PropsTypes) {
                 </Field>
               )}
             />
-            <Controller
-              control={control}
-              name={`books.${index}.author`}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Penulis</FieldLabel>
-                  <Input
-                    {...field}
-                    type="text"
-                    id={field.name}
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                    placeholder="Input penulis buku..."
-                  />
-                  {fieldState.invalid && (
-                    <FieldError
-                      className="text-xs text-destructive"
-                      errors={[fieldState.error]}
-                    />
-                  )}
-                </Field>
-              )}
-            />
+            {/* Dynamic Authors Field */}
+            <AuthorFields nestIndex={index} control={control} />
+
             <Controller
               control={control}
               name={`books.${index}.isbn`}
@@ -161,7 +142,7 @@ export default function AddBooksForm(props: PropsTypes) {
                   <FieldLabel>Kategori</FieldLabel>
                   <Select
                     onValueChange={onChange}
-                    value={value ? String(value) : undefined}
+                    value={value ? String(value) : ''}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Pilih salah satu kategori" />
@@ -231,7 +212,7 @@ export default function AddBooksForm(props: PropsTypes) {
             onClick={() =>
               append({
                 title: '',
-                author: '',
+                authors: [{ name: '' }],
                 isbn: '',
                 publisher: '',
                 category_id: 0,

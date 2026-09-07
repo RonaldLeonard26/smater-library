@@ -5,6 +5,7 @@ import { Plus, Trash } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Spinner } from '@/components/ui/spinner';
+import { Separator } from '@/components/ui/separator';
 
 interface PropsTypes {
   close: () => void;
@@ -22,10 +23,10 @@ export default function AddCategoryForm(props: PropsTypes) {
     handleSave,
   } = useAddCategories(onSuccess);
   return (
-    <form onSubmit={handleSubmit(handleSave)}>
-      <div className="grid gap-4 max-h-72 scrollbar-thin overflow-y-auto">
+    <form onSubmit={handleSubmit(handleSave)} className="grid gap-4">
+      <div className="grid gap-4 max-h-74 scrollbar-thin overflow-y-auto">
         {fields.map((field, index) => (
-          <div key={field.id} className="grid gap-4 px-2">
+          <div key={field.id} className="grid  gap-4 p-2">
             <Controller
               control={control}
               name={`categories.${index}.name`}
@@ -128,16 +129,18 @@ export default function AddCategoryForm(props: PropsTypes) {
                 </Field>
               )}
             />
-            {fields.length > 1 && (
-              <Button
-                type="button"
-                variant="destructive"
-                className="w-full flex items-center justify-center"
-                onClick={() => remove(index)}
-              >
-                <Trash size={14} />
-              </Button>
-            )}
+            <div className="mb-3">
+              {fields.length > 1 && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  className="w-full flex items-center justify-center"
+                  onClick={() => remove(index)}
+                >
+                  <Trash size={14} />
+                </Button>
+              )}
+            </div>
           </div>
         ))}
       </div>

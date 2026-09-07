@@ -48,6 +48,7 @@ export default function useAdminLogin() {
       },
       onSuccess: () => {
         reset();
+        router.refresh();
         router.push('/admin/dashboard');
       },
     });

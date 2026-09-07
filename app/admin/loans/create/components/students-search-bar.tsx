@@ -1,8 +1,6 @@
 import InputWithIcon from '@/components/common/input-with-icon';
 import { handleKeyDown } from '@/components/common/search-input';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Loader2, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 interface PropsTypes {
   value: string;

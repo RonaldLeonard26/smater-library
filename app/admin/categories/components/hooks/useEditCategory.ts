@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { categoriesServices } from '@/services/categories.service';
 import { toast } from 'sonner';
-import { CategoryColumn } from '../columns';
+import { CategoryColumn } from '@/types/categories';
 
 export default function useEditCategory(
   category: CategoryColumn,

@@ -11,8 +11,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { CategoryColumn } from '../columns';
 import { Spinner } from '@/components/ui/spinner';
+import { CategoryColumn } from '@/types/categories';
 
 interface PropsTypes {
   category: CategoryColumn;

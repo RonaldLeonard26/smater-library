@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createProxyClient } from './lib/supabase/proxy';
 
 export default async function proxy(req: NextRequest) {
-  const res = NextResponse.next();
+  const res = NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  });
   const pathname = req.nextUrl.pathname;
 
   if (
@@ -33,42 +37,42 @@ export default async function proxy(req: NextRequest) {
     pathname.startsWith('/student') ||
     pathname.startsWith('/about');
 
-  //1.kondisi belum login
+  // Helper redirect aman cookie
+  const redirectWithCookies = (destination: string) => {
+    const redirectRes = NextResponse.redirect(new URL(destination, req.url));
+    res.cookies.getAll().forEach((cookie) => {
+      redirectRes.cookies.set(cookie.name, cookie.value, cookie);
+    });
+    return redirectRes;
+  };
+
+  // 1. BELUM LOGIN
   if (!user || error) {
-    //ijinkan buka halaman publik dan halaman login/register
     if (isStudentAllowRoute || isAuthRoute) {
       return res;
     }
-    // Jika mencoba masuk ke /admin tanpa login, tendang ke halaman home
-    return NextResponse.redirect(new URL('/', req.url));
+    return redirectWithCookies('/');
   }
 
-  //2.pengguna sudah login
+  // 2. SUDAH LOGIN
   if (user) {
-    // Jika sudah login tapi mencoba akses halaman login (/auth),kembalikan ke Home atau Dashboard sesuai role
     if (isAuthRoute) {
       const redirectUrl = userRole === 'ADMIN' ? '/admin/dashboard' : '/';
-      return NextResponse.redirect(new URL(redirectUrl, req.url));
+      return redirectWithCookies(redirectUrl);
     }
-    //jika pengguna adalah student
+
     if (userRole !== 'ADMIN') {
-      // Student DILARANG masuk ke rute admin (/admin)
-      if (isAdminRoute) {
-        return NextResponse.redirect(new URL('/', req.url));
-      }
-      // Student HANYA boleh mengakses rute yang ditentukan
-      if (!isStudentAllowRoute) {
-        return NextResponse.redirect(new URL('/', req.url));
+      if (isAdminRoute || !isStudentAllowRoute) {
+        return redirectWithCookies('/');
       }
     }
 
     if (userRole === 'ADMIN') {
       if (pathname.startsWith('/student')) {
-        return NextResponse.redirect(new URL('/admin/dashboard', req.url)); // Alihkan ke base dashboard admin
+        return redirectWithCookies('/admin/dashboard');
       }
     }
   }
-
   return res;
 }
 export const config = {

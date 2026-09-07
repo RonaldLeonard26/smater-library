@@ -8,7 +8,13 @@ export const booksSchema = z.object({
   books: z.array(
     z.object({
       title: z.string().trim().min(1, 'Judul buku wajib diisi'),
-      author: z.string().trim().min(1, 'Penulis wajib diisi'),
+      authors: z
+        .array(
+          z.object({
+            name: z.string().trim().min(1, 'Nama penulis wajib diisi'),
+          }),
+        )
+        .min(1, 'Minimal tambahkan 1 penulis'),
       isbn: z.string().trim().min(1, 'ISBN wajib diisi'),
       publisher: z.string().trim().min(1, 'Penerbit wajib diisi'),
       copies: z.coerce.number<number>().min(1, 'Stok wajib diisi, minimal 1'),
@@ -32,7 +38,7 @@ export const booksSchema = z.object({
 
 export const editBookSchema = z.object({
   title: z.string().trim().min(1, 'Judul buku wajib diisi'),
-  author: z.string().trim().min(1, 'Penuis buku wajib diisi'),
+  authors: z.string().trim().min(1, 'Penuis buku wajib diisi'),
   isbn: z.string().trim().min(1, 'ISBN wajib diisi'),
   publisher: z.string().trim().min(1, 'Penerbit wajib diisi'),
   category_id: z.coerce.number<number>().min(1, 'Pilih salah satu kategori'),

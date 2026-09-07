@@ -6,11 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-
 import { useState } from 'react';
 import EditBookForm from '../form/edit-book-form';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { BookColumn } from '../columns';
+import { BookColumn } from '@/types/books';
 
 interface PropsTypes {
   books: BookColumn;

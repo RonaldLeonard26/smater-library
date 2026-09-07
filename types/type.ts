@@ -1,22 +1,3 @@
-export interface BookColumn {
-  id: string;
-  title: string;
-  author: string;
-  isbn: string;
-  publisher: string;
-  cover_url: string;
-  category_id: number;
-  categories?: {
-    id: number;
-    name: string;
-  };
-  book_copies: {
-    id: string;
-    barcode: string;
-    status: 'AVAILABLE' | 'BORROWED';
-  }[];
-}
-
 export interface BookCopy {
   copy_id: string;
   book_id: string;

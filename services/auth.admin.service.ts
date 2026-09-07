@@ -31,7 +31,7 @@ export const authAdminServices = {
       email: payload.email,
       password: payload.password,
     });
-    if (error) throw error;
+    if (error) throw new Error(error.message);
     return data;
   },
 };

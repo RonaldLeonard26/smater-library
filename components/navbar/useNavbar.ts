@@ -3,15 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import useSession from '../hooks/useSession';
 
 export default function useNavbar() {
-  const { user, loading: sessionLoading } = useSession();
+  const { user, userId, loading: sessionLoading } = useSession();
+
   const query = useQuery({
-    queryKey: ['profiles', user?.id],
-    queryFn: () => authServices.getProfile(user!.id),
-    enabled: !!user,
+    queryKey: ['profiles', userId],
+    queryFn: () => authServices.getProfile(userId!),
+    enabled: !!userId && !sessionLoading,
   });
+
   return {
-    profile: query.data,
-    isLoading: sessionLoading || query.isLoading,
+    profile: query.data ?? null,
+    isLoading: sessionLoading || (!!userId && query.isLoading),
     isAuthenticated: !!user,
   };
 }

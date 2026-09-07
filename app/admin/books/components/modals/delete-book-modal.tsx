@@ -9,10 +9,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { BookColumn } from '../columns';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Spinner } from '@/components/ui/spinner';
 import useDeleteBook from '../hooks/useDeleteBook';
+import { BookColumn } from '@/types/books';
 
 interface PropsTypes {
   books: BookColumn;

@@ -6,9 +6,9 @@ export const supabase = createBrowserClient(
   {
     cookieOptions: {
       name: 'sb-session',
-      domain: '',
       path: '/',
       sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
     },
   },
 );

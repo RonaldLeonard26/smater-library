@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import useEditCategory from '../hooks/useEditCategory';
-import { CategoryColumn } from '../columns';
 import { Controller } from 'react-hook-form';
 import { Spinner } from '@/components/ui/spinner';
+import { CategoryColumn } from '@/types/categories';
 
 interface PropsTypes {
   close: () => void;
@@ -20,7 +20,7 @@ export default function EditCategoryForm(props: PropsTypes) {
 
   return (
     <form onSubmit={handleSubmit(handleUpdate)}>
-      <div className="grid gap-2">
+      <div className="grid gap-4">
         <Controller
           control={control}
           name="name"

@@ -6,21 +6,20 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreVertical, QrCode } from 'lucide-react';
-
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import EditBookModal from './modals/edit-book-modal';
 import DeleteBookModal from './modals/delete-book-modal';
 import BarcodeModal from './modals/barcode-modal';
-import { BookColumn } from '@/types/type';
 import { formatIsbnPattern } from '@/lib/utils';
+import { BookColumn } from '@/types/books';
 
 export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'cover_url',
-    header: 'Cover',
+    header: () => <p className="font-semibold pl-2">Cover</p>,
     cell: ({ row }) => (
-      <div className="relative h-24 w-18 overflow-hidden rounded border bg-slate-100 shadow-sm">
+      <div className="relative pl-2 h-24 w-18 overflow-hidden rounded border bg-slate-100 shadow-sm">
         <Image
           loading="lazy"
           src={row.original.cover_url}
@@ -33,15 +32,15 @@ export const columns: ColumnDef<BookColumn>[] = [
   },
   {
     accessorKey: 'title',
-    header: () => <p className="text-center">Judul & Penulis</p>,
+    header: () => <p className="font-semibold text-center">Judul & Penulis</p>,
     cell: ({ row }) => (
-      <div className="flex flex-col gap-1 max-w-65">
+      <div className="flex flex-col gap-1 max-w-65 pl-3">
         <p className="font-medium text-slate-900 text-sm text-wrap leading-snug">
           {row.original.title}
         </p>
         <p className="text-xs text-slate-500 font-normal line-clamp-1">
           Penulis:{' '}
-          <span className="text-slate-700">{row.original.author || '-'}</span>
+          <span className="text-slate-700">{row.original.authors || '-'}</span>
         </p>
         <p className="text-xs text-slate-500 font-normal line-clamp-1">
           Penerbit :{' '}

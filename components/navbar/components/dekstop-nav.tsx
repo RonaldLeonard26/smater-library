@@ -1,15 +1,14 @@
 import Link from 'next/link';
-import { Profile } from './user-dropdown';
 import { Button } from '@/components/ui/button';
 import { navLinks } from '../nav.constants/nav-link';
 import UserDropdown from './user-dropdown';
+import { Profile } from '@/types/profiles';
 
 interface Props {
   isAuthenticated: boolean;
   profile: Profile;
 }
 export default function DesktopNav({ profile, isAuthenticated }: Props) {
-  console.log(profile);
   return (
     <nav className="hidden md:flex items-center gap-6">
       {navLinks.map((item) => (

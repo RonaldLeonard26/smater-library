@@ -24,7 +24,7 @@ export default function useAddBooks(props: PropsTypes) {
       books: [
         {
           title: '',
-          author: '',
+          authors: [{ name: '' }],
           isbn: '',
           publisher: '',
           copies: 0,
@@ -40,7 +40,7 @@ export default function useAddBooks(props: PropsTypes) {
   });
 
   const { mutate: mutateAddBooks, isPending: isPendingAddBooks } = useMutation({
-    mutationFn: (payload: BooksForm) => booksServices.create(payload),
+    mutationFn: (payload: BooksForm) => booksServices.createBooks(payload),
     onError: (error) => {
       toast.error(error.message || 'Gagal menambahkan buku!');
     },
@@ -53,7 +53,15 @@ export default function useAddBooks(props: PropsTypes) {
     },
   });
 
-  const handleSave = (data: BooksForm) => mutateAddBooks(data);
+  const handleSave = (data: BooksForm) => {
+    const formattedPayload = {
+      books: data.books.map((book) => ({
+        ...book,
+        author: book.authors.map((a) => a.name).join(' | '), // Jadi 1 string tunggal
+      })),
+    };
+    mutateAddBooks(formattedPayload);
+  };
 
   return {
     control,

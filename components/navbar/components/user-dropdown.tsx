@@ -12,15 +12,7 @@ import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import useLogOut from '@/components/hooks/useLogout';
 import { Spinner } from '@/components/ui/spinner';
-import useNavbar from '../useNavbar';
-
-export interface Profile {
-  full_name: string;
-  nisn: string;
-  nis: string;
-  role?: string;
-  position: string;
-}
+import { Profile } from '@/types/profiles';
 
 interface Props {
   profile: Profile;
@@ -28,7 +20,6 @@ interface Props {
 
 export default function UserDropdown({ profile }: Props) {
   const { logOut, isPendingLogOut } = useLogOut();
-
   const isAdmin = profile?.role === 'ADMIN';
 
   return (
@@ -36,13 +27,17 @@ export default function UserDropdown({ profile }: Props) {
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarFallback className="bg-teal-50 border-2 text-slate-500 border-teal-500">
-            {profile.full_name.charAt(0)}
+            {profile?.full_name
+              ? profile.full_name.charAt(0).toUpperCase()
+              : 'U'}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{profile.full_name}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {profile?.full_name || 'Pengguna'}
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 

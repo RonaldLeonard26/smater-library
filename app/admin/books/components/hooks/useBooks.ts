@@ -3,7 +3,7 @@ import { booksServices } from '@/services/books.service';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export default function useBooks(page: number, limit: number, search: string) {
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 300);
   const { data, isLoading } = useQuery({
     queryKey: ['books', page, limit, debouncedSearch],
     queryFn: () => booksServices.getAll(page, limit, debouncedSearch),
