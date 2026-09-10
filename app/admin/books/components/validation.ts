@@ -15,7 +15,7 @@ export const booksSchema = z.object({
           }),
         )
         .min(1, 'Minimal tambahkan 1 penulis'),
-      isbn: z.string().trim().min(1, 'ISBN wajib diisi'),
+      isbn: z.array(z.object({ value: z.string().min(1, 'ISBN wajib diisi') })),
       publisher: z.string().trim().min(1, 'Penerbit wajib diisi'),
       copies: z.coerce.number<number>().min(1, 'Stok wajib diisi, minimal 1'),
       category_id: z.coerce

@@ -15,6 +15,7 @@ import { Controller } from 'react-hook-form';
 import { Spinner } from '@/components/ui/spinner';
 import useCategoryOptions from '@/app/admin/categories/components/hooks/useCategoryOption';
 import { AuthorFields } from '../author-fields';
+import { IsbnFields } from '../isbn-fields';
 
 interface PropsTypes {
   close: () => void;
@@ -65,29 +66,10 @@ export default function AddBooksForm(props: PropsTypes) {
             {/* Dynamic Authors Field */}
             <AuthorFields nestIndex={index} control={control} />
 
-            <Controller
-              control={control}
-              name={`books.${index}.isbn`}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>ISBN</FieldLabel>
-                  <Input
-                    {...field}
-                    type="text"
-                    id={field.name}
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                    placeholder="Masukan no ISBN buku"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError
-                      className="text-xs text-destructive"
-                      errors={[fieldState.error]}
-                    />
-                  )}
-                </Field>
-              )}
-            />
+            {/* Dynamic Isbn Field */}
+            <IsbnFields nestIndex={index} control={control} />
+
+            {/* publisher */}
             <Controller
               control={control}
               name={`books.${index}.publisher`}
@@ -141,7 +123,7 @@ export default function AddBooksForm(props: PropsTypes) {
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Kategori</FieldLabel>
                   <Select
-                    onValueChange={onChange}
+                    onValueChange={(val) => onChange(val ? Number(val) : '')}
                     value={value ? String(value) : ''}
                   >
                     <SelectTrigger>
@@ -168,6 +150,7 @@ export default function AddBooksForm(props: PropsTypes) {
                 </Field>
               )}
             />
+            {/* cover_url */}
             <Controller
               control={control}
               name={`books.${index}.cover_url`}
@@ -213,7 +196,7 @@ export default function AddBooksForm(props: PropsTypes) {
               append({
                 title: '',
                 authors: [{ name: '' }],
-                isbn: '',
+                isbn: [{ value: '' }],
                 publisher: '',
                 category_id: 0,
                 copies: 0,

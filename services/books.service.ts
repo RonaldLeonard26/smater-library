@@ -16,6 +16,7 @@ const supabase = createBrowserClient(
 );
 
 export const booksServices = {
+  //1.upload cover
   async uploadCover(file: File, title: string) {
     const fileExt = file.name.split('.').pop();
     const safeTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
@@ -39,7 +40,7 @@ export const booksServices = {
     return publicUrl;
   },
 
-  //1.Fungsi Helper Simpan Buku
+  //2.Fungsi Helper Simpan Buku
   async insertBookRecord(payload: CreateBookPayload) {
     const { data, error } = await supabase
       .from('books')
@@ -51,7 +52,7 @@ export const booksServices = {
     return data;
   },
 
-  //2.Cek duplikat
+  //3.Cek duplikat
   async findExistingBook(
     title: string,
     authors: string,
@@ -74,14 +75,15 @@ export const booksServices = {
     return data;
   },
 
-  //3. Fungsi Utama yg handle array form
+  //4. Fungsi Utama yg handle array form
   async createBooks(payload: BooksForm) {
     for (const item of payload.books) {
       const authors = item.authors.map((a) => a.name).join(' | ');
+      const isbn = item.isbn.map((i) => i.value).join(' | ');
       const existingBook = await this.findExistingBook(
         item.title,
         authors,
-        item.isbn,
+        isbn,
         item.publisher,
         item.category_id,
       );
@@ -101,7 +103,7 @@ export const booksServices = {
       const newBook = await this.insertBookRecord({
         title: item.title,
         authors,
-        isbn: item.isbn,
+        isbn,
         publisher: item.publisher,
         category_id: item.category_id,
         cover_url: coverUrl,

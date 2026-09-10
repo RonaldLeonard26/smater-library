@@ -25,7 +25,7 @@ export default function useAddBooks(props: PropsTypes) {
         {
           title: '',
           authors: [{ name: '' }],
-          isbn: '',
+          isbn: [{ value: '' }],
           publisher: '',
           copies: 0,
           cover_url: null,
@@ -53,15 +53,7 @@ export default function useAddBooks(props: PropsTypes) {
     },
   });
 
-  const handleSave = (data: BooksForm) => {
-    const formattedPayload = {
-      books: data.books.map((book) => ({
-        ...book,
-        author: book.authors.map((a) => a.name).join(' | '), // Jadi 1 string tunggal
-      })),
-    };
-    mutateAddBooks(formattedPayload);
-  };
+  const handleSave = (data: BooksForm) => mutateAddBooks(data);
 
   return {
     control,

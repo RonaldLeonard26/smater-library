@@ -21,7 +21,7 @@ export const columns: ColumnDef<BookColumn>[] = [
     cell: ({ row }) => (
       <div className="relative pl-2 h-24 w-18 overflow-hidden rounded border bg-slate-100 shadow-sm">
         <Image
-          loading="lazy"
+          loading="eager"
           src={row.original.cover_url}
           alt="cover_url"
           fill
@@ -34,7 +34,7 @@ export const columns: ColumnDef<BookColumn>[] = [
     accessorKey: 'title',
     header: () => <p className="font-semibold text-center">Judul & Penulis</p>,
     cell: ({ row }) => (
-      <div className="flex flex-col gap-1 max-w-65 pl-3">
+      <div className="flex flex-col gap-1 max-w-65 pl-1.5">
         <p className="font-medium text-slate-900 text-sm text-wrap leading-snug">
           {row.original.title}
         </p>
@@ -52,13 +52,24 @@ export const columns: ColumnDef<BookColumn>[] = [
   {
     accessorKey: 'isbn',
     header: () => <div className="text-center">ISBN</div>,
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <p className="font-mono text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded w-max border border-slate-200">
-          {formatIsbnPattern(row.original.isbn)}
-        </p>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const rawIsbn = row.original.isbn || '';
+      // Split string ISBN berdasarkan koma/pemisah yang dipakai saat simpan
+      const isbnList = rawIsbn ? rawIsbn.split(' | ') : [];
+
+      return (
+        <div className="flex flex-col items-center justify-center gap-1 py-1">
+          {isbnList.map((isbn, index) => (
+            <span
+              key={index}
+              className="font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-xs border border-slate-200 whitespace-nowrap"
+            >
+              {formatIsbnPattern(isbn)}
+            </span>
+          ))}
+        </div>
+      );
+    },
   },
 
   {

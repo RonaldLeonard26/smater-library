@@ -77,7 +77,7 @@ export default function useCreateLoans() {
       setValue('keyword', '');
       return;
     }
-    //cek apakah buku sudah masih dalam pinjaman aktif
+    //cek apakah buku masih dalam pinjaman aktif
     const alreadyBorrowed = student?.borrowedBooks.some(
       (item) => item.barcode === searchResults.barcode,
     );

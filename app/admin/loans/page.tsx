@@ -1,5 +1,5 @@
-import ListLoans from './list-loans';
+import CreateLoans from './create/create-loans';
 
 export default function LoansPage() {
-  return <ListLoans />;
+  return <CreateLoans />;
 }

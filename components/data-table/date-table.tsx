@@ -21,11 +21,12 @@ import TablePagination from './table-pagination';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  globalFilter: string;
-  setGlobalFilter: (value: string) => void;
-  pagination: PaginationState;
-  setPagination: OnChangeFn<PaginationState>;
-  pageCount: number;
+  globalFilter?: string;
+  setGlobalFilter?: (value: string) => void;
+  pagination?: PaginationState;
+  setPagination?: OnChangeFn<PaginationState>;
+  pageCount?: number;
+  emptyMessage?: string;
 }
 
 export default function DataTable<TData, TValue>({
@@ -36,17 +37,26 @@ export default function DataTable<TData, TValue>({
   pagination,
   setPagination,
   pageCount,
+  emptyMessage = 'No results.',
 }: DataTableProps<TData, TValue>) {
+  // Cek apakah fitur pagination diaktifkan via props
+  const enablePagination = !!pagination && !!setPagination;
+
   const table = useReactTable({
     data,
     columns,
-    state: { pagination },
-    onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFilter,
-    manualPagination: true,
-    pageCount,
+    // Masukkan state & handler pagination HANYA jika enabled
+    ...(enablePagination && {
+      state: { pagination },
+      onPaginationChange: setPagination,
+      manualPagination: true,
+      pageCount,
+      getPaginationRowModel: getPaginationRowModel(),
+    }),
+    ...(setGlobalFilter && {
+      onGlobalFilterChange: setGlobalFilter,
+    }),
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
@@ -93,9 +103,9 @@ export default function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-muted-foreground text-center"
                 >
-                  No results.
+                  {emptyMessage}
                 </TableCell>
               </TableRow>
             )}
@@ -104,8 +114,9 @@ export default function DataTable<TData, TValue>({
       </div>
 
       {/* pagination and limit */}
-      {/* {data.length > 10 && <TablePagination table={table} />} */}
-      <TablePagination table={table} />
+
+      {/* Pagination hanya dirender jika props pagination dikirim */}
+      {enablePagination && <TablePagination table={table} />}
     </div>
   );
 }

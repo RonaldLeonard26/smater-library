@@ -1,11 +1,15 @@
 import {
+  ArrowDownLeft,
+  ArrowUpRight,
   BookOpenText,
   BookUp2,
+  History,
   LayoutGrid,
   Settings,
   Tag,
   Users,
 } from 'lucide-react';
+import { Children } from 'react';
 
 export const SIDEBAR_ADMIN = [
   {
@@ -16,19 +20,39 @@ export const SIDEBAR_ADMIN = [
     dsc: 'Pantau performa koleksi buku, tren peminjaman, dan permintaan siswa.',
   },
   {
-    key: 'loans',
-    label: 'Transaksi',
-    href: '/admin/loans',
-    icon: BookUp2,
-    dsc: 'Kelola transaksi peminjaman dan pengembalian buku',
-  },
-  {
     key: 'books',
     label: 'Data Buku',
     href: '/admin/books',
     icon: BookOpenText,
     dsc: 'Kelola data buku perpustakaan',
   },
+  {
+    key: 'loans',
+    label: 'Transaksi',
+    icon: BookUp2,
+    dsc: 'Kelola transaksi peminjaman dan pengembalian buku',
+    children: [
+      {
+        key: 'loans',
+        label: 'Peminjaman',
+        href: '/admin/transactions/borrow',
+        icon: ArrowUpRight,
+      },
+      {
+        key: 'returns',
+        label: 'Pengembalian',
+        href: '/admin/transactions/return',
+        icon: ArrowDownLeft,
+      },
+      {
+        key: 'history',
+        label: 'Riwayat',
+        href: '/admin/transactions/history',
+        icon: History,
+      },
+    ],
+  },
+
   {
     key: 'categories',
     label: 'Kategori',
