@@ -53,6 +53,7 @@ export default function Books() {
             pagination={pagination}
             setPagination={setPagination}
             pageCount={Math.ceil(total / pagination.pageSize)}
+            containerClassName="max-h-[81vh]"
           />
         )}
       </div>

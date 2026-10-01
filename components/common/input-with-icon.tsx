@@ -14,7 +14,7 @@ export default function InputWithIcon({
   ...props
 }: InputWithIconProps) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {leftIcon && (
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
           {leftIcon}

@@ -1,3 +1,8 @@
+import {
+  AllActiveLoans,
+  AllActiveLoansParams,
+  ReturnLoanPayload,
+} from '@/types/loans';
 import { CreateLoanPayload } from '@/types/type';
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -19,7 +24,9 @@ export const loansServices = {
     return data;
   },
 
-  // 2. Cari buku by barcode
+  // =============================================================
+
+  // 2. get details book
   async getDetailsBook(searchQuery: string) {
     const { data, error } = await supabase.rpc('search_available_book', {
       p_search: searchQuery.trim(),
@@ -31,23 +38,28 @@ export const loansServices = {
 
     return data[0];
   },
+  // ============================================================
 
-  async searchBooks(barcode: string) {
-    const { data, error } = await supabase.rpc('search_available_books', {
-      p_keyword: barcode,
+  //3. get N available book_copies
+  async getAvailableBookCopies(
+    bookId: string,
+    quantity: number,
+    excludeCopyIds: string[] = [],
+  ) {
+    const { data, error } = await supabase.rpc('get_available_book_copies', {
+      p_book_id: bookId,
+      p_quantity: quantity,
+      p_exclude_copy_ids: excludeCopyIds,
     });
-
     if (error) throw new Error(error.message);
 
-    if (!data?.length) {
-      throw new Error('Buku sedang dipinjam atau tidak tersedia');
-    }
-
-    return data?.[0] ?? [];
+    return data;
   },
+  // ======================================================================
 
-  async createLoan(payload: CreateLoanPayload) {
-    const { data, error } = await supabase.rpc('create_loan', {
+  //4. Create loan transaction
+  async createLoanTransactions(payload: CreateLoanPayload) {
+    const { data, error } = await supabase.rpc('create_loan_transaction', {
       p_student_id: payload.studentId,
       p_copy_ids: payload.copyIds,
     });
@@ -57,37 +69,54 @@ export const loansServices = {
     return data;
   },
 
-  //get loans
-  async getLoans(page: number, limit: number, search: string) {
-    const { data, error } = await supabase.rpc('get_active_loans_items', {
-      p_search: search,
+  // 5.return loan item
+  async returnLoanItems(payload: ReturnLoanPayload) {
+    const { data, error } = await supabase.rpc('return_loan_items', {
+      p_copy_ids: payload.copyIds,
+    });
+    if (error)
+      throw new Error(error.message || 'Gagal memproses pengembalian buku');
+    return data;
+  },
+
+  //=============================================================================
+
+  // 6. Return by barcode
+  async getActiveLoanByBarcode(barcode: string) {
+    const { data, error } = await supabase.rpc('get_active_loan_by_barcode', {
+      p_barcode: barcode.trim(),
+    });
+
+    if (error) {
+      throw new Error(error.message || 'Gagal mencari barcode buku');
+    }
+
+    return data as AllActiveLoans | null;
+  },
+  // =========================================================================
+
+  // 7. get AllActiveloans
+  async getAllActiveLoans({
+    search = '',
+    page = 1,
+    limit = 10,
+  }: AllActiveLoansParams) {
+    const { data, error } = await supabase.rpc('get_all_active_loan_items', {
+      p_search: search.trim(),
       p_page: page,
       p_limit: limit,
     });
-    const total = data.length > 0 ? data[0].total_count : 0;
-    if (error) throw new Error(error.message);
+
+    if (error)
+      throw new Error(error.message || 'Gagal mengambil data peminjaman aktif');
+
     return {
-      data: data ?? [],
-      total,
+      data: data?.data ?? [],
+      total: Number(data?.total ?? 0),
+      page: Number(data?.page ?? page),
+      limit: Number(data?.limit ?? limit),
     };
   },
 
-  async getActiveLoanByBarcode(barcode: string) {
-    const { data, error } = await supabase.rpc('get_active_loan_by_barcode', {
-      p_barcode: barcode,
-    });
-
-    if (error) throw new Error(error.message);
-    return data;
-  },
-
-  //return loans
-  async returnLoanItem(loanItemId: string) {
-    const { data, error } = await supabase.rpc('return_loan_item', {
-      p_loan_item_id: loanItemId,
-    });
-    if (error) throw new Error(error.message);
-
-    return data;
-  },
+  // ============================================================
 };

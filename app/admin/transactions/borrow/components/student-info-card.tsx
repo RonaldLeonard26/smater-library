@@ -1,20 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { StudentLoanInfo } from '@/types/loans';
+import { LoanType, StudentLoanInfo } from '@/types/loans';
 import { PlusCircle } from 'lucide-react';
 
 interface StudentInfoProps {
   student: StudentLoanInfo;
   currentLoans: number;
   onOpenModal: () => void;
+  type: LoanType;
 }
 
 export default function StudentsInfoCard({
   student,
   currentLoans,
   onOpenModal,
+  type,
 }: StudentInfoProps) {
   const isQuotaFull = currentLoans >= 40;
+
   return (
     <div
       className={cn(
@@ -60,12 +63,9 @@ export default function StudentsInfoCard({
             Batas Maksimal Tercapai
           </span>
         ) : (
-          <Button
-            className="bg-accent text-primary cursor-pointer"
-            onClick={onOpenModal}
-          >
+          <Button className="cursor-pointer" onClick={onOpenModal}>
             <PlusCircle className="w-4 h-4" />
-            Buat Pinjaman Baru
+            {type === 'ADD' ? 'Buat Pinjaman Baru' : 'Tambah Pinjaman'}
           </Button>
         )}
       </div>

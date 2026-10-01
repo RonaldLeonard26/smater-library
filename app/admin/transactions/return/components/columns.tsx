@@ -1,28 +1,37 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ActiveLoanItem } from '@/types/loans';
+import { AllActiveLoans } from '@/types/loans';
 import { formatCurrency } from '@/utils/format-currency';
 import { formatDate } from '@/utils/format-date';
 import { ColumnDef } from '@tanstack/react-table';
 import { RotateCcw } from 'lucide-react';
 import Image from 'next/image';
 
-interface ActiveLoanColumnsProps {
-  onReturn: (item: ActiveLoanItem) => void;
-  selectedItems: Record<string, ActiveLoanItem>;
-  onToggleRow: (item: ActiveLoanItem, checked: boolean) => void;
+interface ReturnColumnProps {
+  onReturn: (item: AllActiveLoans) => void;
+  selectedItems: Record<string, AllActiveLoans>;
+  onToggleRow: (item: AllActiveLoans, checked: boolean) => void;
 }
 
-export const getActiveLoanColumns = ({
+export const getReturnColumns = ({
   onReturn,
   selectedItems,
   onToggleRow,
-}: ActiveLoanColumnsProps): ColumnDef<ActiveLoanItem>[] => [
+}: ReturnColumnProps): ColumnDef<AllActiveLoans>[] => [
+  {
+    accessorKey: 'student_name',
+    header: () => <p className="font-semibold">Nama</p>,
+    cell: ({ row }) => (
+      <p className="font-medium text-wrap text-sm">
+        {row.original.student_name}
+      </p>
+    ),
+  },
   {
     accessorKey: 'cover_url',
-    header: () => <p className="font-semibold pl-2">Cover</p>,
+    header: () => <p className="font-semibold">Cover</p>,
     cell: ({ row }) => (
-      <div className="relative pl-2 h-24 w-18 overflow-hidden rounded border bg-slate-100 shadow-sm">
+      <div className="relative h-20 w-14 overflow-hidden rounded border bg-slate-100 shadow-sm ">
         {row.original.cover_url && (
           <Image
             loading="eager"
@@ -38,16 +47,16 @@ export const getActiveLoanColumns = ({
   },
   {
     accessorKey: 'book_title',
-    header: () => <p className="font-semibold text-center">Judul & Penulis</p>,
+    header: () => <p className="p-0 font-semibold ">Judul & Penulis</p>,
     cell: ({ row }) => {
       const authors = row.original.book_authors;
       const authorsList = authors ? authors.split('|').filter(Boolean) : [];
       return (
-        <div className="flex flex-col gap-1 space-y-1 max-w-65">
-          <p className="font-medium text-sm text-wrap">
+        <div className="flex flex-col p-0 gap-1 max-w-50 ">
+          <p className="font-medium text-sm line-clamp-2">
             {row.original.book_title}
           </p>
-          <div className="flex flex-wrap items-center gap-1">
+          <div className="flex flex-wrap items-center">
             Penulis :
             {authorsList.map((author, index) => (
               <span
@@ -76,20 +85,16 @@ export const getActiveLoanColumns = ({
   },
   {
     accessorKey: 'due_date',
-    header: () => <p className="font-semibold text-center">Tenggat</p>,
+    header: () => <p className="font-semibold ">Tenggat</p>,
     cell: ({ row }) => {
       const dueDate = new Date(row.original.due_date);
 
-      return (
-        <div className="flex flex-col gap-2 items-center">
-          <p className="text-sm font-medium">{formatDate(dueDate)}</p>
-        </div>
-      );
+      return <p className="text-sm font-medium">{formatDate(dueDate)}</p>;
     },
   },
   {
     accessorKey: 'estimated_fine',
-    header: () => <p className="font-semibold text-center">Est. Denda</p>,
+    header: () => <p className="font-semibold ">Est. Denda</p>,
     cell: ({ row }) => {
       const fine = row.original.estimated_fine;
       return (
@@ -103,13 +108,12 @@ export const getActiveLoanColumns = ({
   },
   {
     id: 'actions',
-    header: () => <div className="text-center">Aksi</div>,
     cell: ({ row }) => (
       <div className="text-center">
         <Button
           size="sm"
           variant="outline"
-          className="h-8 gap-1.5 text-xs text-amber-700 hover:bg-amber-50 hover:text-amber-800 border-amber-200"
+          className="h-8 gap-1 text-xs text-amber-700 hover:bg-amber-50 hover:text-amber-800 border-amber-200"
           onClick={() => onReturn(row.original)}
         >
           <RotateCcw className="w-3.5 h-3.5" />
@@ -118,25 +122,34 @@ export const getActiveLoanColumns = ({
       </div>
     ),
   },
+
   {
     id: 'select',
     header: ({ table }) => {
-      const rows = table.getRowModel().rows;
-
-      const selectedRows = rows.filter(
+      const selectAbleRows = table
+        .getRowModel()
+        .rows.filter((row) => row.getCanSelect());
+      const selectedRows = selectAbleRows.filter(
         (row) => selectedItems[row.original.loan_item_id],
       );
-
       const allSelected =
-        rows.length > 0 && selectedRows.length === rows.length;
-
+        selectAbleRows.length > 0 &&
+        selectedRows.length === selectAbleRows.length;
       const someSelected = selectedRows.length > 0 && !allSelected;
+
+      const studentsInCurrentPage = new Set(
+        table.getRowModel().rows.map((row) => row.original.student_id),
+      );
+      const hasSingleStudent = studentsInCurrentPage.size === 1;
+      const hasSelectedStudent = Object.keys(selectedItems).length > 0;
+      const canSelectAll = hasSelectedStudent || hasSingleStudent;
 
       return (
         <Checkbox
+          disabled={!canSelectAll}
           checked={allSelected ? true : someSelected ? 'indeterminate' : false}
           onCheckedChange={(checked) => {
-            rows.forEach((row) => {
+            selectAbleRows.forEach((row) => {
               onToggleRow(row.original, !!checked);
             });
           }}
@@ -144,16 +157,21 @@ export const getActiveLoanColumns = ({
         />
       );
     },
+
     cell: ({ row }) => {
       const item = row.original;
 
       return (
         <Checkbox
           checked={!!selectedItems[item.loan_item_id]}
+          disabled={!row.getCanSelect()}
           onCheckedChange={(checked) => onToggleRow(item, !!checked)}
           aria-label={`Pilih ${item.book_title}`}
         />
       );
     },
+
+    enableSorting: false,
+    enableHiding: false,
   },
 ];

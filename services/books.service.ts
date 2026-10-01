@@ -166,7 +166,12 @@ export const booksServices = {
     );
     if (search) {
       query = query.or(
-        `title.ilike.%${search}%,authors.ilike.%${search}%,isbn.ilike.%${search}%,publisher.ilike.%${search}%`,
+        `
+          title.ilike.%${search}%,
+          authors.ilike.%${search}%,
+          isbn.ilike.%${search}%,
+          publisher.ilike.%${search}%
+        `,
       );
     }
 

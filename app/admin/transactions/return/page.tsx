@@ -1,7 +1,9 @@
-export default function HistoryPage() {
+import Return from './Return';
+
+export default function ReturnPage() {
   return (
-    <div>
-      <h1>Halaman Pengembalian</h1>
-    </div>
+    <>
+      <Return />
+    </>
   );
 }

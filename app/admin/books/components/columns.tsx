@@ -26,6 +26,7 @@ export const columns: ColumnDef<BookColumn>[] = [
           alt="cover_url"
           fill
           className="object-cover"
+          sizes="85px"
         />
       </div>
     ),
