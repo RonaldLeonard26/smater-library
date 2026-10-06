@@ -4,20 +4,20 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export default function useGetHistory({
   search,
-  status,
-  copyStatus,
+  statuses,
+  isOverdue,
   page,
   limit,
 }: LoanHistoryParams) {
   const query = useQuery({
-    queryKey: ['loans-history', page, limit, search, status, copyStatus],
+    queryKey: ['loans-history', page, limit, search, statuses, isOverdue],
     queryFn: () =>
       historyServices.getBookCopyHistory({
         search,
         page,
         limit,
-        status,
-        copyStatus,
+        statuses,
+        isOverdue,
       }),
     placeholderData: keepPreviousData,
   });

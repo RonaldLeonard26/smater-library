@@ -6,6 +6,8 @@ import { LIMIT_DEFAULT, PAGE_DEFAULT } from '@/constants/list.constants';
 import DataTable from '@/components/data-table/date-table';
 import { SkeletonTable } from '@/components/skeleton/skeleton-table';
 import { columns } from './components/columns';
+import TableToolbar from '@/components/data-table/table-toolbar';
+import HistoryFilter, { HistoryFilterValue } from './components/history-filter';
 
 export default function History() {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -13,18 +15,28 @@ export default function History() {
     pageIndex: PAGE_DEFAULT,
     pageSize: Number(LIMIT_DEFAULT),
   });
-  const [statusLoan, setStatusLoan] = useState('ALL');
-  const [copyStatus, setcopyStatus] = useState('ALL');
+  const [filters, setFilters] = useState<HistoryFilterValue>({
+    statuses: [],
+    isOverdue: false,
+  });
   const { history, total, isLoading } = useGetHistory({
     search: globalFilter,
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
-    status: statusLoan,
-    copyStatus: copyStatus,
+    statuses: filters.statuses,
+    isOverdue: filters.isOverdue,
   });
+
+  console.log(history);
 
   return (
     <div className="h-full flex flex-col gap-4 p-2 overflow-hidden">
+      <TableToolbar
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      >
+        <HistoryFilter value={filters} onChange={setFilters} />
+      </TableToolbar>
       {isLoading ? (
         <SkeletonTable />
       ) : (

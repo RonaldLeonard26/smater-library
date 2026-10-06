@@ -16,7 +16,7 @@ export default function TableToolbar(props: PropsTypes) {
       {!hideFilter ? (
         <InputWithIcon
           leftIcon={<Search className="h-4 w-4" />}
-          placeholder="search..."
+          placeholder="Cari..."
           className="max-w-sm w-64"
           value={globalFilter ?? ''}
           onChange={(e) => setGlobalFilter?.(e.target.value)}

@@ -1,4 +1,6 @@
+import { cn } from '@/lib/utils';
 import { LoanHistoryItem } from '@/types/history';
+import { formatCurrency } from '@/utils/format-currency';
 import { formatDate } from '@/utils/format-date';
 import { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
@@ -6,44 +8,53 @@ import Image from 'next/image';
 export const columns: ColumnDef<LoanHistoryItem>[] = [
   {
     accessorKey: 'book_title',
-    header: () => <p className="font-semibold">Buku</p>,
+    header: () => <p className="font-semibold whitespace-nowrap">Buku</p>,
     cell: ({ row }) => {
-      const authors = row.original.book_authors;
-      const authorsList = authors ? authors.split('|').filter(Boolean) : [];
+      const { book_title, cover_url, book_authors, category_name } =
+        row.original;
+      const authorsList =
+        book_authors
+          ?.split('|')
+          .map((author) => author.trim())
+          .filter(Boolean) ?? [];
+
       return (
-        <div className="flex items-start gap-2 max-w-75">
-          {row.original.cover_url && (
-            <div className="relative h-18 w-14 overflow-hidden rounded border bg-slate-100 shadow-sm">
+        <div className="flex w-68 min-w-68 max-w-68 items-start gap-3">
+          <div className="relative h-18 w-14 shrink-0 overflow-hidden rounded border bg-slate-100 shadow-sm">
+            {cover_url ? (
               <Image
-                src={row.original.cover_url}
+                src={cover_url}
                 alt="cover"
                 fill
                 className="object-cover"
+                sizes="65px"
               />
-            </div>
-          )}
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+                -
+              </div>
+            )}
+          </div>
 
-          <div className="flex flex-col flex-1  gap-2">
-            <p className="text-wrap font-medium text-sm">
-              {row.original.book_title}
+          <div className="min-w-0 flex-1 space-y-1">
+            <p className="text-wrap text-sm font-medium leading-5">
+              {book_title}
             </p>
-            <p className="font-medium text-xs">
-              Kategori :{' '}
-              <span className="text-muted-foreground text-xs">
-                {' '}
-                {row.original.category_name}
+            <p className="text-xs font-medium leading-5">
+              Kategori:{' '}
+              <span className="font-normal text-muted-foreground">
+                {category_name || '-'}
               </span>
             </p>
-            <div className="flex items-center font-medium text-xs gap-1.5 flex-wrap">
-              Penulis :
-              {authorsList.map((author, index) => (
-                <span
-                  className="text-xs text-muted-foreground font-medium"
-                  key={index}
-                >
-                  {author} {index < authorsList.length - 1 && ','}
+            <div className="text-xs font-medium leading-5">
+              Penulis:{' '}
+              {authorsList.length > 0 ? (
+                <span className="font-normal text-muted-foreground">
+                  {authorsList.join(', ')}
                 </span>
-              ))}
+              ) : (
+                <span className="font-normal text-muted-foreground">-</span>
+              )}
             </div>
           </div>
         </div>
@@ -52,61 +63,93 @@ export const columns: ColumnDef<LoanHistoryItem>[] = [
   },
   {
     accessorKey: 'barcode',
-    header: () => <p className="font-semibold text-center">Barcode</p>,
-    cell: ({ row }) => {
-      return (
-        <p className="inline-flex w-fit max-w-full items-center rounded border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-xs font-medium text-slate-600">
-          {row.original.barcode}
-        </p>
-      );
-    },
+    header: () => <p className="font-semibold whitespace-nowrap">Barcode</p>,
+    cell: ({ row }) => (
+      <p className="inline-flex w-fit max-w-full items-center whitespace-nowrap rounded border border-slate-200 bg-slate-100 px-2 py-1 font-mono text-xs font-medium text-slate-600">
+        {row.original.barcode}
+      </p>
+    ),
   },
   {
     accessorKey: 'student_name',
-    header: () => <p className="font-semibold">Siswa</p>,
-    cell: ({ row }) => {
-      return (
-        <div className="max-w-48">
-          <p className="text-wrap font-medium text-sm">
-            {row.original.student_name}
-          </p>
-        </div>
-      );
-    },
+    header: () => <p className="font-semibold whitespace-nowrap">Siswa</p>,
+    cell: ({ row }) => (
+      <p className="w-46 min-w-46 max-w-46 whitespace-normal text-wrap text-sm font-medium leading-5">
+        {row.original.student_name}
+      </p>
+    ),
   },
   {
     accessorKey: 'loan_date',
-    header: () => <p className="font-semibold text-center">Tgl Pinjam</p>,
-    cell: ({ row }) => {
-      return (
-        <div>
-          <p className="font-medium text-sm">
-            {formatDate(row.original.loan_date)}
-          </p>
-        </div>
-      );
-    },
+    header: () => <p className="font-semibold whitespace-nowrap">Tgl Pinjam</p>,
+    cell: ({ row }) => (
+      <p className="whitespace-nowrap text-sm font-medium">
+        {formatDate(row.original.loan_date)}
+      </p>
+    ),
   },
   {
     accessorKey: 'due_date',
-    header: () => <p className="font-semibold">Tenggat</p>,
+    header: () => <p className="font-semibold whitespace-nowrap">Tenggat</p>,
+    cell: ({ row }) => (
+      <p className="whitespace-nowrap text-sm font-medium">
+        {formatDate(row.original.due_date)}
+      </p>
+    ),
+  },
+
+  {
+    accessorKey: 'returned_at',
+    header: () => (
+      <p className="whitespace-nowrap text-center font-semibold">
+        Dikembalikan
+      </p>
+    ),
     cell: ({ row }) => {
+      const { returned_at, days_overdue } = row.original;
+
       return (
-        <p className="font-medium text-sm">
-          {formatDate(row.original.due_date)}
+        <p
+          className={cn(
+            'whitespace-nowrap text-center text-sm font-medium',
+            !returned_at
+              ? 'text-muted-foreground'
+              : days_overdue > 0
+                ? 'text-destructive'
+                : 'text-primary',
+          )}
+        >
+          {formatDate(returned_at)}
+        </p>
+      );
+    },
+  },
+
+  {
+    accessorKey: 'days_overdue',
+    header: () => <p className="whitespace-nowrap font-semibold">Terlambat</p>,
+    cell: ({ row }) => {
+      const daysOverdue = row.original.days_overdue;
+
+      return (
+        <p
+          className={cn(
+            'whitespace-nowrap text-sm font-medium',
+            daysOverdue > 0 ? 'text-destructive' : 'text-muted-foreground',
+          )}
+        >
+          {daysOverdue > 0 ? `${daysOverdue} hari` : '-'}
         </p>
       );
     },
   },
   {
-    accessorKey: 'returned_at',
-    header: () => <p className="font-semibold text-center">Dikembalikan</p>,
-    cell: ({ row }) => {
-      return (
-        <p className="font-medium text-sm text-center">
-          {formatDate(row.original.returned_at)}
-        </p>
-      );
-    },
+    accessorKey: 'fine_amount',
+    header: () => <p className="whitespace-nowrap font-semibold">Denda</p>,
+    cell: ({ row }) => (
+      <p className="whitespace-nowrap text-sm font-medium">
+        {formatCurrency(row.original.fine_amount)}
+      </p>
+    ),
   },
 ];

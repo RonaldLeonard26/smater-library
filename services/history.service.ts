@@ -1,4 +1,4 @@
-import { LoanHistoryParams } from '@/types/history';
+import { LoanHistoryParams, LoanHistoryResponse } from '@/types/history';
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabase = createBrowserClient(
@@ -9,21 +9,21 @@ const supabase = createBrowserClient(
 export const historyServices = {
   async getBookCopyHistory({
     search,
-    status,
-    copyStatus,
+    statuses,
+    isOverdue,
     page,
     limit,
   }: LoanHistoryParams) {
     const { data, error } = await supabase.rpc('get_book_copy_history', {
-      p_search: search,
-      p_status: status,
-      p_copy_status: copyStatus,
+      p_search: search.trim(),
+      p_statuses: statuses,
+      p_is_overdue: isOverdue,
       p_page: page,
       p_limit: limit,
     });
 
     if (error)
       throw new Error(error.message || 'Gagal mengambil riwayat peminjaman');
-    return data;
+    return data as LoanHistoryResponse;
   },
 };
