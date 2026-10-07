@@ -39,7 +39,7 @@ export default function HistoryFilter({ value, onChange }: HistoryFilterProps) {
     onChange({ ...value, isOverdue: checked });
   };
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex w-fit shrink-0 items-center gap-6">
       {statusOptions.map((option) => {
         const checked = value.statuses.includes(option.value);
 

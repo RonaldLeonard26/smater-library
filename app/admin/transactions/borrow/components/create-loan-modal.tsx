@@ -81,8 +81,11 @@ export default function CreateLoanModal({
               @{student?.full_name}
             </p>
           </div>
-          <button onClick={handleClose} className="text-xl font-bold">
-            <CircleX className="h-4 w-4" />
+          <button
+            onClick={handleClose}
+            className="text-xl font-bold cursor-pointer"
+          >
+            <CircleX className="h-5 w-5" />
           </button>
         </div>
 
@@ -96,7 +99,7 @@ export default function CreateLoanModal({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 items-start gap-4">
           {/* card preview book */}
           {isSearchingBook ? (
             <BookPreviewCardSkeleton />
@@ -107,7 +110,7 @@ export default function CreateLoanModal({
           ) : null}
 
           {/* cart book */}
-          <div className="max-h-85 overflow-y-auto scrollbar-thin">
+          <div>
             {selectedBooks.length >= 1 && (
               <SelectedList
                 selectedBooks={selectedBooks}

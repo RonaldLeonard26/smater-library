@@ -5,16 +5,18 @@ import { ReactNode } from 'react';
 interface InputWithIconProps extends React.InputHTMLAttributes<HTMLInputElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  containerClassName?: string;
 }
 
 export default function InputWithIcon({
   leftIcon,
   rightIcon,
   className,
+  containerClassName,
   ...props
 }: InputWithIconProps) {
   return (
-    <div className="relative w-full">
+    <div className={cn('relative w-full', containerClassName)}>
       {leftIcon && (
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
           {leftIcon}
@@ -23,7 +25,12 @@ export default function InputWithIcon({
 
       <Input
         {...props}
-        className={cn(leftIcon && 'pl-10', rightIcon && 'pr-10', className)}
+        className={cn(
+          'w-full',
+          leftIcon && 'pl-10',
+          rightIcon && 'pr-10',
+          className,
+        )}
       />
 
       {rightIcon && (
