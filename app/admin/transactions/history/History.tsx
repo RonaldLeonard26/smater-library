@@ -28,7 +28,7 @@ export default function History() {
   });
 
   return (
-    <div className="h-full flex flex-col gap-4 p-2 overflow-hidden">
+    <div className="h-full flex flex-col gap-4 overflow-hidden">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -50,6 +50,7 @@ export default function History() {
           rowSpanBy="book_id"
           rowSpanColumns={['book_title']}
           getRowId={(row) => row.loan_item_id}
+          containerClassName="max-h-[89vh]"
         />
       )}
     </div>

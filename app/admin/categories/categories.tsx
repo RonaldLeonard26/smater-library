@@ -34,7 +34,7 @@ export default function Categories() {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-col p-2 gap-4">
+    <div className="h-full flex flex-col gap-4 overflow-hidden">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -52,6 +52,7 @@ export default function Categories() {
           pagination={pagination}
           setPagination={setPagination}
           pageCount={Math.ceil(total / pagination.pageSize)}
+          containerClassName="max-h-[82vh]"
         />
       )}
     </div>

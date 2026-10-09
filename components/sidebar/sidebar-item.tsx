@@ -9,7 +9,6 @@ import {
   Tag,
   Users,
 } from 'lucide-react';
-import { Children } from 'react';
 
 export const SIDEBAR_ADMIN = [
   {

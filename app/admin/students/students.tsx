@@ -7,6 +7,7 @@ import useGetStudents from './hooks/useGetStudents';
 import { SkeletonTable } from '@/components/skeleton/skeleton-table';
 import DataTable from '@/components/data-table/date-table';
 import { columns } from './components/columns';
+import { Student } from '@/types/student';
 
 export default function Students() {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -19,8 +20,9 @@ export default function Students() {
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
   });
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   return (
-    <div className="flex flex-col gap-4 p-2 overflow-hidden">
+    <div className="flex h-full flex-col gap-4 p-2 overflow-hidden">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -30,12 +32,13 @@ export default function Students() {
       ) : (
         <DataTable
           data={students || []}
-          columns={columns}
+          columns={columns(setStudentToDelete)}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
           pagination={pagination}
           setPagination={setPagination}
           pageCount={Math.ceil(total / pagination.pageSize)}
+          containerClassName="max-h-[81vh]"
         />
       )}
     </div>

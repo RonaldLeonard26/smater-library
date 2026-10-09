@@ -12,7 +12,7 @@ export default function AdminHeader({ open, setOpen }: AdminHeaderProps) {
   const pathname = usePathname();
 
   const currentPage = SIDEBAR_ADMIN.find((item) =>
-    pathname.startsWith(item.href),
+    item.href != null && pathname.startsWith(item.href),
   );
   return (
     <div className="flex flex-col items-start md:mx-0 lg:mb-4  md:m-0 mx-2 mb-4">

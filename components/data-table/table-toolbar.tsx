@@ -26,7 +26,9 @@ export default function TableToolbar(props: PropsTypes) {
       value={globalFilter ?? ''}
       onChange={(e) => setGlobalFilter?.(e.target.value)}
     />
-  ) : null;
+  ) : (
+    <div />
+  );
 
   if (childrenPosition === 'left') {
     return (

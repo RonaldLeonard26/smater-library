@@ -1,3 +1,4 @@
+import { StudentProfileFormValues } from '@/app/admin/students/schemas/validation';
 import { GetStudentParams } from '@/types/student';
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -35,5 +36,25 @@ export const studentServices = {
       items: data ?? [],
       total: count ?? 0,
     };
+  },
+  async getStudentById(studentId: string) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, full_name, nisn, nis, profile_picture')
+      .eq('role', 'STUDENT')
+      .eq('id', studentId)
+      .single();
+    if (error) throw new Error(error.message || 'Siswa tidak ditemukan');
+    return data;
+  },
+
+  async updateStudent(id: string, payload: StudentProfileFormValues) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .update(payload)
+      .eq('id', id);
+
+    if (error) throw new Error(error.message || 'Gagal menguba data siswa');
+    return data;
   },
 };

@@ -11,11 +11,11 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const [open, setOpen] = useState(false);
   return (
-    <section className="min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden flex lg:gap-2 overflow-hidden">
+    <section className="min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden flex  overflow-hidden">
       {/* sidebar */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 border-r bg-background transition-transform duration-300',
+          'fixed inset-y-0 left-0 z-50 w-64 border-r  bg-background transition-transform duration-300',
           open ? 'translate-x-0' : '-translate-x-full',
           'lg:relative lg:translate-x-0',
         )}
@@ -23,7 +23,7 @@ export default function AdminLayout({
         <Sidebard open={open} setOpen={setOpen} />
       </aside>
       {/* main content */}
-      <main className="flex-1 p-1 min-h-screen overflow-y-auto lg:overflow-hidden">
+      <main className="flex-1 p-3  min-h-screen overflow-y-auto lg:overflow-hidden">
         <AdminHeader open={open} setOpen={setOpen} />
         {children}
       </main>

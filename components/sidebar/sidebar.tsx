@@ -24,7 +24,7 @@ export default function Sidebard({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
   const { logOut, isPendingLogOut } = useLogOut();
   return (
-    <div className="h-screen flex flex-col justify-between p-4">
+    <div className="h-screen flex flex-col justify-between p-3">
       <div className="flex flex-col gap-4">
         <Link href="/">
           <p className="text-lg font-semibold text-teal-500">

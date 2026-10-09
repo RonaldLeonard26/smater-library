@@ -25,9 +25,9 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   },
   {
     accessorKey: 'duration_days',
-    header: () => <div className="font-semibold">Durasi</div>,
+    header: () => <div className="font-semibold ">Durasi</div>,
     cell: ({ row }) => (
-      <p className="font-medium text-slate-800 leading-snug">
+      <p className="font-medium text-slate-800  leading-snug">
         {row.original.duration_days} hari
       </p>
     ),
@@ -54,9 +54,9 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   },
   {
     accessorKey: 'code',
-    header: () => <div className="font-semibold">Kode</div>,
+    header: () => <div className="font-semibold ">Kode</div>,
     cell: ({ row }) => (
-      <p className="font-medium text-slate-800 leading-snug">
+      <p className="font-medium text-slate-800  leading-snug">
         {row.original.code}
       </p>
     ),

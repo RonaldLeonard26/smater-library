@@ -95,7 +95,7 @@ export default function Return() {
             onSelectionChange={setReturnItems}
             onReturn={handleOpenSingleReturn}
             resetSelectionKey={resetSelectionKey}
-            containerClassName="max-h-[77vh]"
+            containerClassName="max-h-[90vh]"
           />
         )}
       </div>
