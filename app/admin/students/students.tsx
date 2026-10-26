@@ -22,7 +22,7 @@ export default function Students() {
   });
   const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   return (
-    <div className="flex h-full flex-col gap-4 p-2 overflow-hidden">
+    <div className="flex h-full min-h-0  flex-col gap-4 overflow-hidden">
       <TableToolbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -38,7 +38,7 @@ export default function Students() {
           pagination={pagination}
           setPagination={setPagination}
           pageCount={Math.ceil(total / pagination.pageSize)}
-          containerClassName="max-h-[81vh]"
+          containerClassName="max-h-[82vh]"
         />
       )}
     </div>

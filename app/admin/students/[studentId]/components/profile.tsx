@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Student } from '@/types/student';
 import ProfileForm from './profile-form';
-import { Separator } from '@/components/ui/separator';
 interface ProfileProps {
   student: Student;
 }
@@ -9,7 +8,7 @@ interface ProfileProps {
 export default function ProfileStudent({ student }: ProfileProps) {
   return (
     <div className="max-w-1/2">
-      <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
+      <div className="overflow-hidden rounded-lg border  shadow-sm">
         {/* Student Identity */}
         <div className="flex items-center gap-4 border-b px-6 py-5">
           <Avatar className="h-14 w-14">

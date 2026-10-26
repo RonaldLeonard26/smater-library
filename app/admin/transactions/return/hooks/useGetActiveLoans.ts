@@ -1,3 +1,4 @@
+import useDebounce from '@/components/hooks/useDebounce';
 import { loansServices } from '@/services/loans.service';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
@@ -12,8 +13,9 @@ export default function useGetActiveLoans({
   page,
   limit,
 }: UseGetActiveLoansParams) {
+  const debouncedSearch = useDebounce(search, 300);
   const query = useQuery({
-    queryKey: ['active-loans', search, page, limit],
+    queryKey: ['active-loans', debouncedSearch, page, limit],
     queryFn: () => loansServices.getAllActiveLoans({ search, page, limit }),
     placeholderData: keepPreviousData,
   });

@@ -1,5 +1,9 @@
 import { StudentProfileFormValues } from '@/app/admin/students/schemas/validation';
-import { GetStudentParams } from '@/types/student';
+import {
+  GetStudentParams,
+  StudentHistoryParams,
+  StudentHistoryResponse,
+} from '@/types/student';
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabase = createBrowserClient(
@@ -56,5 +60,30 @@ export const studentServices = {
 
     if (error) throw new Error(error.message || 'Gagal menguba data siswa');
     return data;
+  },
+
+  async getStudentHistory({
+    studentId,
+    search,
+    statuses,
+    isOverdue,
+    page,
+    limit,
+  }: StudentHistoryParams) {
+    const { data, error } = await supabase.rpc('get_student_loan_history', {
+      p_student_id: studentId,
+      p_search: search.trim(),
+      p_statuses: statuses,
+      p_is_overdue: isOverdue,
+      p_page: page,
+      p_limit: limit,
+    });
+
+    if (error) {
+      throw new Error(
+        error.message || 'Gagal mengambil riwayat peminjaman siswa',
+      );
+    }
+    return data as StudentHistoryResponse;
   },
 };

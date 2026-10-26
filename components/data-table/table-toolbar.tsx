@@ -34,7 +34,7 @@ export default function TableToolbar(props: PropsTypes) {
     return (
       <div className="flex items-center gap-8">
         {search}
-        <div className="flex shrink-0 ml-6 items-center gap-6 border-x px-6">
+        <div className="flex shrink-0 ml-6 items-center gap-6  px-6">
           {children}
         </div>
       </div>

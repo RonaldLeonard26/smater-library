@@ -1,3 +1,4 @@
+import useDebounce from '@/components/hooks/useDebounce';
 import { historyServices } from '@/services/history.service';
 import { LoanHistoryParams } from '@/types/history';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
@@ -9,8 +10,16 @@ export default function useGetHistory({
   page,
   limit,
 }: LoanHistoryParams) {
+  const debouncedSearch = useDebounce(search, 300);
   const query = useQuery({
-    queryKey: ['loans-history', page, limit, search, statuses, isOverdue],
+    queryKey: [
+      'loans-history',
+      page,
+      limit,
+      debouncedSearch,
+      statuses,
+      isOverdue,
+    ],
     queryFn: () =>
       historyServices.getBookCopyHistory({
         search,

@@ -10,7 +10,7 @@ export default function Tab() {
         <p className="font-semibold">Perpustakan Digital</p>
         <h2 className="font-bold text-teal-500">SMATER MOF</h2>
       </div>
-      <Tabs className="w-full items-center">
+      <Tabs className="w-full items-center" defaultValue="student">
         <TabsList className=" grid w-full grid-cols-2 max-w-xs mb-4">
           <TabsTrigger value="admin" className="text-xs sm:text-sm gap-2">
             <User />
