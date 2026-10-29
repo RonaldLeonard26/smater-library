@@ -1,3 +1,5 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import {
   AdminLoginForm,
@@ -5,10 +7,10 @@ import {
 } from '../validation/admin-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { authAdminServices } from '@/services/auth.admin.service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { adminLogin } from '../../actions';
 
 export default function useAdminLogin() {
   const [visiblePassword, setVisiblePassword] = useState({
@@ -42,14 +44,17 @@ export default function useAdminLogin() {
 
   const { mutate: mutateAdminLogin, isPending: isPendingAdminLogin } =
     useMutation({
-      mutationFn: (payload: AdminLoginForm) => authAdminServices.logIn(payload),
+      mutationFn: async (payload: AdminLoginForm) => {
+        const res = await adminLogin(payload);
+        if (res.error) throw new Error(res.error);
+      },
       onError: (error) => {
         toast.error(error.message || 'Gagal masuk ke akun anda');
       },
       onSuccess: () => {
         reset();
+        router.replace('/admin/dashboard');
         router.refresh();
-        router.push('/admin/dashboard');
       },
     });
 

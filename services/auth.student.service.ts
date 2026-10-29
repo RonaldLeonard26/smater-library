@@ -20,11 +20,15 @@ export const authStudentService = {
           full_name: payload.fullName,
           nisn: payload.nisn,
           nis: payload.nis,
-          role: 'STUDENT',
         },
       },
     });
-    if (error) throw new Error(error.message);
+    if (error)
+      throw new Error(
+        error.message.includes('Database error')
+          ? 'NIS/NISN sudah terdaftar. Hubungi admin perpustakaan.'
+          : error.message,
+      );
     return data;
   },
   async logIn(payload: StudentLoginForm) {

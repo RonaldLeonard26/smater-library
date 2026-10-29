@@ -6,11 +6,13 @@ import {
 } from '../validation/admin-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { authAdminServices } from '@/services/auth.admin.service';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { setUpFirstAdmin } from '@/app/setup/actions';
+import { useRouter } from 'next/navigation';
 
 export default function useAdminRegister() {
+  const router = useRouter();
   const [visiblePassword, setVisiblePassword] = useState({
     password: false,
     confirmPassword: false,
@@ -31,6 +33,7 @@ export default function useAdminRegister() {
   } = useForm<AdminRegisterSchema>({
     resolver: zodResolver(adminRegisterSchema),
     defaultValues: {
+      setUpCode: '',
       fullName: '',
       email: '',
       position: '',
@@ -41,18 +44,25 @@ export default function useAdminRegister() {
 
   const { mutate: mutateAdminRegister, isPending: isPendingAdminRegister } =
     useMutation({
-      mutationFn: (payload: AdminRegisterForm) =>
-        authAdminServices.register(payload),
+      mutationFn: async (payload: AdminRegisterForm) => {
+        const res = await setUpFirstAdmin(payload);
+        if (res.error) throw new Error(res.error);
+      },
+
       onError: (error) => {
         toast.error(error.message || 'Pendaftaran akun anda gagal');
       },
       onSuccess: () => {
         toast.success('Periksa email untuk melakukan konfirmasi');
         reset();
+        router.replace('/auth');
       },
     });
 
-  const handleRegister = (data: AdminRegisterForm) => mutateAdminRegister(data);
+  const handleRegister = ({
+    confirmPassword,
+    ...payload
+  }: AdminRegisterSchema) => mutateAdminRegister(payload);
 
   return {
     register,

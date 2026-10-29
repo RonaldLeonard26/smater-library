@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import useAdminLogin from '../hooks/use-admin-login';
 import { Spinner } from '@/components/ui/spinner';

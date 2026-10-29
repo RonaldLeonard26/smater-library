@@ -2,6 +2,7 @@ import * as z from 'zod';
 
 export const adminRegisterSchema = z
   .object({
+    setUpCode: z.string().trim().min(1, 'Kode setup wajib diisi'),
     fullName: z.string().trim().min(1, 'Nama lengkap wajib di isi'),
     position: z.string().trim().min(1, 'Jabatan wajib diisi'),
     email: z.email({ message: 'Format email tidak valid' }),

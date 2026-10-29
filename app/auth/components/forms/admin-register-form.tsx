@@ -1,6 +1,6 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import useAdminRegister from '../hooks/use-admin-register';
 import { Spinner } from '@/components/ui/spinner';
 import { Eye, EyeOff, IdCard, LockKeyhole, Mail, User } from 'lucide-react';
@@ -12,7 +12,6 @@ export default function AdminRegisterForm() {
   const {
     control,
     handleSubmit,
-    errors,
     isPendingAdminRegister,
     handleRegister,
     handleVisiblePassword,
@@ -76,6 +75,28 @@ export default function AdminRegisterForm() {
               type="email"
               aria-invalid={fieldState.invalid}
               placeholder="Masukkan email aktif"
+            />
+            {fieldState.invalid && (
+              <FieldError
+                className="text-xs text-destructive"
+                errors={[fieldState.error]}
+              />
+            )}
+          </Field>
+        )}
+      />
+      <Controller
+        control={control}
+        name="setUpCode"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>Kode</FieldLabel>
+            <InputWithIcon
+              {...field}
+              leftIcon={<Mail className="h-4 w-4" />}
+              type="text"
+              aria-invalid={fieldState.invalid}
+              placeholder="Masukkan kode unik"
             />
             {fieldState.invalid && (
               <FieldError

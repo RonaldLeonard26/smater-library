@@ -21,6 +21,7 @@ export default function Tab() {
             Siswa
           </TabsTrigger>
         </TabsList>
+
         <TabsContent value="admin">
           <AnimatedAdminAuth />
         </TabsContent>
