@@ -1,15 +1,10 @@
 import { StudentProfileFormValues } from '@/app/admin/students/schemas/validation';
+import { supabase } from '@/lib/supabase/client';
 import {
   GetStudentParams,
   StudentHistoryParams,
   StudentHistoryResponse,
 } from '@/types/student';
-import { createBrowserClient } from '@supabase/ssr';
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
 
 export const studentServices = {
   async getStudents({ search, page, limit }: GetStudentParams) {

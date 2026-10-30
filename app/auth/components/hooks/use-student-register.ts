@@ -6,8 +6,8 @@ import {
 } from '../validation/student-validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { authStudentService } from '@/services/auth.student.service';
 import { toast } from 'sonner';
+import { authStudentService } from '@/services/auth.student.service';
 
 export default function useStudentRegister() {
   const {
@@ -29,8 +29,9 @@ export default function useStudentRegister() {
 
   const { mutate: mutateStudentRegister, isPending: isPendingStudentRegister } =
     useMutation({
-      mutationFn: (payload: StudentRegisterForm) =>
+      mutationFn: async (payload: StudentRegisterForm) =>
         authStudentService.register(payload),
+
       onError: (error) => {
         toast.error(error.message || 'Gagal melakukan pendaftaran');
       },

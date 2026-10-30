@@ -9,7 +9,7 @@ export default function useDeleteBook() {
       mutationFn: (id: string) => booksServices.remove(id),
       onError: (error) => {
         console.error(error);
-        toast.error('Failed to delete book');
+        toast.error('Gagal menghapus data buku');
       },
       onSuccess: () => {
         queryQlient.invalidateQueries({ queryKey: ['books'] });

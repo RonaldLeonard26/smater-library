@@ -6,8 +6,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { authStudentService } from '@/services/auth.student.service';
 import { toast } from 'sonner';
+import { studentLogin } from '../../actions';
 
 export default function useStudentLogin() {
   const router = useRouter();
@@ -28,14 +28,18 @@ export default function useStudentLogin() {
 
   const { mutate: mutateStudentLogin, isPending: isPendingStudentLogin } =
     useMutation({
-      mutationFn: (payload: StudentLoginForm) =>
-        authStudentService.logIn(payload),
+      mutationFn: async (payload: StudentLoginForm) => {
+        const res = await studentLogin(payload);
+        if (res.error) throw new Error(res.error);
+      },
+
       onError: (error) => {
         toast.error(error.message || 'Gagal masuk ke akun anda');
       },
       onSuccess: () => {
         reset();
-        router.push('/');
+        router.replace('/');
+        router.refresh();
       },
     });
 

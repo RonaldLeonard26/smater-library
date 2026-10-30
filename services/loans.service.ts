@@ -1,15 +1,10 @@
+import { supabase } from '@/lib/supabase/client';
 import {
   AllActiveLoans,
   AllActiveLoansParams,
   ReturnLoanPayload,
 } from '@/types/loans';
 import { CreateLoanPayload } from '@/types/type';
-import { createBrowserClient } from '@supabase/ssr';
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
 
 export const loansServices = {
   //1.cari siswa

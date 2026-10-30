@@ -2,18 +2,13 @@ import {
   BooksForm,
   EditBookForm,
 } from '@/app/admin/books/components/validation';
+import { supabase } from '@/lib/supabase/client';
 import {
   BookColumn,
   CreateBookPayload,
   CatalogBook,
   CatalogBookParams,
 } from '@/types/books';
-import { createBrowserClient } from '@supabase/ssr';
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
 
 export const booksServices = {
   //1.upload cover

@@ -55,7 +55,7 @@ export default function useAdminRegister() {
       onSuccess: () => {
         toast.success('Periksa email untuk melakukan konfirmasi');
         reset();
-        router.replace('/auth');
+        router.replace('/auth/status');
       },
     });
 

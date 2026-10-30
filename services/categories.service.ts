@@ -2,12 +2,7 @@ import {
   CategoriesForm,
   EditCategoryForm,
 } from '@/app/admin/categories/components/validation';
-import { createBrowserClient } from '@supabase/ssr';
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+import { supabase } from '@/lib/supabase/client';
 
 export const categoriesServices = {
   async getAll(page: number, limit: number, search: string) {

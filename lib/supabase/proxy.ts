@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
+import { authCookieOptions, toSessionCookie } from './config';
 
 export function createProxyClient(
   request: NextRequest,
@@ -10,22 +11,15 @@ export function createProxyClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 
     {
-      cookieOptions: {
-        name: 'sb-session',
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      },
+      cookieOptions: authCookieOptions,
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
+        setAll(list) {
+          list.forEach(({ name, value }) => request.cookies.set(name, value));
+          list.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, toSessionCookie(options)),
           );
         },
       },

@@ -4,6 +4,7 @@ import { createProxyClient } from './lib/supabase/proxy';
 export default async function proxy(req: NextRequest) {
   const res = NextResponse.next({ request: { headers: req.headers } });
   const pathname = req.nextUrl.pathname;
+  if (pathname.startsWith('/auth/callback')) return NextResponse.next();
 
   if (
     pathname.startsWith('/_next') ||

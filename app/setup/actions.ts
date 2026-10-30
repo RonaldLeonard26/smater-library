@@ -44,7 +44,8 @@ export async function setUpFirstAdmin(input: AdminRegisterForm) {
     .eq('id', created.user.id);
 
   if (profileError) {
-    await service.auth.admin.deleteUser(created.user.id); // batalkan, jangan sisakan akun setengah jadi
+    // batalkan, jangan sisakan akun setengah jadi
+    await service.auth.admin.deleteUser(created.user.id);
     return { error: 'Gagal menyimpan profil admin' };
   }
 

@@ -2,12 +2,7 @@ import {
   StudentLoginForm,
   StudentRegisterForm,
 } from '@/app/auth/components/validation/student-validation';
-import { createBrowserClient } from '@supabase/ssr';
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+import { supabase } from '@/lib/supabase/client';
 
 export const authStudentService = {
   async register(payload: StudentRegisterForm) {
@@ -23,14 +18,21 @@ export const authStudentService = {
         },
       },
     });
-    if (error)
-      throw new Error(
-        error.message.includes('Database error')
-          ? 'NIS/NISN sudah terdaftar. Hubungi admin perpustakaan.'
-          : error.message,
-      );
+
+    if (error) {
+      if (error.message.includes('Database error')) {
+        throw new Error(
+          'NIS/NISN sudah terdaftar. Hubungi admin perpustakaan.',
+        );
+      }
+      if (error.message.toLowerCase().includes('already registered')) {
+        throw new Error('Email sudah terdaftar.');
+      }
+      throw new Error(error.message);
+    }
     return data;
   },
+
   async logIn(payload: StudentLoginForm) {
     //1. cari data profile berdasarkan NISN /NIS untuk dapat user_id
     const { data: profileData, error: profileError } = await supabase
