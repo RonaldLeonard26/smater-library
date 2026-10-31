@@ -11,6 +11,7 @@ import { Student } from '@/types/student';
 import { ColumnDef } from '@tanstack/react-table';
 import { SquarePen, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { StatusBadge } from './status-badge';
 
 export const columns = (
   onDelete: (student: Student) => void,
@@ -40,10 +41,17 @@ export const columns = (
   {
     accessorKey: 'nisn',
     header: 'NISN',
+    cell: ({ row }) => row.original.nisn ?? '-',
   },
   {
     accessorKey: 'nis',
     header: 'NIS',
+    cell: ({ row }) => row.original.nis ?? '-',
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => <StatusBadge status={row.original.status} />,
   },
   {
     id: 'actions',

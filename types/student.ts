@@ -1,17 +1,21 @@
 import { LoanHistoryItem, LoanHistoryStatus } from './history';
 
+export type RegistrationStatus = 'PENDING' | 'ACTIVE' | 'REJECTED';
+
 export interface Student {
   id: string;
   full_name: string;
   nisn: string;
   nis: string;
   profile_picture: string;
+  status: RegistrationStatus;
 }
 
 export interface GetStudentParams {
   search: string;
   page: number;
   limit: number;
+  status?: RegistrationStatus | 'ALL';
 }
 
 export interface StudentHistoryItem {

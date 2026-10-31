@@ -1,7 +1,8 @@
 import { supabase } from '@/lib/supabase/client';
+import { RegistrationStatus } from '@/types/student';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { RegistrationStatus } from '../status';
+
 import { useState } from 'react';
 
 export default function useStatus() {
@@ -9,7 +10,7 @@ export default function useStatus() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const query = useQuery({
-    queryKey: ['my-status'],
+    queryKey: ['status'],
     queryFn: async (): Promise<RegistrationStatus | null> => {
       const {
         data: { user },

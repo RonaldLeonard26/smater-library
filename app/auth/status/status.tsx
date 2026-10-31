@@ -8,8 +8,6 @@ import { Loader2, RefreshCw, TriangleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import StatusContent from './components/status-content';
 
-export type RegistrationStatus = 'PENDING' | 'ACTIVE' | 'REJECTED';
-
 export default function Status() {
   const router = useRouter();
   const {

@@ -6,10 +6,11 @@ export default function useGetStudents({
   search,
   page,
   limit,
+  status,
 }: GetStudentParams) {
   const query = useQuery({
-    queryKey: ['profiles', search, page, limit],
-    queryFn: () => studentServices.getStudents({ search, page, limit }),
+    queryKey: ['students', search, page, limit, status],
+    queryFn: () => studentServices.getStudents({ search, page, limit, status }),
     placeholderData: keepPreviousData,
   });
 

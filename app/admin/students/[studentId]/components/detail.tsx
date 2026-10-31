@@ -3,6 +3,7 @@ import type { Student } from '@/types/student';
 import ProfileStudent from './profile';
 import { History, User } from 'lucide-react';
 import StudentHistory from './student-history';
+import ReviewBanner from '../../components/review-banner';
 
 interface DetailProps {
   student: Student;
@@ -15,6 +16,7 @@ export default function Detail({ student }: DetailProps) {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
+      <ReviewBanner student={student} />
       {/* Tabs */}
       <Tabs defaultValue="profile" className="flex h-full min-h-0 flex-col">
         <TabsList className="w-full max-w-xs">

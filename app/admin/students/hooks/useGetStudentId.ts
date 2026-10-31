@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function useGetStudentId(studentId: string) {
   const query = useQuery({
-    queryKey: ['profiles', studentId],
+    queryKey: ['student', studentId],
     queryFn: () => studentServices.getStudentById(studentId),
     enabled: !!studentId,
   });
